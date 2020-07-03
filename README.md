@@ -41,7 +41,7 @@
 - Put the command in the CMD.
 
 	````
-	git clone https://gitlab.com/SvS21/farmacia_legado.git
+	git clone https://github.com/RocioValedoStgo/farmacia_legado.git
 	````
   
 
