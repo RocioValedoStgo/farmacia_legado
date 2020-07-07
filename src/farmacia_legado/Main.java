@@ -19,7 +19,7 @@ public class Main extends Application {
 		Group root = new Group();
 		root.getChildren().addAll(label);
 		label.setLayoutX(120);
-		label.setLayoutY(200);
+		label.setLayoutY(180);
 		Scene scene = new Scene(root, 600, 400);
 		primaryStage.setScene(scene);
 		primaryStage.getIcons().add(new Image("/assets/images/legado_farmacia.png"));
