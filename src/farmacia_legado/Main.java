@@ -20,7 +20,7 @@ public class Main extends Application {
 		root.getChildren().addAll(label);
 		label.setLayoutX(120);
 		label.setLayoutY(200);
-		Scene scene = new Scene(root, 640, 400);
+		Scene scene = new Scene(root, 600, 400);
 		primaryStage.setScene(scene);
 		primaryStage.getIcons().add(new Image("/assets/images/legado_farmacia.png"));
 		primaryStage.setTitle("Farmacia Legado");
