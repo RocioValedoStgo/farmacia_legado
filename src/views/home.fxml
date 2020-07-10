@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #0e1f3c;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="farmacia_legado.HomeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #0e1f3c;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="farmacia_legado.Controllers.HomeController">
    <children>
       <ImageView fitHeight="177.0" fitWidth="188.0" layoutX="413.0" layoutY="39.0" AnchorPane.bottomAnchor="384.0" AnchorPane.leftAnchor="413.0" AnchorPane.rightAnchor="399.0" AnchorPane.topAnchor="39.0">
          <image>
@@ -32,16 +33,25 @@
                <image>
                   <Image url="@../assets/images/users.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
             <ImageView fitHeight="83.0" fitWidth="95.0" layoutX="292.0" layoutY="51.0" onMouseClicked="#btnProviders" AnchorPane.leftAnchor="292.0" AnchorPane.rightAnchor="583.0">
                <image>
                   <Image url="@../assets/images/provider.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
             <ImageView fitHeight="83.0" fitWidth="95.0" layoutX="587.0" layoutY="201.0" onMouseClicked="#btnBuy" AnchorPane.leftAnchor="587.0" AnchorPane.rightAnchor="288.0">
                <image>
-                  <Image url="@../resources/sell.png" />
+                  <Image url="@../assets/images/sell.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
             <Label layoutX="112.0" layoutY="136.0" text="Usuarios" textFill="#797979" AnchorPane.leftAnchor="112.0" AnchorPane.rightAnchor="770.8">
                <font>
@@ -77,21 +87,33 @@
                <image>
                   <Image url="@../assets/images/category.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
             <ImageView fitHeight="83.0" fitWidth="95.0" layoutX="644.0" layoutY="55.0" onMouseClicked="#btnProducts" AnchorPane.leftAnchor="644.0" AnchorPane.rightAnchor="231.0">
                <image>
                   <Image url="@../assets/images/product.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
             <ImageView fitHeight="83.0" fitWidth="95.0" layoutX="787.0" layoutY="49.0" onMouseClicked="#btnSells" AnchorPane.leftAnchor="787.0" AnchorPane.rightAnchor="88.0">
                <image>
                   <Image url="@../assets/images/icons8-checkout-100.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
             <ImageView fitHeight="83.0" fitWidth="95.0" layoutX="368.0" layoutY="202.0" onMouseClicked="#btnCashRegister" AnchorPane.leftAnchor="368.0" AnchorPane.rightAnchor="507.0">
                <image>
                   <Image url="@../assets/images/caja-registradora.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
             <Label layoutX="345.0" layoutY="291.0" text="Cortes de Caja" textFill="#797979" AnchorPane.leftAnchor="345.0" AnchorPane.rightAnchor="477.8">
                <font>

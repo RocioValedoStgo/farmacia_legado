@@ -1,10 +1,11 @@
-package farmacia_legado;
+package farmacia_legado.Controllers;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 
+import farmacia_legado.MySQLConnection;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -61,7 +62,7 @@ public class HomeController implements Initializable{
     }
     
     public void showView(Event event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("../views/home.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../../views/home.fxml"));
         Scene scene = new Scene(root);
         Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         appStage.getIcons().add(new Image("/assets/images/legado_farmacia.png"));

@@ -1,5 +1,7 @@
 package farmacia_legado;
 
+import farmacia_legado.Controllers.HomeController;
+import farmacia_legado.Controllers.RegisterController;
 import javafx.application.Application;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -10,26 +12,25 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+
+	public static void main(String[] args) {
+		launch(args);
+	}
 	
 	@FXML // fx:id="input_password"
     private PasswordField input_password; // Value injected by FXMLLoader
 
     @FXML // fx:id="input_username"
     private TextField input_username; // Value injected by FXMLLoader
-
-
-	public static void main(String[] args) {
-		launch(args);
-	}
 	
-    @FXML
+	@FXML
     void btnLogin(MouseEvent event) throws Exception {
     	if (input_username.equals(null) || input_password.equals(null)) {
     		Alert alert = new Alert(AlertType.ERROR, "Es necesario ingresar los datos solicitados", ButtonType.OK);
@@ -48,7 +49,7 @@ public class Main extends Application {
 
     @FXML
     void newUser(MouseEvent event) throws Exception {
-    	Register register = new Register();
+    	RegisterController register = new RegisterController();
     	register.showView(event);
     }
     
@@ -61,7 +62,7 @@ public class Main extends Application {
         appStage.toFront();
         appStage.show();
     }
-
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("../views/login.fxml"));

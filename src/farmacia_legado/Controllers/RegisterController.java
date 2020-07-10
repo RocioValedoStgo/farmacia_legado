@@ -1,8 +1,11 @@
-package farmacia_legado;
+package farmacia_legado.Controllers;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+
+import farmacia_legado.Main;
+import farmacia_legado.MySQLConnection;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,7 +23,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
-public class Register implements Initializable{
+public class RegisterController implements Initializable{
 	@FXML // fx:id="input_name"
 	private TextField input_name; // Value injected by FXMLLoader
 
@@ -62,7 +65,7 @@ public class Register implements Initializable{
 	}
 
 	public void showView(Event event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("../views/register.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../../views/register.fxml"));
         Scene scene = new Scene(root);
         Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         appStage.getIcons().add(new Image("/assets/images/legado_farmacia.png"));
