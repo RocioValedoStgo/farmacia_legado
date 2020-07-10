@@ -73,6 +73,7 @@ public class RegisterController implements Initializable{
         appStage.toFront();
         appStage.show();
     }
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		combox_turn.getItems().removeAll(combox_turn.getItems());

@@ -11,6 +11,10 @@ import java.util.Date;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
 
+import farmacia_legado.Models.Category;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class MySQLConnection {
 	private static Connection connection = null;
 	// Credentials for connection to MySQL
@@ -84,6 +88,26 @@ public class MySQLConnection {
         Timestamp ts = new Timestamp(time);
         return ts;
     }
-
-
+	
+	public ObservableList<Category> indexCategories() throws SQLException {
+		connection = getConnection();
+		ObservableList<Category> listCategories = FXCollections.observableArrayList();
+		ResultSet rs;
+		Statement statement;
+		String query = "SELECT id, name, father_id FROM farmacialegado.categories";
+		statement = (Statement) connection.createStatement();
+		rs = statement.executeQuery(query);
+		while (rs.next()) {
+			listCategories.add(new Category(rs.getInt("id"), rs.getString("name"), rs.getInt("father_id")));
+		}
+		return listCategories;
+	}
+	
+	public int destroyCategory(Integer id) throws SQLException {
+		connection = getConnection();
+		Statement statement;
+		String query = "DELETE FROM farmacialegado.categories WHERE farmacialegado.categories.id = "+ id;
+		statement = (Statement) connection.createStatement();
+		return statement.executeUpdate(query);
+	}
 }

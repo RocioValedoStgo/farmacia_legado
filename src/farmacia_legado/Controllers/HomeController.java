@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 import farmacia_legado.MySQLConnection;
+import farmacia_legado.Controllers.Category.Index;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,8 +38,9 @@ public class HomeController implements Initializable{
     }
 
     @FXML
-    void btnCategories(MouseEvent event) {
-
+    void btnCategories(MouseEvent event) throws Exception {
+    	Index indexCategories = new Index();
+    	indexCategories.showView(event);
     }
 
     @FXML
