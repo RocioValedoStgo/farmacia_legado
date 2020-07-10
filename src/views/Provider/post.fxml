@@ -17,24 +17,9 @@
    <children>
       <ImageView fitHeight="96.0" fitWidth="103.0" layoutX="39.0" layoutY="24.0" onMouseClicked="#btnLogo">
          <image>
-            <Image url="@../assets/images/legado_farmacia.png" />
+            <Image url="@../../assets/images/legado_farmacia.png" />
          </image>
       </ImageView>
-      <MenuButton layoutX="792.0" layoutY="50.0" mnemonicParsing="false" onMouseClicked="#btnNavbar" prefHeight="42.0" prefWidth="153.0" style="-fx-background-color: none;" text="Username" textFill="WHITE">
-         <items>
-            <MenuItem mnemonicParsing="false" text="Action 1" />
-            <MenuItem mnemonicParsing="false" text="Action 2" />
-         </items>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <effect>
-            <ColorAdjust brightness="1.0" />
-         </effect>
-         <font>
-            <Font size="18.0" />
-         </font>
-      </MenuButton>
       <AnchorPane layoutX="111.0" layoutY="165.0" prefHeight="438.0" prefWidth="786.0" style="-fx-background-color: #fff; -fx-background-radius: 10px;">
          <children>
             <Label fx:id="titlePage" layoutX="90.0" layoutY="21.0" text="Agregar un proveedor">
@@ -44,7 +29,7 @@
             </Label>
             <ImageView fx:id="logo1" fitHeight="131.0" fitWidth="142.0" layoutX="513.0" layoutY="1.0">
                <image>
-                  <Image url="@../Farmacia/legado_farmacia.png" />
+                  <Image url="@../../assets/images/legado_farmacia.png" />
                </image>
             </ImageView>
             <Label fx:id="subtitlePage" layoutX="64.0" layoutY="50.0" text="Por favor ingresa los datos requeridos" textFill="#c1c1c1">
@@ -72,14 +57,14 @@
                   <Font size="16.0" />
                </font>
             </TextField>
-            <Button fx:id="btnMaster" layoutX="436.0" layoutY="324.0" mnemonicParsing="false" onMouseClicked="#btnSave" prefHeight="53.0" prefWidth="302.0" style="-fx-font-size: 20px;" text="Registrarse" textFill="WHITE">
+            <Button fx:id="btnMaster" layoutX="436.0" layoutY="324.0" mnemonicParsing="false" onMouseClicked="#btnSave" prefHeight="53.0" prefWidth="302.0" style="-fx-font-size: 20px; -fx-background-color: #00dcff;" text="Registrarse" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </Button>
             <ImageView fitHeight="28.0" fitWidth="32.0" layoutX="49.0" layoutY="23.0" onMouseClicked="#btnBack" rotate="180.0">
                <image>
-                  <Image url="@../assets/images/flecha.png" />
+                  <Image url="@../../assets/images/flecha.png" />
                </image>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -87,5 +72,24 @@
             </ImageView>
          </children>
       </AnchorPane>
+      <MenuButton layoutX="812.0" layoutY="60.0" mnemonicParsing="false" onMouseClicked="#btnNavbar" prefHeight="42.0" prefWidth="153.0" style="-fx-background-color: none;" text="Username" textFill="WHITE">
+         <items>
+            <MenuItem fx:id="optionHome" mnemonicParsing="false" text="Home" />
+            <MenuItem fx:id="optionUsers" mnemonicParsing="false" text="Usuarios" />
+            <MenuItem fx:id="optionProducts" mnemonicParsing="false" text="Productos" />
+            <MenuItem fx:id="optionCategories" mnemonicParsing="false" text="Categorías" />
+            <MenuItem fx:id="optionProviders" mnemonicParsing="false" text="Proveedores" />
+            <MenuItem fx:id="optionLogOut" mnemonicParsing="false" text="Cerrar sesion" />
+         </items>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <ColorAdjust brightness="1.0" />
+         </effect>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </MenuButton>
    </children>
 </AnchorPane>
