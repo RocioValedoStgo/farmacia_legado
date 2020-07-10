@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #0e1f3c;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="farmacia_legado.HomeController">
+   <children>
+      <ImageView fitHeight="177.0" fitWidth="188.0" layoutX="413.0" layoutY="39.0" AnchorPane.bottomAnchor="384.0" AnchorPane.leftAnchor="413.0" AnchorPane.rightAnchor="399.0" AnchorPane.topAnchor="39.0">
+         <image>
+            <Image url="@../assets/images/legado_farmacia.png" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="16.0" layoutY="243.0" prefHeight="358.0" prefWidth="970.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="243.0">
+         <children>
+            <AnchorPane layoutY="-7.0" prefHeight="40.0" prefWidth="970.0" style="-fx-background-color: #ccc; -fx-background-radius: 10px;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <Label fx:id="labelGreet" layoutX="43.0" layoutY="6.0" text="Greet here">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="labelDate" layoutX="859.0" layoutY="8.0" text="Date here">
+                     <font>
+                        <Font size="17.0" />
+                     </font></Label>
+               </children>
+            </AnchorPane>
+            <ImageView fitHeight="83.0" fitWidth="95.0" layoutX="104.0" layoutY="49.0" onMouseClicked="#btnUsers" AnchorPane.leftAnchor="104.0" AnchorPane.rightAnchor="771.0">
+               <image>
+                  <Image url="@../assets/images/users.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="83.0" fitWidth="95.0" layoutX="292.0" layoutY="51.0" onMouseClicked="#btnProviders" AnchorPane.leftAnchor="292.0" AnchorPane.rightAnchor="583.0">
+               <image>
+                  <Image url="@../assets/images/provider.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="83.0" fitWidth="95.0" layoutX="587.0" layoutY="201.0" onMouseClicked="#btnBuy" AnchorPane.leftAnchor="587.0" AnchorPane.rightAnchor="288.0">
+               <image>
+                  <Image url="@../resources/sell.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="112.0" layoutY="136.0" text="Usuarios" textFill="#797979" AnchorPane.leftAnchor="112.0" AnchorPane.rightAnchor="770.8">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+            <Label layoutX="282.0" layoutY="135.0" text="Proveedores" textFill="#797979" AnchorPane.leftAnchor="282.0" AnchorPane.rightAnchor="561.6">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+            <Label layoutX="563.0" layoutY="291.0" text="Realizar Venta" textFill="#797979" AnchorPane.leftAnchor="563.0" AnchorPane.rightAnchor="263.0">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+            <Label layoutX="480.0" layoutY="134.0" text="Categorías" textFill="#797979" AnchorPane.leftAnchor="480.0" AnchorPane.rightAnchor="382.0">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+            <Label layoutX="646.0" layoutY="134.0" text="Productos" textFill="#797979" AnchorPane.leftAnchor="646.0" AnchorPane.rightAnchor="220.8">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+            <Label layoutX="801.0" layoutY="133.0" text="Ventas" textFill="#797979" AnchorPane.leftAnchor="801.0" AnchorPane.rightAnchor="100.2">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="83.0" fitWidth="95.0" layoutX="480.0" layoutY="48.0" onMouseClicked="#btnCategories" AnchorPane.leftAnchor="480.0" AnchorPane.rightAnchor="395.0">
+               <image>
+                  <Image url="@../assets/images/category.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="83.0" fitWidth="95.0" layoutX="644.0" layoutY="55.0" onMouseClicked="#btnProducts" AnchorPane.leftAnchor="644.0" AnchorPane.rightAnchor="231.0">
+               <image>
+                  <Image url="@../assets/images/product.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="83.0" fitWidth="95.0" layoutX="787.0" layoutY="49.0" onMouseClicked="#btnSells" AnchorPane.leftAnchor="787.0" AnchorPane.rightAnchor="88.0">
+               <image>
+                  <Image url="@../assets/images/icons8-checkout-100.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="83.0" fitWidth="95.0" layoutX="368.0" layoutY="202.0" onMouseClicked="#btnCashRegister" AnchorPane.leftAnchor="368.0" AnchorPane.rightAnchor="507.0">
+               <image>
+                  <Image url="@../assets/images/caja-registradora.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="345.0" layoutY="291.0" text="Cortes de Caja" textFill="#797979" AnchorPane.leftAnchor="345.0" AnchorPane.rightAnchor="477.8">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

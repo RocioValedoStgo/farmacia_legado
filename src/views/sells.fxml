@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #0e1f3c;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fx:id="logo" fitHeight="96.0" fitWidth="103.0" layoutX="39.0" layoutY="24.0" onMouseClicked="#btnLogo">
+         <image>
+            <Image url="@../assets/images/legado_farmacia.png" />
+         </image>
+      </ImageView>
+      <MenuButton layoutX="810.0" layoutY="46.0" mnemonicParsing="false" onMouseClicked="#btnNavbar" prefHeight="42.0" prefWidth="153.0" style="-fx-background-color: none;" text="Username" textFill="WHITE">
+         <items>
+            <MenuItem mnemonicParsing="false" text="Action 1" />
+            <MenuItem mnemonicParsing="false" text="Action 2" />
+         </items>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <ColorAdjust brightness="1.0" />
+         </effect>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </MenuButton>
+      <AnchorPane layoutX="28.0" layoutY="142.0" prefHeight="465.0" prefWidth="951.0" style="-fx-background-color: #fff;">
+         <children>
+            <TableView fx:id="table" layoutX="32.0" layoutY="42.0" prefHeight="338.0" prefWidth="887.0" style="-fx-border-color: #c1c1c1;" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" />
+            <AnchorPane prefHeight="32.0" prefWidth="950.0" style="-fx-background-color: #c1c1c1;">
+               <children>
+                  <Label layoutX="310.0" layoutY="3.0" text="Ventas del xx/xx/xxxx - xx/xx/xxxx">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="32.0" fitWidth="38.0" layoutX="94.0" layoutY="2.0" onMouseClicked="#btnBack" rotate="180.0">
+                     <image>
+                        <Image url="@../assets/images/flecha.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <Label layoutX="667.0" layoutY="385.0" text="Venta total : $ 5,125">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <AnchorPane layoutX="716.0" layoutY="416.0" onMouseClicked="#btnExport" prefHeight="40.0" prefWidth="127.0" style="-fx-background-color: #61FF00;">
+               <children>
+                  <Label layoutX="39.0" layoutY="6.0" text="Exportar" textFill="WHITE">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="27.0" fitWidth="30.0" layoutX="6.0" layoutY="5.0">
+                     <image>
+                        <Image url="@../resources/descargar.png" />
+                     </image>
+                     <effect>
+                        <ColorAdjust brightness="1.0" />
+                     </effect>
+                  </ImageView>
+               </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

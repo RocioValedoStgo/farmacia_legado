@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #0e1f3c;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="96.0" fitWidth="103.0" layoutX="49.0" layoutY="34.0" onMouseClicked="#btnLogo">
+         <image>
+            <Image url="@../assets/images/legado_farmacia.png" />
+         </image>
+      </ImageView>
+      <MenuButton layoutX="802.0" layoutY="60.0" mnemonicParsing="false" onMouseClicked="#btnNavbar" prefHeight="42.0" prefWidth="153.0" style="-fx-background-color: none;" text="Username" textFill="WHITE">
+         <items>
+            <MenuItem mnemonicParsing="false" text="Action 1" />
+            <MenuItem mnemonicParsing="false" text="Action 2" />
+         </items>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <ColorAdjust brightness="1.0" />
+         </effect>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </MenuButton>
+      <AnchorPane layoutX="120.0" layoutY="168.0" prefHeight="438.0" prefWidth="786.0" style="-fx-background-color: #fff; -fx-background-radius: 10px;">
+         <children>
+            <Label fx:id="titlePage" layoutX="90.0" layoutY="21.0" text="Agregar un producto">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="logo1" fitHeight="131.0" fitWidth="142.0" layoutX="513.0" layoutY="1.0">
+               <image>
+                  <Image url="@../Farmacia/legado_farmacia.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="subtitlePage" layoutX="64.0" layoutY="50.0" text="Por favor ingresa los datos requeridos" textFill="#c1c1c1">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="input_name" layoutX="46.0" layoutY="228.0" prefHeight="41.0" prefWidth="296.0" promptText="Nombre" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextField>
+            <Button fx:id="btnMaster" layoutX="436.0" layoutY="361.0" mnemonicParsing="false" onMouseClicked="#btnSave" prefHeight="53.0" prefWidth="302.0" style="-fx-font-size: 20px;" text="Registrarse" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Button>
+            <Circle fill="#1f93ff00" layoutX="176.0" layoutY="135.0" radius="42.0" stroke="BLACK" strokeType="INSIDE" />
+            <ImageView fitHeight="40.0" fitWidth="51.0" layoutX="150.0" layoutY="115.0">
+               <image>
+                  <Image url="@../resources/camera.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="136.0" layoutY="172.0" text="Imagen">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="comboxProvider" layoutX="439.0" layoutY="248.0" prefHeight="42.0" prefWidth="296.0" promptText="Proveedor perteneciente" style="-fx-background-color: none;" />
+            <ImageView fx:id="imgView" fitHeight="83.0" fitWidth="84.0" layoutX="133.0" layoutY="94.0" onMouseClicked="#btnUploadImage" pickOnBounds="true" preserveRatio="true" />
+            <TextArea fx:id="textArea_description" layoutX="45.0" layoutY="284.0" prefHeight="135.0" prefWidth="297.0" promptText="Descripción" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextArea>
+            <TextField fx:id="input_price" layoutX="439.0" layoutY="135.0" prefHeight="41.0" prefWidth="296.0" promptText="Precio" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="input_quantity" layoutX="439.0" layoutY="188.0" prefHeight="41.0" prefWidth="296.0" promptText="Cantidad" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextField>
+            <ImageView fitHeight="28.0" fitWidth="30.0" layoutX="49.0" layoutY="21.0" onMouseClicked="#btnBack" rotate="180.0">
+               <image>
+                  <Image url="@../assets/images/flecha.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+            <ComboBox fx:id="comboxFather" layoutX="439.0" layoutY="306.0" prefHeight="42.0" prefWidth="296.0" promptText="Categoría perteneciente" style="-fx-background-color: none;" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
