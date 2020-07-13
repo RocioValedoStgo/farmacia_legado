@@ -4,15 +4,16 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Category {
-	
+
 	private SimpleIntegerProperty id;
     private SimpleStringProperty name;
-    private SimpleIntegerProperty father_id;
-
-    public Category(int id, String name, int father_id) {
+    private SimpleStringProperty father_id;
+    private String image;
+    
+    public Category(int id, String name, String father_id) {
         this.id = new SimpleIntegerProperty(id);
         this.name = new SimpleStringProperty(name);
-        this.father_id = new SimpleIntegerProperty(father_id);
+        this.father_id = new SimpleStringProperty(father_id);
     }
 
     public int getId() {
@@ -39,15 +40,23 @@ public class Category {
         this.name.set(name);
     }
 
-    public int getfather_id() {
+    public String getFather_Id() {
         return father_id.get();
     }
 
-    public SimpleIntegerProperty father_idProperty() {
+    public SimpleStringProperty father_idProperty() {
         return father_id;
     }
 
-    public void setfather_id(int father_id) {
+    public void setfather_id(String father_id) {
         this.father_id.set(father_id);
     }
+    
+    public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
 }

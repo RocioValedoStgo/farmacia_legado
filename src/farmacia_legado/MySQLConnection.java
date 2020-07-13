@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 
@@ -98,9 +99,69 @@ public class MySQLConnection {
 		statement = (Statement) connection.createStatement();
 		rs = statement.executeQuery(query);
 		while (rs.next()) {
-			listCategories.add(new Category(rs.getInt("id"), rs.getString("name"), rs.getInt("father_id")));
+			listCategories.add(new Category(rs.getInt("id"), rs.getString("name"), rs.getString("father_id")));
 		}
 		return listCategories;
+	}
+	
+	public ArrayList<String> getCategories() throws SQLException {
+		connection = getConnection();
+		ArrayList<String> listCategories = new ArrayList<>();
+		ResultSet rs;
+		Statement statement;
+		String query = "SELECT id, name FROM farmacialegado.categories";
+		statement = (Statement) connection.createStatement();
+		rs = statement.executeQuery(query);
+		while (rs.next()) {
+			listCategories.add(String.valueOf(rs.getInt("id")+" "+rs.getString("name")));
+		}
+		return listCategories;
+	}
+	
+	public boolean saveCategory(String name, int father_id, String image) throws SQLException {
+		connection = getConnection();
+		Timestamp created = generateTimestamp();
+		Statement statement = (Statement) connection.createStatement();
+		String query = "INSERT INTO farmacialegado.categories(name, father_id, image, created_at) VALUES"
+				+ " ('"+name+"','"+father_id+"','"+image+"','"+created+"')";
+		statement.executeUpdate(query);
+		return true;
+	}
+	
+	public int editCategoryImage(int pk, String name, int father_id, String image) throws SQLException {
+		connection = getConnection();
+        String query = "UPDATE farmacialegado.categories SET name=?, father_id=?, image=? WHERE id = ?";
+        PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
+        ps.setString(1, name);
+        ps.setInt(2, father_id);
+        ps.setString(3, image);
+        ps.setInt(4, pk);
+        return ps.executeUpdate();
+	}
+	
+	public int editCategory(int pk, String name, int father_id) throws SQLException {
+		connection = getConnection();
+		String query = "UPDATE farmacialegado.categories SET name=?, father_id=? WHERE id = ?";
+		PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
+		ps.setString(1, name);
+		ps.setInt(2, father_id);
+		ps.setInt(3, pk);
+		return ps.executeUpdate();
+	}
+	
+	public Category getCategory(int pk) throws SQLException {
+		connection = getConnection();
+		Category category = null;
+		ResultSet rs;
+		Statement statement;
+		String query = "SELECT id, name, father_id, image FROM farmacialegado.categories WHERE id = "+pk;
+		statement = (Statement) connection.createStatement();
+		rs = statement.executeQuery(query);
+		if (rs.next()) {
+			category = new Category(rs.getInt("id"), rs.getString("name"), rs.getString("father_id"));
+			category.setImage(rs.getString("image"));
+		}
+		return category;
 	}
 	
 	public int destroyCategory(Integer id) throws SQLException {
