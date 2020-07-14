@@ -93,6 +93,7 @@ public class Edit implements Initializable {
 	private static final String NUMBER = "0123456789";
 	private static final String DATA_FOR_RANDOM_STRING = CHAR_LOWER + CHAR_UPPER + NUMBER;
 	private static SecureRandom random = new SecureRandom();
+	private static String nameImage;
 
 	@FXML
 	void btnBack(MouseEvent event) throws Exception {
@@ -153,6 +154,7 @@ public class Edit implements Initializable {
 		} else {
 			MySQLConnection MySQL = new MySQLConnection();
 			if (band) {
+				destroyImage(nameImage);
 				String imageName = saveImage(imgFile);
 				if (MySQL.editCategoryImage(getPkCategory(), input_name.getText(), Integer.parseInt(comboxFather.getValue().substring(0,1)), imageName) == 1) {
 					alert = new Alert(AlertType.INFORMATION, "Categoría editada con exito!", ButtonType.OK);
@@ -179,7 +181,7 @@ public class Edit implements Initializable {
 	}
 
 	@FXML
-	void btnUploadImage(MouseEvent event) {
+	void btnUploadImage(MouseEvent event) throws IOException {
 		stage = new Stage();
 		fileChooser = new FileChooser();
 		fileChooser.setTitle("Buscar imagen para la nueva categoría");
@@ -208,6 +210,20 @@ public class Edit implements Initializable {
 		}
 		return null;
 	}
+	
+	private boolean destroyImage(String nameFile) throws IOException {
+        String pathDestination = System.getProperty("user.dir")+"\\src\\assets\\images\\categories\\"+nameFile+".jpg";
+        if (Files.deleteIfExists(FileSystems.getDefault().getPath(pathDestination))) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Imagen eliminada");
+            alert.showAndWait();
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Ocurrio un error");
+            alert.showAndWait();
+            return false;
+        }
+    }
+
 
 	private static String generateRandomString(int length) {
 		if (length < 1)
@@ -233,6 +249,7 @@ public class Edit implements Initializable {
 			comboxFather.getItems().addAll(MySQL.getCategories());
 			String pathImg = System.getProperty("user.dir") + "\\src\\assets\\images\\categories\\"
 					+ category.getImage() + ".jpg";
+			nameImage = category.getImage();
 			File imgFile = new File(pathImg);
 			Image image = new Image("file:" + imgFile.getAbsolutePath());
 			imgView.setImage(image);
