@@ -13,6 +13,7 @@ import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
 
 import farmacia_legado.Models.Category;
+import farmacia_legado.Models.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -170,5 +171,29 @@ public class MySQLConnection {
 		String query = "DELETE FROM farmacialegado.categories WHERE farmacialegado.categories.id = "+ id;
 		statement = (Statement) connection.createStatement();
 		return statement.executeUpdate(query);
+	}
+	
+	public ObservableList<Product> indexProducts() throws SQLException {
+		connection = getConnection();
+		ObservableList<Product> listProducts = FXCollections.observableArrayList();
+		ResultSet rs;
+		Statement statement;
+		String query = "SELECT id, name, price, quantify FROM farmacialegado.products";
+		statement = (Statement) connection.createStatement();
+		rs = statement.executeQuery(query);
+		while (rs.next()) {
+			listProducts.add(new Product(rs.getInt("id"), rs.getString("name"), rs.getFloat("price"), rs.getInt("quantify")));
+		}
+		return listProducts;
+	}
+	
+	public boolean saveProduct(String name, String description, String image, float price, int quantity, int provider, int category) throws SQLException {
+		connection = getConnection();
+		Timestamp created = generateTimestamp();
+		Statement statement = (Statement) connection.createStatement();
+		String query = "INSERT INTO farmacialegado.products(name, description, image, price, quantify, provider_id, category_id, created_at) VALUES"
+				+ " ('"+name+"','"+description+"','"+image+"','"+price+"','"+quantity+"','"+provider+"','"+category+"','"+created+"')";
+		statement.executeUpdate(query);
+		return true;
 	}
 }

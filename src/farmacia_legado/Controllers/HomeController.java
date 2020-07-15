@@ -44,8 +44,9 @@ public class HomeController implements Initializable{
     }
 
     @FXML
-    void btnProducts(MouseEvent event) {
-
+    void btnProducts(MouseEvent event) throws Exception {
+    	farmacia_legado.Controllers.Product.Index indexProducts = new farmacia_legado.Controllers.Product.Index();
+    	indexProducts.showView(event);
     }
 
     @FXML
