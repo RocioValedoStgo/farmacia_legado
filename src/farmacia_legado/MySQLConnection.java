@@ -196,4 +196,21 @@ public class MySQLConnection {
 		statement.executeUpdate(query);
 		return true;
 	}
+	
+	public Product getProduct(int pk) throws SQLException {
+		connection = getConnection();
+		Product product = null;
+		ResultSet rs;
+		Statement statement;
+		String query = "SELECT id, name, description, image, price, quantify, category_id FROM farmacialegado.products WHERE id = "+pk;
+		statement = (Statement) connection.createStatement();
+		rs = statement.executeQuery(query);
+		if (rs.next()) {
+			product = new Product(rs.getInt("id"), rs.getString("name"), rs.getFloat("price"), rs.getInt("quantify"));
+			product.setImage(rs.getString("image"));
+			product.setDescription(rs.getString("description"));
+			product.setcategory_id(rs.getInt("category_id"));
+		}
+		return product;
+	}
 }

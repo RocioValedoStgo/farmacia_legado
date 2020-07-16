@@ -8,6 +8,7 @@ public class Product {
 	
 	private SimpleIntegerProperty id;
 	private SimpleStringProperty name;
+	private String description;
 	private String image;
 	private SimpleFloatProperty price;
 	private SimpleIntegerProperty quantity;
@@ -45,6 +46,13 @@ public class Product {
 		return name.get();
 	}
 	
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
 	public void setPrice(float price) {
 		this.price.set(price);
 	}
@@ -69,27 +77,27 @@ public class Product {
 		return quantity.get();
 	}
 	
-	public void setProvider(int provider_id) {
+	public void setprovider_id(int provider_id) {
 		this.provider_id.set(provider_id);
 	}
 	
-	public SimpleIntegerProperty providerProperty() {
+	public SimpleIntegerProperty provider_idProperty() {
 		return provider_id;
 	}
 	
-	public int getProvider() {
+	public int getProvider_Id() {
 		return provider_id.get();
 	}
 	
-	public void setCategory(int category_id) {
+	public void setcategory_id(int category_id) {
 		this.category_id.set(category_id);
 	}
 	
-	public SimpleIntegerProperty categoryProperty() {
+	public SimpleIntegerProperty category_idProperty() {
 		return category_id;
 	}
 	
-	public int getCategory() {
+	public int getCategory_Id() {
 		return category_id.get();
 	}
 	

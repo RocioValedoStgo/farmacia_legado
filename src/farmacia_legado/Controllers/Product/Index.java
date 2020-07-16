@@ -106,7 +106,7 @@ public class Index implements Initializable {
 			e.printStackTrace();
 		}
 	}
-
+	
 	private void addButtonShow() {
 		TableColumn<Product, Void> colBtn = new TableColumn<Product, Void>();
 		Callback<TableColumn<Product, Void>, TableCell<Product, Void>> cellFactory = new Callback<TableColumn<Product, Void>, TableCell<Product, Void>>() {
@@ -115,13 +115,18 @@ public class Index implements Initializable {
 				final TableCell<Product, Void> cell = new TableCell<Product, Void>() {
 					private final Button btn = new Button("Ver");
 					{
-						/*
-						 * btn.setOnAction((ActionEvent event) -> { Product Product =
-						 * getTableView().getItems().get(getIndex()); Profile profileProduct = new
-						 * Profile(); profileProduct.setPkProduct(Product.getId()); try {
-						 * profileProduct.showView(event); } catch (Exception e) { e.printStackTrace();
-						 * } });
-						 */
+
+						btn.setOnAction((ActionEvent event) -> {
+							Product Product = getTableView().getItems().get(getIndex());
+							Profile profileProduct = new Profile();
+							profileProduct.setPkProduct(Product.getId());
+							try {
+								profileProduct.showView(event);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						});
+
 					}
 
 					@Override
@@ -220,7 +225,7 @@ public class Index implements Initializable {
 				}
 			}
 		});
-		
+
 		optionProducts.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
