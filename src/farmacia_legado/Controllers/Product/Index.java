@@ -17,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -107,7 +108,7 @@ public class Index implements Initializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void addButtonShow() {
 		TableColumn<Product, Void> colBtn = new TableColumn<Product, Void>();
 		Callback<TableColumn<Product, Void>, TableCell<Product, Void>> cellFactory = new Callback<TableColumn<Product, Void>, TableCell<Product, Void>>() {
@@ -156,15 +157,25 @@ public class Index implements Initializable {
 				final TableCell<Product, Void> cell = new TableCell<Product, Void>() {
 					private final Button btn = new Button("Borrar");
 					{
-						/*
-						 * btn.setOnAction((ActionEvent event) -> { Product Product =
-						 * getTableView().getItems().get(getIndex()); Alert alert; MySQLConnection MySQL
-						 * = new MySQLConnection(); try { if (MySQL.destroyProduct(Product.getId()) ==
-						 * 1) { alert = new Alert(Alert.AlertType.INFORMATION, "Borrado con exito");
-						 * alert.showAndWait(); showView(event); } else { alert = new
-						 * Alert(Alert.AlertType.ERROR, "Ocurrio un error"); alert.showAndWait(); } }
-						 * catch (Exception e) { e.printStackTrace(); } });
-						 */
+
+						btn.setOnAction((ActionEvent event) -> {
+							Product Product = getTableView().getItems().get(getIndex());
+							Alert alert;
+							MySQLConnection MySQL = new MySQLConnection();
+							try {
+								if (MySQL.destroyProduct(Product.getId()) == 1) {
+									alert = new Alert(Alert.AlertType.INFORMATION, "Borrado con exito");
+									alert.showAndWait();
+									showView(event);
+								} else {
+									alert = new Alert(Alert.AlertType.ERROR, "Ocurrio un error");
+									alert.showAndWait();
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						});
+
 					}
 
 					@Override

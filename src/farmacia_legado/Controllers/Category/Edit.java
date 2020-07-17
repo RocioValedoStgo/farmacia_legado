@@ -171,8 +171,9 @@ public class Edit implements Initializable {
 				if (MySQL.editCategoryImage(getPkCategory(), input_name.getText(), Integer.parseInt(comboxFather.getValue().substring(0,1)), imageName) == 1) {
 					alert = new Alert(AlertType.INFORMATION, "Categoría editada con exito!", ButtonType.OK);
 					alert.showAndWait();
-					Index indexCategory = new Index();
-					indexCategory.showView(event);
+					Profile profileCategory = new Profile();
+					profileCategory.setPkCategory(getPkCategory());
+					profileCategory.showView(event);
 				} else {
 					alert = new Alert(AlertType.ERROR, "Ocurrio un error al editar la categoría", ButtonType.OK);
 					alert.showAndWait();

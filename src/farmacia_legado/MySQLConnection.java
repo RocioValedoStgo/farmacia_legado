@@ -242,4 +242,12 @@ public class MySQLConnection {
 		}
 		return product;
 	}
+	
+	public int destroyProduct(Integer id) throws SQLException {
+		connection = getConnection();
+		Statement statement;
+		String query = "DELETE FROM farmacialegado.products WHERE farmacialegado.products.id = "+ id;
+		statement = (Statement) connection.createStatement();
+		return statement.executeUpdate(query);
+	}
 }

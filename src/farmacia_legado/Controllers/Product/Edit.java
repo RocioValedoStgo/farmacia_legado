@@ -207,23 +207,24 @@ public class Edit implements Initializable {
 				destroyImage(nameImage);
 				String imageName = saveImage(imgFile);
 				if (MySQL.editProductImage(getPkProduct(), input_name.getText(), textArea_description.getText(), Float.parseFloat(input_price.getText()), Integer.parseInt(input_quantity.getText()), 1, Integer.parseInt(comboxFather.getValue().substring(0,1)), imageName) == 1) {
-					alert = new Alert(AlertType.INFORMATION, "Categoría editada con exito!", ButtonType.OK);
+					alert = new Alert(AlertType.INFORMATION, "Producto editado con exito!", ButtonType.OK);
 					alert.showAndWait();
-					Index indexCategory = new Index();
-					indexCategory.showView(event);
+					farmacia_legado.Controllers.Product.Profile profileProduct = new farmacia_legado.Controllers.Product.Profile();
+					profileProduct.setPkProduct(getPkProduct());
+					profileProduct.showView(event);
 				} else {
-					alert = new Alert(AlertType.ERROR, "Ocurrio un error al editar la categoría", ButtonType.OK);
+					alert = new Alert(AlertType.ERROR, "Ocurrio un error al editar el producto", ButtonType.OK);
 					alert.showAndWait();
 				}
 			} else {
 				if (MySQL.editProduct(getPkProduct(), input_name.getText(), textArea_description.getText(), Float.parseFloat(input_price.getText()), Integer.parseInt(input_quantity.getText()), 1, Integer.parseInt(comboxFather.getValue())) == 1) {
-					alert = new Alert(AlertType.INFORMATION, "Categoría editada con exito!", ButtonType.OK);
+					alert = new Alert(AlertType.INFORMATION, "Producto editado con exito!", ButtonType.OK);
 					alert.showAndWait();
-					Profile profileCategory = new Profile();
-					profileCategory.setPkCategory(getPkProduct());
-					profileCategory.showView(event);
+					farmacia_legado.Controllers.Product.Profile profileProduct = new farmacia_legado.Controllers.Product.Profile();
+					profileProduct.setPkProduct(getPkProduct());
+					profileProduct.showView(event);
 				} else {
-					alert = new Alert(AlertType.ERROR, "Ocurrio un error al editar la categoría", ButtonType.OK);
+					alert = new Alert(AlertType.ERROR, "Ocurrio un error al editar el producto", ButtonType.OK);
 					alert.showAndWait();
 				}
 			}
@@ -234,7 +235,7 @@ public class Edit implements Initializable {
 	void btnUploadImage(MouseEvent event) {
 		stage = new Stage();
 		fileChooser = new FileChooser();
-		fileChooser.setTitle("Buscar imagen para la nueva categoría");
+		fileChooser.setTitle("Buscar imagen para el producto");
 		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("All Images", "*.*"));
 		imgFile = fileChooser.showOpenDialog(stage);
 		if (imgFile != null) {

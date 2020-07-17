@@ -56,7 +56,7 @@
                </font>
             </Label>
             <ComboBox fx:id="comboxProvider" layoutX="439.0" layoutY="248.0" prefHeight="42.0" prefWidth="296.0" promptText="Proveedor perteneciente" style="-fx-background-color: none; -fx-border-color: #ccc;" />
-            <ImageView fx:id="imgView" fitHeight="84.0" fitWidth="97.0" layoutX="126.0" layoutY="93.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imgView" fitHeight="104.0" fitWidth="124.0" layoutX="116.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true" />
             <TextArea fx:id="textArea_description" editable="false" layoutX="45.0" layoutY="284.0" prefHeight="135.0" prefWidth="297.0" promptText="Descripción" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
                <font>
                   <Font size="16.0" />

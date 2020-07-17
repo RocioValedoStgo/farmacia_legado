@@ -179,7 +179,7 @@ public class Save implements Initializable {
 	}
 
 	@FXML
-    void btnSave(MouseEvent event) throws NumberFormatException, SQLException, IOException {
+    void btnSave(MouseEvent event) throws Exception {
 		Alert alert;
     	if (input_name.getText().equals(null) || input_price.getText().equals(null) || input_quantity.getText().equals(null) || textArea_description.getText().equals(null) || comboxFather.getValue().equals(null)) {
     		alert = new Alert(AlertType.ERROR, "Es necesario ingresar todos los datos", ButtonType.OK);
@@ -195,6 +195,8 @@ public class Save implements Initializable {
     		if (MySQL.saveProduct(input_name.getText(), textArea_description.getText(), image, Float.parseFloat(input_price.getText()), Integer.parseInt(input_quantity.getText()), 1, Integer.parseInt(comboxFather.getValue().substring(0, 1)))) {
     			alert = new Alert(AlertType.INFORMATION, "Producto guardado", ButtonType.OK);
     			alert.showAndWait();
+    			Index indexProducts = new Index();
+    			indexProducts.showView(event);
     		} else {
     			alert = new Alert(AlertType.ERROR, "Ocurrio un error", ButtonType.OK);
     			alert.showAndWait();
