@@ -107,6 +107,7 @@ public class Save implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		menuButtonNavbar.setText(MySQLConnection.User_username);
 		MySQLConnection MySQL = new MySQLConnection();
 		try {
 			comboxFather.getItems().addAll(MySQL.getCategories());
@@ -146,6 +147,18 @@ public class Save implements Initializable {
 				farmacia_legado.Controllers.Category.Index indexCategories = new farmacia_legado.Controllers.Category.Index();
 				try {
 					indexCategories.showView(event);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		optionProducts.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				farmacia_legado.Controllers.Product.Index indexProducts = new farmacia_legado.Controllers.Product.Index();
+				try {
+					indexProducts.showView(event);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

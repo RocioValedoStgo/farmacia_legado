@@ -78,6 +78,7 @@ public class Index implements Initializable {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		menuButtonNavbar.setText(MySQLConnection.User_username);
 		col_id.setPrefWidth(50);
 		col_id.setStyle("-fx-aligment: CENTER;");
 		col_id.setStyle("-fx-font-size: 15px");
@@ -220,6 +221,18 @@ public class Index implements Initializable {
 				Index indexCategories = new Index();
 				try {
 					indexCategories.showView(event);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		optionProducts.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				farmacia_legado.Controllers.Product.Index indexProducts = new farmacia_legado.Controllers.Product.Index();
+				try {
+					indexProducts.showView(event);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -113,6 +113,18 @@ public class Profile implements Initializable {
 				}
 			}
 		});
+		
+		optionProducts.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				farmacia_legado.Controllers.Product.Index indexProducts = new farmacia_legado.Controllers.Product.Index();
+				try {
+					indexProducts.showView(event);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 
 		optionLogOut.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -129,6 +141,7 @@ public class Profile implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		menuButtonNavbar.setText(MySQLConnection.User_username);
 		MySQLConnection MySQL = new MySQLConnection();
 		try {
 			Category category = MySQL.getCategory(getPkCategory());

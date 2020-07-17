@@ -197,6 +197,35 @@ public class MySQLConnection {
 		return true;
 	}
 	
+	public int editProductImage(int pk, String name, String description, float price, int quantity, int provider_id, int category_id, String image) throws SQLException {
+		connection = getConnection();
+        String query = "UPDATE farmacialegado.products SET name=?, description=?, price=?, quantify=?, provider_id=?, category_id=?, image=? WHERE id = ?";
+        PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
+        ps.setString(1, name);
+        ps.setString(2, description);
+        ps.setFloat(3, price);
+        ps.setInt(4, quantity);
+        ps.setInt(5, provider_id);
+        ps.setInt(6, category_id);
+        ps.setString(7, image);
+        ps.setInt(8, pk);
+        return ps.executeUpdate();
+	}
+	
+	public int editProduct(int pk, String name, String description, float price, int quantity, int provider_id, int category_id) throws SQLException {
+		connection = getConnection();
+		String query = "UPDATE farmacialegado.products SET name=?, description=?, price=?, quantify=?, provider_id=?, category_id=? WHERE id = ?";
+        PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
+        ps.setString(1, name);
+        ps.setString(2, description);
+        ps.setFloat(3, price);
+        ps.setInt(4, quantity);
+        ps.setInt(5, provider_id);
+        ps.setInt(6, category_id);
+        ps.setInt(7, pk);
+        return ps.executeUpdate();
+	}
+	
 	public Product getProduct(int pk) throws SQLException {
 		connection = getConnection();
 		Product product = null;

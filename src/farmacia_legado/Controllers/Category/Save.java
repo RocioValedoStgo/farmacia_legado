@@ -93,6 +93,7 @@ public class Save implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		menuButtonNavbar.setText(MySQLConnection.User_username);
 		MySQLConnection MySQL = new MySQLConnection();
 		try {
 			comboxFather.getItems().addAll(MySQL.getCategories());

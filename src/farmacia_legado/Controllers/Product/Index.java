@@ -80,6 +80,7 @@ public class Index implements Initializable {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		menuButtonNavbar.setText(MySQLConnection.User_username);
 		col_id.setPrefWidth(50);
 		col_id.setStyle("-fx-aligment: CENTER;");
 		col_id.setStyle("-fx-font-size: 15px");
@@ -232,7 +233,6 @@ public class Index implements Initializable {
 				try {
 					showView(event);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

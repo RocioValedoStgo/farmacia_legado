@@ -87,6 +87,7 @@ public class Profile implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		menuButtonNavbar.setText(MySQLConnection.User_username);
 		MySQLConnection MySQL = new MySQLConnection();
 		try {
 			Product product = MySQL.getProduct(getPkProduct());
@@ -95,7 +96,7 @@ public class Profile implements Initializable {
 			input_price.setText(String.valueOf(product.getPrice()));
 			input_quantity.setText(String.valueOf(product.getQuantity()));
 			textArea_description.setText(product.getDescription());
-			comboxFather.setValue(String.valueOf(product.category_idProperty()));
+			comboxFather.setValue(String.valueOf(product.getCategory_Id()));
 			String pathImg = System.getProperty("user.dir") + "\\src\\assets\\images\\products\\" + product.getImage()
 					+ ".jpg";
 			File imgFile = new File(pathImg);
@@ -135,7 +136,7 @@ public class Profile implements Initializable {
 		optionCategories.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				farmacia_legado.Controllers.Product.Index indexCategories = new farmacia_legado.Controllers.Product.Index();
+				farmacia_legado.Controllers.Category.Index indexCategories = new farmacia_legado.Controllers.Category.Index();
 				try {
 					indexCategories.showView(event);
 				} catch (Exception e) {
@@ -147,8 +148,9 @@ public class Profile implements Initializable {
 		optionProducts.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
+				Index indexProducts = new Index();
 				try {
-					showView(event);
+					indexProducts.showView(event);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -170,8 +172,10 @@ public class Profile implements Initializable {
 	}
 
 	@FXML
-	void btnEdit(MouseEvent event) {
-
+	void btnEdit(MouseEvent event) throws Exception {
+		Edit editProduct = new Edit();
+		editProduct.setPkProduct(getPkProduct());
+		editProduct.showView(event);
 	}
 
 	public void showView(Event event) throws Exception {

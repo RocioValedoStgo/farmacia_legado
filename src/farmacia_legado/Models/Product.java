@@ -13,7 +13,7 @@ public class Product {
 	private SimpleFloatProperty price;
 	private SimpleIntegerProperty quantity;
 	private SimpleIntegerProperty provider_id;
-	private SimpleIntegerProperty category_id;
+	private int category_id;
 	
 	public Product(int id, String name, float price, int quantity) {
 		this.id = new SimpleIntegerProperty(id);
@@ -90,15 +90,11 @@ public class Product {
 	}
 	
 	public void setcategory_id(int category_id) {
-		this.category_id.set(category_id);
-	}
-	
-	public SimpleIntegerProperty category_idProperty() {
-		return category_id;
+		this.category_id = category_id;
 	}
 	
 	public int getCategory_Id() {
-		return category_id.get();
+		return category_id;
 	}
 	
 	public void setImage(String image) {
