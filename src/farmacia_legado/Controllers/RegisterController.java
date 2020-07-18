@@ -1,9 +1,7 @@
 package farmacia_legado.Controllers;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
-
 import farmacia_legado.Main;
 import farmacia_legado.MySQLConnection;
 import javafx.event.Event;
