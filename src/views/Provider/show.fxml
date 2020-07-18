@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #0e1f3c;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #0e1f3c;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="farmacia_legado.Controllers.Provider.Profile">
    <children>
       <ImageView fitHeight="96.0" fitWidth="103.0" layoutX="39.0" layoutY="24.0" onMouseClicked="#btnLogo">
          <image>
@@ -32,22 +32,22 @@
                   <Image url="@../../assets/images/legado_farmacia.png" />
                </image>
             </ImageView>
-            <TextField fx:id="input_name" layoutX="45.0" layoutY="109.0" prefHeight="41.0" prefWidth="296.0" promptText="Nombre" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+            <TextField fx:id="input_name" editable="false" layoutX="45.0" layoutY="109.0" prefHeight="41.0" prefWidth="296.0" promptText="Nombre" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
                <font>
                   <Font size="16.0" />
                </font>
             </TextField>
-            <TextArea fx:id="input_address" layoutX="40.0" layoutY="205.0" prefHeight="200.0" prefWidth="300.0" promptText="Dirección" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+            <TextArea fx:id="input_address" editable="false" layoutX="40.0" layoutY="205.0" prefHeight="200.0" prefWidth="300.0" promptText="Dirección" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
                <font>
                   <Font size="16.0" />
                </font>
             </TextArea>
-            <TextField fx:id="input_email" layoutX="436.0" layoutY="159.0" prefHeight="41.0" prefWidth="296.0" promptText="Correo electronico" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+            <TextField fx:id="input_email" editable="false" layoutX="436.0" layoutY="159.0" prefHeight="41.0" prefWidth="296.0" promptText="Correo electronico" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
                <font>
                   <Font size="16.0" />
                </font>
             </TextField>
-            <TextField fx:id="input_phone" layoutX="438.0" layoutY="239.0" prefHeight="41.0" prefWidth="296.0" promptText="Telefono" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+            <TextField fx:id="input_phone" editable="false" layoutX="438.0" layoutY="239.0" prefHeight="41.0" prefWidth="296.0" promptText="Telefono" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
                <font>
                   <Font size="16.0" />
                </font>
@@ -56,6 +56,9 @@
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <ImageView fitHeight="28.0" fitWidth="32.0" layoutX="49.0" layoutY="23.0" onMouseClicked="#btnBack" rotate="180.0">
                <image>

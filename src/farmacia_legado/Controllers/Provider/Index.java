@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -31,47 +32,47 @@ import javafx.util.Callback;
 
 public class Index implements Initializable {
 
-    @FXML // fx:id="titlePage"
-    private Label titlePage; // Value injected by FXMLLoader
+	@FXML // fx:id="titlePage"
+	private Label titlePage; // Value injected by FXMLLoader
 
-    @FXML // fx:id="labelBtnAdd"
-    private Label labelBtnAdd; // Value injected by FXMLLoader
+	@FXML // fx:id="labelBtnAdd"
+	private Label labelBtnAdd; // Value injected by FXMLLoader
 
-    @FXML // fx:id="table"
-    private TableView<Provider> table; // Value injected by FXMLLoader
-    
-    @FXML
-    private TableColumn<Provider, Integer> col_id = new TableColumn<Provider, Integer>("ID");
-    
-    @FXML
-    private TableColumn<Provider, String> col_name = new TableColumn<Provider, String>("Nombre");
-    
-    @FXML
-    private TableColumn<Provider, Integer> col_phone = new TableColumn<Provider, Integer>("Telefono");
-    
-    @FXML
+	@FXML // fx:id="table"
+	private TableView<Provider> table; // Value injected by FXMLLoader
+
+	@FXML
+	private TableColumn<Provider, Integer> col_id = new TableColumn<Provider, Integer>("ID");
+
+	@FXML
+	private TableColumn<Provider, String> col_name = new TableColumn<Provider, String>("Nombre");
+
+	@FXML
+	private TableColumn<Provider, Integer> col_phone = new TableColumn<Provider, Integer>("Telefono");
+
+	@FXML
 	private TableColumn<Provider, String> col_options = new TableColumn<Provider, String>("Opciones");
-    
-    @FXML // fx:id="menuButtonNavbar"
+
+	@FXML // fx:id="menuButtonNavbar"
 	private MenuButton menuButtonNavbar; // Value injected by FXMLLoader
 
-    @FXML // fx:id="optionHome"
-    private MenuItem optionHome; // Value injected by FXMLLoader
+	@FXML // fx:id="optionHome"
+	private MenuItem optionHome; // Value injected by FXMLLoader
 
-    @FXML // fx:id="optionUsers"
-    private MenuItem optionUsers; // Value injected by FXMLLoader
+	@FXML // fx:id="optionUsers"
+	private MenuItem optionUsers; // Value injected by FXMLLoader
 
-    @FXML // fx:id="optionProviders"
-    private MenuItem optionProviders; // Value injected by FXMLLoader
-    
-    @FXML // fx:id="optionProducts"
-    private MenuItem optionProducts;
+	@FXML // fx:id="optionProviders"
+	private MenuItem optionProviders; // Value injected by FXMLLoader
 
-    @FXML // fx:id="optionCategories"
-    private MenuItem optionCategories; // Value injected by FXMLLoader
+	@FXML // fx:id="optionProducts"
+	private MenuItem optionProducts;
 
-    @FXML // fx:id="optionLogOut"
-    private MenuItem optionLogOut; // Value injected by FXMLLoader
+	@FXML // fx:id="optionCategories"
+	private MenuItem optionCategories; // Value injected by FXMLLoader
+
+	@FXML // fx:id="optionLogOut"
+	private MenuItem optionLogOut; // Value injected by FXMLLoader
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -99,7 +100,7 @@ public class Index implements Initializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void addButtonShow() {
 		TableColumn<Provider, Void> colBtn = new TableColumn<Provider, Void>();
 		Callback<TableColumn<Provider, Void>, TableCell<Provider, Void>> cellFactory = new Callback<TableColumn<Provider, Void>, TableCell<Provider, Void>>() {
@@ -108,13 +109,16 @@ public class Index implements Initializable {
 				final TableCell<Provider, Void> cell = new TableCell<Provider, Void>() {
 					private final Button btn = new Button("Ver");
 					{
-						/*
-						 * btn.setOnAction((ActionEvent event) -> { Provider Provider =
-						 * getTableView().getItems().get(getIndex()); Profile profileProvider = new
-						 * Profile(); profileProvider.setPkProvider(Provider.getId()); try {
-						 * profileProvider.showView(event); } catch (Exception e) { e.printStackTrace();
-						 * } });
-						 */
+						btn.setOnAction((ActionEvent event) -> {
+							Provider Provider = getTableView().getItems().get(getIndex());
+							Profile profileProvider = new Profile();
+							Profile.setPkProvider(Provider.getId());
+							try {
+								profileProvider.showView(event);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						});
 					}
 
 					@Override
@@ -143,15 +147,23 @@ public class Index implements Initializable {
 				final TableCell<Provider, Void> cell = new TableCell<Provider, Void>() {
 					private final Button btn = new Button("Borrar");
 					{
-						/*
-						 * btn.setOnAction((ActionEvent event) -> { Provider Provider =
-						 * getTableView().getItems().get(getIndex()); Alert alert; MySQLConnection MySQL
-						 * = new MySQLConnection(); try { if (MySQL.destroyProvider(Provider.getId()) ==
-						 * 1) { alert = new Alert(Alert.AlertType.INFORMATION, "Borrado con exito");
-						 * alert.showAndWait(); showView(event); } else { alert = new
-						 * Alert(Alert.AlertType.ERROR, "Ocurrio un error"); alert.showAndWait(); } }
-						 * catch (Exception e) { e.printStackTrace(); } });
-						 */
+						btn.setOnAction((ActionEvent event) -> {
+							Provider Provider = getTableView().getItems().get(getIndex());
+							Alert alert;
+							MySQLConnection MySQL = new MySQLConnection();
+							try {
+								if (MySQL.destroyProvider(Provider.getId()) == 1) {
+									alert = new Alert(Alert.AlertType.INFORMATION, "Borrado con exito");
+									alert.showAndWait();
+									showView(event);
+								} else {
+									alert = new Alert(Alert.AlertType.ERROR, "Ocurrio un error");
+									alert.showAndWait();
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						});
 					}
 
 					@Override
@@ -170,27 +182,27 @@ public class Index implements Initializable {
 		colBtn.setCellFactory(cellFactory);
 		col_options.getColumns().add(colBtn);
 	}
-    
-    @FXML
-    void btnAdd(MouseEvent event) throws Exception {
-    	Save addProvider = new Save();
-    	addProvider.showView(event);
-    }
 
-    @FXML
-    void btnBack(MouseEvent event) throws Exception {
-    	HomeController home = new HomeController();
-    	home.showView(event);
-    }
+	@FXML
+	void btnAdd(MouseEvent event) throws Exception {
+		Save addProvider = new Save();
+		addProvider.showView(event);
+	}
 
-    @FXML
-    void btnLogo(MouseEvent event) {
+	@FXML
+	void btnBack(MouseEvent event) throws Exception {
+		HomeController home = new HomeController();
+		home.showView(event);
+	}
 
-    }
+	@FXML
+	void btnLogo(MouseEvent event) {
 
-    @FXML
-    void btnNavbar(MouseEvent event) {
-    	optionHome.setOnAction(new EventHandler<ActionEvent>() {
+	}
+
+	@FXML
+	void btnNavbar(MouseEvent event) {
+		optionHome.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				HomeController home = new HomeController();
@@ -216,6 +228,7 @@ public class Index implements Initializable {
 
 		optionProducts.setOnAction(new EventHandler<ActionEvent>() {
 			farmacia_legado.Controllers.Product.Index indexProducts = new farmacia_legado.Controllers.Product.Index();
+
 			@Override
 			public void handle(ActionEvent arg0) {
 				try {
@@ -237,9 +250,9 @@ public class Index implements Initializable {
 				}
 			}
 		});
-    }
-    
-    public void showView(Event event) throws Exception {
+	}
+
+	public void showView(Event event) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("../../../views/Provider/index.fxml"));
 		Scene scene = new Scene(root);
 		Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();

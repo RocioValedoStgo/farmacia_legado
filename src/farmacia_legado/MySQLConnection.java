@@ -198,6 +198,40 @@ public class MySQLConnection {
 		return true;
 	}
 	
+	public Provider getProvider(int pk) throws SQLException {
+		connection = getConnection();
+		Provider provider = null;
+		ResultSet rs;
+		Statement statement;
+		String query = "SELECT id, name, address, phone, email FROM farmacialegado.providers WHERE id = "+pk;
+		statement = (Statement) connection.createStatement();
+		rs = statement.executeQuery(query);
+		if (rs.next()) {
+			provider = new Provider(rs.getInt("id"), rs.getString("name"), rs.getString("address"), rs.getString("email"), rs.getString("phone"));
+		}
+		return provider;
+	}
+	
+	public int editProvider (int pk, String name, String address, String phone, String email) throws SQLException {
+		connection = getConnection();
+		String query = "UPDATE farmacialegado.providers SET name=?, address=?, phone=?, email=? WHERE id = ?";
+		PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
+		ps.setString(1, name);
+		ps.setString(2, address);
+		ps.setString(3, phone);
+		ps.setString(4, email);
+		ps.setInt(5, pk);
+		return ps.executeUpdate();
+	}
+	
+	public int destroyProvider(Integer id) throws SQLException {
+		connection = getConnection();
+		Statement statement;
+		String query = "DELETE FROM farmacialegado.providers WHERE farmacialegado.providers.id = "+ id;
+		statement = (Statement) connection.createStatement();
+		return statement.executeUpdate(query);
+	}
+	
 	public ObservableList<Product> indexProducts() throws SQLException {
 		connection = getConnection();
 		ObservableList<Product> listProducts = FXCollections.observableArrayList();
