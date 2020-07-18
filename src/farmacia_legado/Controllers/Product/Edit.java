@@ -13,8 +13,6 @@ import java.util.ResourceBundle;
 import farmacia_legado.Main;
 import farmacia_legado.MySQLConnection;
 import farmacia_legado.Controllers.HomeController;
-import farmacia_legado.Controllers.Category.Index;
-import farmacia_legado.Controllers.Category.Profile;
 import farmacia_legado.Models.Product;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
