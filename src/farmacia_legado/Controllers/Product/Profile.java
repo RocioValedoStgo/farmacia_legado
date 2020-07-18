@@ -97,6 +97,7 @@ public class Profile implements Initializable {
 			input_quantity.setText(String.valueOf(product.getQuantity()));
 			textArea_description.setText(product.getDescription());
 			comboxFather.setValue(String.valueOf(product.getCategory_Id()));
+			comboxProvider.setValue(String.valueOf(product.getProvider_Id()));
 			String pathImg = System.getProperty("user.dir") + "\\src\\assets\\images\\products\\" + product.getImage()
 					+ ".jpg";
 			File imgFile = new File(pathImg);

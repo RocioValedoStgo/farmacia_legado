@@ -188,6 +188,20 @@ public class MySQLConnection {
 		return listProviders;
 	}
 	
+	public ArrayList<String> getProviders() throws SQLException {
+		connection = getConnection();
+		ArrayList<String> listProviders = new ArrayList<>();
+		ResultSet rs;
+		Statement statement;
+		String query = "SELECT id, name FROM farmacialegado.providers";
+		statement = (Statement) connection.createStatement();
+		rs = statement.executeQuery(query);
+		while (rs.next()) {
+			listProviders.add(String.valueOf(rs.getInt("id")+" "+rs.getString("name")));
+		}
+		return listProviders;
+	}
+	
 	public boolean saveProvider(String name, String address, String phone, String email) throws SQLException {
 		connection = getConnection();
 		Timestamp created = generateTimestamp();
@@ -290,7 +304,7 @@ public class MySQLConnection {
 		Product product = null;
 		ResultSet rs;
 		Statement statement;
-		String query = "SELECT id, name, description, image, price, quantify, category_id FROM farmacialegado.products WHERE id = "+pk;
+		String query = "SELECT id, name, description, image, price, quantify, category_id, provider_id FROM farmacialegado.products WHERE id = "+pk;
 		statement = (Statement) connection.createStatement();
 		rs = statement.executeQuery(query);
 		if (rs.next()) {
@@ -298,6 +312,7 @@ public class MySQLConnection {
 			product.setImage(rs.getString("image"));
 			product.setDescription(rs.getString("description"));
 			product.setcategory_id(rs.getInt("category_id"));
+			product.setprovider_id(rs.getInt("provider_id"));
 		}
 		return product;
 	}

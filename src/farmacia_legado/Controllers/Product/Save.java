@@ -111,6 +111,7 @@ public class Save implements Initializable {
 		MySQLConnection MySQL = new MySQLConnection();
 		try {
 			comboxFather.getItems().addAll(MySQL.getCategories());
+			comboxProvider.getItems().addAll(MySQL.getProviders());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}	
@@ -192,7 +193,7 @@ public class Save implements Initializable {
 			} else {
 				image = null;
 			}
-    		if (MySQL.saveProduct(input_name.getText(), textArea_description.getText(), image, Float.parseFloat(input_price.getText()), Integer.parseInt(input_quantity.getText()), 1, Integer.parseInt(comboxFather.getValue().substring(0, 1)))) {
+    		if (MySQL.saveProduct(input_name.getText(), textArea_description.getText(), image, Float.parseFloat(input_price.getText()), Integer.parseInt(input_quantity.getText()), Integer.parseInt(comboxProvider.getValue().substring(0,1)), Integer.parseInt(comboxFather.getValue().substring(0, 1)))) {
     			alert = new Alert(AlertType.INFORMATION, "Producto guardado", ButtonType.OK);
     			alert.showAndWait();
     			Index indexProducts = new Index();

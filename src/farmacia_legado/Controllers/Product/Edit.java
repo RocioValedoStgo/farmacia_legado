@@ -120,6 +120,8 @@ public class Edit implements Initializable {
 			textArea_description.setText(product.getDescription());
 			comboxFather.setValue(String.valueOf(product.getCategory_Id()));
 			comboxFather.getItems().addAll(MySQL.getCategories());
+			comboxProvider.setValue(String.valueOf(product.getProvider_Id()));
+			comboxProvider.getItems().addAll(MySQL.getProviders());
 			String pathImg = System.getProperty("user.dir") + "\\src\\assets\\images\\products\\" + product.getImage()
 					+ ".jpg";
 			nameImage = product.getImage();
@@ -204,7 +206,7 @@ public class Edit implements Initializable {
 			if (band) {
 				destroyImage(nameImage);
 				String imageName = saveImage(imgFile);
-				if (MySQL.editProductImage(getPkProduct(), input_name.getText(), textArea_description.getText(), Float.parseFloat(input_price.getText()), Integer.parseInt(input_quantity.getText()), 1, Integer.parseInt(comboxFather.getValue().substring(0,1)), imageName) == 1) {
+				if (MySQL.editProductImage(getPkProduct(), input_name.getText(), textArea_description.getText(), Float.parseFloat(input_price.getText()), Integer.parseInt(input_quantity.getText()), Integer.parseInt(comboxProvider.getValue().substring(0, 1)), Integer.parseInt(comboxFather.getValue().substring(0,1)), imageName) == 1) {
 					alert = new Alert(AlertType.INFORMATION, "Producto editado con exito!", ButtonType.OK);
 					alert.showAndWait();
 					farmacia_legado.Controllers.Product.Profile profileProduct = new farmacia_legado.Controllers.Product.Profile();
@@ -215,7 +217,7 @@ public class Edit implements Initializable {
 					alert.showAndWait();
 				}
 			} else {
-				if (MySQL.editProduct(getPkProduct(), input_name.getText(), textArea_description.getText(), Float.parseFloat(input_price.getText()), Integer.parseInt(input_quantity.getText()), 1, Integer.parseInt(comboxFather.getValue())) == 1) {
+				if (MySQL.editProduct(getPkProduct(), input_name.getText(), textArea_description.getText(), Float.parseFloat(input_price.getText()), Integer.parseInt(input_quantity.getText()), Integer.parseInt(comboxProvider.getValue().substring(0, 1)), Integer.parseInt(comboxFather.getValue())) == 1) {
 					alert = new Alert(AlertType.INFORMATION, "Producto editado con exito!", ButtonType.OK);
 					alert.showAndWait();
 					farmacia_legado.Controllers.Product.Profile profileProduct = new farmacia_legado.Controllers.Product.Profile();
