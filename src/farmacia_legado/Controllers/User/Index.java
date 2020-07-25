@@ -1,4 +1,4 @@
-package farmacia_legado.Controllers.Provider;
+package farmacia_legado.Controllers.User;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 import farmacia_legado.Main;
 import farmacia_legado.MySQLConnection;
 import farmacia_legado.Controllers.HomeController;
-import farmacia_legado.Models.Provider;
+import farmacia_legado.Models.User;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -16,7 +16,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -32,93 +31,97 @@ import javafx.util.Callback;
 
 public class Index implements Initializable {
 
-	@FXML // fx:id="titlePage"
-	private Label titlePage; // Value injected by FXMLLoader
+    @FXML // fx:id="titlePage"
+    private Label titlePage; // Value injected by FXMLLoader
 
-	@FXML // fx:id="labelBtnAdd"
-	private Label labelBtnAdd; // Value injected by FXMLLoader
+    @FXML // fx:id="labelBtnAdd"
+    private Label labelBtnAdd; // Value injected by FXMLLoader
 
-	@FXML // fx:id="table"
-	private TableView<Provider> table; // Value injected by FXMLLoader
-
-	@FXML
-	private TableColumn<Provider, Integer> col_id = new TableColumn<Provider, Integer>("ID");
-
-	@FXML
-	private TableColumn<Provider, String> col_name = new TableColumn<Provider, String>("Nombre");
+    @FXML // fx:id="table"
+    private TableView<User> table; // Value injected by FXMLLoader
+    
+    @FXML
+	private TableColumn<User, Integer> col_id = new TableColumn<User, Integer>("ID");
 
 	@FXML
-	private TableColumn<Provider, Integer> col_phone = new TableColumn<Provider, Integer>("Telefono");
+	private TableColumn<User, String> col_name = new TableColumn<User, String>("Nombre completo");
+	
+	@FXML
+	private TableColumn<User, String> col_turn = new TableColumn<User, String>("Turno");
+
+	@FXML 
+	private TableColumn<User, Integer> col_rol = new TableColumn<User, Integer>("Rol");
 
 	@FXML
-	private TableColumn<Provider, String> col_options = new TableColumn<Provider, String>("Opciones");
+	private TableColumn<User, String> col_options = new TableColumn<User, String>("Opciones");
 
-	@FXML // fx:id="menuButtonNavbar"
-	private MenuButton menuButtonNavbar; // Value injected by FXMLLoader
+    @FXML // fx:id="menuButton"
+    private MenuButton menuButton; // Value injected by FXMLLoader
 
-	@FXML // fx:id="optionHome"
-	private MenuItem optionHome; // Value injected by FXMLLoader
+    @FXML // fx:id="optionHome"
+    private MenuItem optionHome; // Value injected by FXMLLoader
 
-	@FXML // fx:id="optionUsers"
-	private MenuItem optionUsers; // Value injected by FXMLLoader
+    @FXML // fx:id="optionUsers"
+    private MenuItem optionUsers; // Value injected by FXMLLoader
 
-	@FXML // fx:id="optionProviders"
-	private MenuItem optionProviders; // Value injected by FXMLLoader
+    @FXML // fx:id="optionProducts"
+    private MenuItem optionProducts; // Value injected by FXMLLoader
 
-	@FXML // fx:id="optionProducts"
-	private MenuItem optionProducts;
+    @FXML // fx:id="optionCategories"
+    private MenuItem optionCategories; // Value injected by FXMLLoader
 
-	@FXML // fx:id="optionCategories"
-	private MenuItem optionCategories; // Value injected by FXMLLoader
+    @FXML // fx:id="optionProviders"
+    private MenuItem optionProviders; // Value injected by FXMLLoader
 
-	@FXML // fx:id="optionLogOut"
-	private MenuItem optionLogOut; // Value injected by FXMLLoader
-
+    @FXML // fx:id="optionLogOut"
+    private MenuItem optionLogOut; // Value injected by FXMLLoader
+    
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		menuButtonNavbar.setText(MySQLConnection.User_username);
+		menuButton.setText(MySQLConnection.User_username);
 		col_id.setPrefWidth(50);
 		col_id.setStyle("-fx-aligment: CENTER;");
 		col_id.setStyle("-fx-font-size: 15px");
 		col_name.setPrefWidth(150);
 		col_name.setStyle("-fx-aligment: CENTER;");
 		col_name.setStyle("-fx-font-size: 15px");
-		col_phone.setPrefWidth(150);
-		col_phone.setStyle("-fx-aligment: CENTER;");
-		col_phone.setStyle("-fx-font-size: 15px");
-		table.getColumns().addAll(col_id, col_name, col_phone, col_options);
+		col_turn.setPrefWidth(150);
+		col_turn.setStyle("-fx-aligment: CENTER;");
+		col_turn.setStyle("-fx-font-size: 15px");
+		col_rol.setPrefWidth(50);
+		col_rol.setStyle("-fx-aligment: CENTER;");
+		col_rol.setStyle("-fx-font-size: 15px");
+		table.getColumns().addAll(col_id, col_name, col_turn, col_rol, col_options);
 		addButtonShow();
 		addButtonDestroy();
 		col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
 		col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
-		col_phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+		col_turn.setCellValueFactory(new PropertyValueFactory<>("turn"));
+		col_rol.setCellValueFactory(new PropertyValueFactory<>("rol"));
 		MySQLConnection MySQL = new MySQLConnection();
 		try {
-			table.setItems(MySQL.indexProviders());
+			table.setItems(MySQL.indexUsers());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-
+	
 	private void addButtonShow() {
-		TableColumn<Provider, Void> colBtn = new TableColumn<Provider, Void>();
-		Callback<TableColumn<Provider, Void>, TableCell<Provider, Void>> cellFactory = new Callback<TableColumn<Provider, Void>, TableCell<Provider, Void>>() {
+		TableColumn<User, Void> colBtn = new TableColumn<User, Void>();
+		Callback<TableColumn<User, Void>, TableCell<User, Void>> cellFactory = new Callback<TableColumn<User, Void>, TableCell<User, Void>>() {
 			@Override
-			public TableCell<Provider, Void> call(final TableColumn<Provider, Void> param) {
-				final TableCell<Provider, Void> cell = new TableCell<Provider, Void>() {
+			public TableCell<User, Void> call(final TableColumn<User, Void> param) {
+				final TableCell<User, Void> cell = new TableCell<User, Void>() {
 					private final Button btn = new Button("Ver");
 					{
-						btn.setOnAction((ActionEvent event) -> {
-							Provider Provider = getTableView().getItems().get(getIndex());
-							Profile profileProvider = new Profile();
-							Profile.setPkProvider(Provider.getId());
-							try {
-								profileProvider.showView(event);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						});
+						/*
+						 * btn.setOnAction((ActionEvent event) -> { Provider Provider =
+						 * getTableView().getItems().get(getIndex()); Profile profileProvider = new
+						 * Profile(); Profile.setPkProvider(Provider.getId()); try {
+						 * profileProvider.showView(event); } catch (Exception e) { e.printStackTrace();
+						 * } });
+						 */
 					}
 
 					@Override
@@ -139,31 +142,23 @@ public class Index implements Initializable {
 	}
 
 	private void addButtonDestroy() {
-		TableColumn<Provider, Void> colBtn = new TableColumn<Provider, Void>();
+		TableColumn<User, Void> colBtn = new TableColumn<User, Void>();
 
-		Callback<TableColumn<Provider, Void>, TableCell<Provider, Void>> cellFactory = new Callback<TableColumn<Provider, Void>, TableCell<Provider, Void>>() {
+		Callback<TableColumn<User, Void>, TableCell<User, Void>> cellFactory = new Callback<TableColumn<User, Void>, TableCell<User, Void>>() {
 			@Override
-			public TableCell<Provider, Void> call(final TableColumn<Provider, Void> param) {
-				final TableCell<Provider, Void> cell = new TableCell<Provider, Void>() {
+			public TableCell<User, Void> call(final TableColumn<User, Void> param) {
+				final TableCell<User, Void> cell = new TableCell<User, Void>() {
 					private final Button btn = new Button("Borrar");
 					{
-						btn.setOnAction((ActionEvent event) -> {
-							Provider Provider = getTableView().getItems().get(getIndex());
-							Alert alert;
-							MySQLConnection MySQL = new MySQLConnection();
-							try {
-								if (MySQL.destroyProvider(Provider.getId()) == 1) {
-									alert = new Alert(Alert.AlertType.INFORMATION, "Borrado con exito");
-									alert.showAndWait();
-									showView(event);
-								} else {
-									alert = new Alert(Alert.AlertType.ERROR, "Ocurrio un error");
-									alert.showAndWait();
-								}
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						});
+						/*
+						 * btn.setOnAction((ActionEvent event) -> { Provider Provider =
+						 * getTableView().getItems().get(getIndex()); Alert alert; MySQLConnection MySQL
+						 * = new MySQLConnection(); try { if (MySQL.destroyProvider(Provider.getId()) ==
+						 * 1) { alert = new Alert(Alert.AlertType.INFORMATION, "Borrado con exito");
+						 * alert.showAndWait(); showView(event); } else { alert = new
+						 * Alert(Alert.AlertType.ERROR, "Ocurrio un error"); alert.showAndWait(); } }
+						 * catch (Exception e) { e.printStackTrace(); } });
+						 */
 					}
 
 					@Override
@@ -183,26 +178,25 @@ public class Index implements Initializable {
 		col_options.getColumns().add(colBtn);
 	}
 
-	@FXML
-	void btnAdd(MouseEvent event) throws Exception {
-		Save addProvider = new Save();
-		addProvider.showView(event);
-	}
+    @FXML
+    void btnAddUser(MouseEvent event) {
 
-	@FXML
-	void btnBack(MouseEvent event) throws Exception {
-		HomeController home = new HomeController();
-		home.showView(event);
-	}
+    }
 
-	@FXML
-	void btnLogo(MouseEvent event) {
+    @FXML
+    void btnBack(MouseEvent event) throws Exception {
+    	HomeController home = new HomeController();
+    	home.showView(event);
+    }
 
-	}
+    @FXML
+    void btnLogo(MouseEvent event) {
 
-	@FXML
-	void btnNavbar(MouseEvent event) {
-		optionHome.setOnAction(new EventHandler<ActionEvent>() {
+    }
+
+    @FXML
+    void btnNavbar(MouseEvent event) {
+    	optionHome.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				HomeController home = new HomeController();
@@ -217,9 +211,8 @@ public class Index implements Initializable {
     	optionUsers.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				farmacia_legado.Controllers.User.Index indexUsers = new farmacia_legado.Controllers.User.Index();
 				try {
-					indexUsers.showView(event);
+					showView(event);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -261,10 +254,10 @@ public class Index implements Initializable {
 				}
 			}
 		});
-	}
-
+    }
+	
 	public void showView(Event event) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("../../../views/Provider/index.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("../../../views/User/index.fxml"));
 		Scene scene = new Scene(root);
 		Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		appStage.getIcons().add(new Image("/assets/images/legado_farmacia.png"));

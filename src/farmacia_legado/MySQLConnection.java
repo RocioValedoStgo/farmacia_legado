@@ -8,25 +8,24 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
-
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
-
 import farmacia_legado.Models.Category;
 import farmacia_legado.Models.Product;
 import farmacia_legado.Models.Provider;
+import farmacia_legado.Models.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class MySQLConnection {
 	private static Connection connection = null;
+	public static String User_fullname;
+	public static String User_username;
+	public static String User_email;
 	// Credentials for connection to MySQL
 	private static String dbName = "farmacialegado";
 	private static String user = "root";
 	private static String pwd = "";
-	public static String User_fullname;
-	public static String User_username;
-	public static String User_email;
 
 	public static Connection getConnection() {
 		try {
@@ -71,6 +70,20 @@ public class MySQLConnection {
 			setUserLogged(name, last_name, username, email);
 			return true;
 		}
+	}
+	
+	public ObservableList<User> indexUsers() throws SQLException {
+		connection = getConnection();
+		ObservableList<User> listUsers = FXCollections.observableArrayList();
+		ResultSet rs;
+		Statement statement;
+		String query = "SELECT id, name, last_name, turn, rol FROM farmacialegado.users";
+		statement = (Statement) connection.createStatement();
+		rs = statement.executeQuery(query);
+		while (rs.next()) {
+			listUsers.add(new User(rs.getInt("ID"), String.valueOf(rs.getString("name")+" "+rs.getString("last_name")), rs.getString("turn"), rs.getInt("rol")));
+		}
+		return listUsers;
 	}
 	
 	private void setUserLogged(String name, String last_name, String username, String email) {

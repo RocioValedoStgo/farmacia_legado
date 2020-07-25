@@ -104,23 +104,23 @@ public class Save implements Initializable {
 				}
 			}
 		});
-
-		optionCategories.setOnAction(new EventHandler<ActionEvent>() {
+    	
+    	optionUsers.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				farmacia_legado.Controllers.Product.Index indexCategories = new farmacia_legado.Controllers.Product.Index();
+				farmacia_legado.Controllers.User.Index indexUsers = new farmacia_legado.Controllers.User.Index();
 				try {
-					indexCategories.showView(event);
+					indexUsers.showView(event);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-		
-		optionProviders.setOnAction(new EventHandler<ActionEvent>() {
-			Index indexProviders = new Index();
+    	
+    	optionProviders.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
+				farmacia_legado.Controllers.Provider.Index indexProviders = new farmacia_legado.Controllers.Provider.Index();
 				try {
 					indexProviders.showView(event);
 				} catch (Exception e) {
@@ -128,25 +128,25 @@ public class Save implements Initializable {
 				}
 			}
 		});
-
-		optionProducts.setOnAction(new EventHandler<ActionEvent>() {
-			farmacia_legado.Controllers.Product.Index indexProducts = new farmacia_legado.Controllers.Product.Index();
+    	
+    	optionCategories.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
+				farmacia_legado.Controllers.Category.Index indexCategories = new farmacia_legado.Controllers.Category.Index();
 				try {
-					indexProducts.showView(event);
+					indexCategories.showView(event);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-
-		optionLogOut.setOnAction(new EventHandler<ActionEvent>() {
+    	
+    	optionLogOut.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				Main main = new Main();
+				Main login = new Main();
 				try {
-					main.showView(event);
+					login.showView(event);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
