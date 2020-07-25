@@ -55,19 +55,21 @@ public class MySQLConnection {
 		}
 	}
 	
-	public boolean register(String name, String last_name, String username, String phone, String turn, String email, String password) throws SQLException {
+	public boolean register(boolean action, String name, String last_name, String username, String phone, String turn, int rol, String email, String password) throws SQLException {
 		connection = getConnection();
-		int rol = 4;
-		if (login(username, password) == true) {
+		int auxRol = 3;
+		if (login(username, password)) {
 			return false;
 		} else {
 			String pwdEncrypted = encryptedPassword(password);
 			Timestamp created = generateTimestamp();
 			Statement statement = (Statement) connection.createStatement();
 			String query = "INSERT INTO farmacialegado.users(name, last_name, username, phone, turn, rol, email, password, created_at) VALUES"
-					+ " ('"+name+"','"+last_name+"','"+username+"','"+phone+"','"+turn+"','"+rol+"','"+email+"','"+pwdEncrypted+"','"+created+"')";
+					+ " ('"+name+"','"+last_name+"','"+username+"','"+phone+"','"+turn+"','"+auxRol+"','"+email+"','"+pwdEncrypted+"','"+created+"')";
 			statement.executeUpdate(query);
-			setUserLogged(name, last_name, username, email);
+			if (action) {
+				setUserLogged(name, last_name, username, email);
+			}
 			return true;
 		}
 	}
@@ -77,13 +79,32 @@ public class MySQLConnection {
 		ObservableList<User> listUsers = FXCollections.observableArrayList();
 		ResultSet rs;
 		Statement statement;
-		String query = "SELECT id, name, last_name, turn, rol FROM farmacialegado.users";
+		String query = "SELECT id, name, last_name, turn, rol FROM farmacialegado.users WHERE rol != 1";
 		statement = (Statement) connection.createStatement();
 		rs = statement.executeQuery(query);
 		while (rs.next()) {
 			listUsers.add(new User(rs.getInt("ID"), String.valueOf(rs.getString("name")+" "+rs.getString("last_name")), rs.getString("turn"), rs.getInt("rol")));
 		}
 		return listUsers;
+	}
+	
+	public User getUser(int pk) throws SQLException {
+		connection = getConnection();
+		User user = null;
+		ResultSet rs;
+		Statement statement;
+		String query = "SELECT id, name, last_name, username, phone, email, turn, rol FROM farmacialegado.users WHERE id = "+pk;
+		statement = (Statement) connection.createStatement();
+		rs = statement.executeQuery(query);
+		if (rs.next()) {
+			user = new User(rs.getInt("id"), String.valueOf(rs.getString("name") + " " + rs.getString("last_name")), rs.getString("turn"), rs.getInt("rol"));
+			user.setName(rs.getString("name"));
+			user.setLast_name(rs.getString("last_name"));
+			user.setUsername(rs.getString("username"));
+			user.setEmail(rs.getString("email"));
+			user.setPhone(rs.getString("phone"));
+		}
+		return user;
 	}
 	
 	private void setUserLogged(String name, String last_name, String username, String email) {

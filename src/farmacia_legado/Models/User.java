@@ -7,81 +7,116 @@ public class User {
 	
 	private SimpleIntegerProperty id;
 	private String full_name;
-	private SimpleStringProperty username;
-	private SimpleIntegerProperty phone;
+	private String name;
+	private String last_name;
+	private String username;
+	private String phone;
 	private SimpleStringProperty turn;
-	private SimpleIntegerProperty rol;
-	private SimpleStringProperty email;
-	private SimpleStringProperty password;
+	private SimpleStringProperty rol;
+	private String email;
+	private String password;
 	
 	public User(int id, String full_name, String turn, int rol) {
 		this.id = new SimpleIntegerProperty(id);
 		this.full_name = full_name;
 		this.turn = new SimpleStringProperty(turn);
-		this.rol = new SimpleIntegerProperty(rol);
+		String aux = null;
+		if (rol == 2)
+			aux = "Dueño";
+		else if (rol == 3)
+			aux = "Empleado";
+		this.rol = new SimpleStringProperty(aux);
 	}
-
-	public SimpleIntegerProperty getId() {
+	
+	public void setId(int id) {
+		this.id.set(id);
+	}
+	
+	public SimpleIntegerProperty idProperty() {
 		return id;
 	}
-
-	public void setId(SimpleIntegerProperty id) {
-		this.id = id;
+	
+	public int getId() {
+		return id.get();
+	}
+	
+	public void setFull_name(String name, String last_name) {
+		this.full_name = name + " " + last_name;
 	}
 	
 	public String getFull_name() {
 		return full_name;
 	}
-
-	public void setFull_name(String full_name) {
-		this.full_name = full_name;
+	
+	public void setName(String name) {
+		this.name = name;
 	}
-
-	public SimpleStringProperty getUsername() {
-		return username;
+	
+	public String getName() {
+		return name;
 	}
-
-	public void setUsername(SimpleStringProperty username) {
+	
+	public void setLast_name(String last_name) {
+		this.last_name = last_name;
+	}
+	
+	public String getLast_name() {
+		return last_name;
+	}
+	
+	public void setUsername(String username) {
 		this.username = username;
 	}
-
-	public SimpleIntegerProperty getPhone() {
-		return phone;
+	
+	public String getUsername() {
+		return username;
 	}
-
-	public void setPhone(SimpleIntegerProperty phone) {
+	
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-
-	public SimpleStringProperty getTurn() {
+	
+	public String getPhone() {
+		return phone;
+	}
+	
+	public void setTurn(String turn) {
+		this.turn.set(turn);
+	}
+	
+	public SimpleStringProperty turnProperty() {
 		return turn;
 	}
-
-	public void setTurn(SimpleStringProperty turn) {
-		this.turn = turn;
+	
+	public String getTurn() {
+		return turn.get();
 	}
-
-	public SimpleIntegerProperty getRol() {
+	
+	public void setRol(String rol) {
+		this.rol.set(rol);
+	}
+	
+	public SimpleStringProperty rolProperty() {
 		return rol;
 	}
-
-	public void setRol(SimpleIntegerProperty rol) {
-		this.rol = rol;
+	
+	public String getRol() {
+		return rol.get();
 	}
-
-	public SimpleStringProperty getEmail() {
-		return email;
-	}
-
-	public void setEmail(SimpleStringProperty email) {
+	
+	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	public SimpleStringProperty getPassword() {
-		return password;
+	
+	public String getEmail() {
+		return email;
 	}
-
-	public void setPassword(SimpleStringProperty password) {
+	
+	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public String getPassword() {
+		return password;
 	}
 }

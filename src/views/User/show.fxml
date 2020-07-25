@@ -6,16 +6,14 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #0e1f3c;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #0e1f3c;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="farmacia_legado.Controllers.User.Profile">
    <children>
       <ImageView fitHeight="96.0" fitWidth="103.0" layoutX="49.0" layoutY="34.0" onMouseClicked="#btnLogo">
          <image>
@@ -24,7 +22,7 @@
       </ImageView>
       <AnchorPane layoutX="120.0" layoutY="168.0" prefHeight="438.0" prefWidth="786.0" style="-fx-background-color: #fff; -fx-background-radius: 10px;">
          <children>
-            <Label fx:id="titlePage" layoutX="90.0" layoutY="21.0" text="Usuario: asd">
+            <Label fx:id="titlePage" layoutX="139.0" layoutY="21.0" text="Usuario: asd">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>
@@ -34,46 +32,33 @@
                   <Image url="@../../assets/images/legado_farmacia.png" />
                </image>
             </ImageView>
-            <TextField fx:id="input_name" layoutX="46.0" layoutY="228.0" prefHeight="41.0" prefWidth="296.0" promptText="Nombre" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+            <Label fx:id="subtitlePage" layoutX="64.0" layoutY="50.0" text="Por favor ingresa los datos requeridos" textFill="#c1c1c1">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="input_name" editable="false" layoutX="50.0" layoutY="132.0" prefHeight="41.0" prefWidth="296.0" promptText="Nombre" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
                <font>
                   <Font size="16.0" />
                </font>
             </TextField>
-            <Button fx:id="btnMaster" layoutX="436.0" layoutY="361.0" mnemonicParsing="false" onMouseClicked="#btnSave" prefHeight="53.0" prefWidth="302.0" style="-fx-font-size: 20px; -fx-background-color: #00dcff;" text="Editar" textFill="WHITE">
+            <Button fx:id="btnMaster" layoutX="433.0" layoutY="345.0" mnemonicParsing="false" onMouseClicked="#btnSave" prefHeight="53.0" prefWidth="302.0" style="-fx-font-size: 20px; -fx-background-color: #00dcff;" text="Editar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </Button>
-            <Circle fill="#1f93ff00" layoutX="176.0" layoutY="135.0" radius="42.0" stroke="BLACK" strokeType="INSIDE" />
-            <ImageView fitHeight="40.0" fitWidth="51.0" layoutX="150.0" layoutY="115.0">
-               <image>
-                  <Image url="@../../assets/images/camera.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="136.0" layoutY="172.0" text="Imagen">
-               <font>
-                  <Font size="25.0" />
-               </font>
-            </Label>
-            <ComboBox fx:id="comboxTurn" layoutX="439.0" layoutY="248.0" prefHeight="42.0" prefWidth="296.0" promptText="Turno" style="-fx-background-color: none; -fx-border-color: #ccc;" />
-            <ImageView fx:id="imgView" fitHeight="83.0" fitWidth="84.0" layoutX="133.0" layoutY="94.0" onMouseClicked="#btnUploadImage" pickOnBounds="true" preserveRatio="true" />
-            <TextField fx:id="input_email" layoutX="439.0" layoutY="135.0" prefHeight="41.0" prefWidth="296.0" promptText="Correo electronico" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+            <ComboBox fx:id="comboxTurn" layoutX="436.0" layoutY="143.0" prefHeight="42.0" prefWidth="296.0" promptText="Turno" style="-fx-background-color: none; -fx-border-color: #ccc;" />
+            <TextField fx:id="input_last_name" editable="false" layoutX="50.0" layoutY="198.0" prefHeight="41.0" prefWidth="296.0" promptText="Apellidos" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
                <font>
                   <Font size="16.0" />
                </font>
             </TextField>
-            <ComboBox fx:id="comboxRol" layoutX="439.0" layoutY="306.0" prefHeight="42.0" prefWidth="296.0" promptText="Rol" style="-fx-background-color: none; -fx-border-color: #ccc;" />
-            <TextField fx:id="input_last_name" layoutX="46.0" layoutY="280.0" prefHeight="41.0" prefWidth="296.0" promptText="Apellidos" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+            <TextField fx:id="input_username" editable="false" layoutX="50.0" layoutY="262.0" prefHeight="41.0" prefWidth="296.0" promptText="Nombre de usuario" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
                <font>
                   <Font size="16.0" />
                </font>
             </TextField>
-            <TextField fx:id="input_username" layoutX="46.0" layoutY="332.0" prefHeight="41.0" prefWidth="296.0" promptText="Nombre de usuario" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </TextField>
-            <TextField fx:id="input_phone" layoutX="46.0" layoutY="384.0" prefHeight="41.0" prefWidth="296.0" promptText="Telefono" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+            <TextField fx:id="input_phone" editable="false" layoutX="50.0" layoutY="324.0" prefHeight="41.0" prefWidth="296.0" promptText="Telefono" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
                <font>
                   <Font size="16.0" />
                </font>
@@ -86,11 +71,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <PasswordField fx:id="input_password" layoutX="439.0" layoutY="196.0" prefHeight="36.0" prefWidth="296.0" promptText="Contraseña" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </PasswordField>
+            <ComboBox fx:id="comboxRol" layoutX="436.0" layoutY="228.0" prefHeight="42.0" prefWidth="296.0" promptText="Rol" style="-fx-background-color: none; -fx-border-color: #ccc;" />
          </children>
       </AnchorPane>
       <MenuButton fx:id="menuButton" layoutX="812.0" layoutY="60.0" mnemonicParsing="false" onMouseClicked="#btnNavbar" prefHeight="42.0" prefWidth="153.0" style="-fx-background-color: none;" text="Username" textFill="WHITE">
