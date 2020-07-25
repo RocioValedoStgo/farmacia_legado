@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #0e1f3c;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="farmacia_legado.Controllers.Provider.Profile">
+   <children>
+      <ImageView fitHeight="96.0" fitWidth="103.0" layoutX="39.0" layoutY="24.0" onMouseClicked="#btnLogo">
+         <image>
+            <Image url="@../../assets/images/legado_farmacia.png" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="111.0" layoutY="165.0" prefHeight="438.0" prefWidth="786.0" style="-fx-background-color: #fff; -fx-background-radius: 10px;">
+         <children>
+            <Label fx:id="titlePage" layoutX="90.0" layoutY="21.0" text="Proveedor: asd">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="logo1" fitHeight="131.0" fitWidth="142.0" layoutX="513.0" layoutY="1.0">
+               <image>
+                  <Image url="@../../assets/images/legado_farmacia.png" />
+               </image>
+            </ImageView>
+            <TextField fx:id="input_name" editable="false" layoutX="45.0" layoutY="109.0" prefHeight="41.0" prefWidth="296.0" promptText="Nombre" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextField>
+            <TextArea fx:id="input_address" editable="false" layoutX="40.0" layoutY="205.0" prefHeight="200.0" prefWidth="300.0" promptText="Dirección" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextArea>
+            <TextField fx:id="input_email" editable="false" layoutX="436.0" layoutY="159.0" prefHeight="41.0" prefWidth="296.0" promptText="Correo electronico" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="input_phone" editable="false" layoutX="438.0" layoutY="239.0" prefHeight="41.0" prefWidth="296.0" promptText="Telefono" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextField>
+            <Button layoutX="436.0" layoutY="324.0" mnemonicParsing="false" onMouseClicked="#btnSave" prefHeight="53.0" prefWidth="302.0" style="-fx-font-size: 20px; -fx-background-color: #00dcff;" text="Editar" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <ImageView fitHeight="28.0" fitWidth="32.0" layoutX="49.0" layoutY="23.0" onMouseClicked="#btnBack" rotate="180.0">
+               <image>
+                  <Image url="@../../assets/images/flecha.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <MenuButton fx:id="menuButton" layoutX="812.0" layoutY="60.0" mnemonicParsing="false" onMouseClicked="#btnNavbar" prefHeight="42.0" prefWidth="153.0" style="-fx-background-color: none;" text="Username" textFill="WHITE">
+         <items>
+            <MenuItem fx:id="optionHome" mnemonicParsing="false" text="Home" />
+            <MenuItem fx:id="optionUsers" mnemonicParsing="false" text="Usuarios" />
+            <MenuItem fx:id="optionProducts" mnemonicParsing="false" text="Productos" />
+            <MenuItem fx:id="optionCategories" mnemonicParsing="false" text="Categorías" />
+            <MenuItem fx:id="optionProviders" mnemonicParsing="false" text="Proveedores" />
+            <MenuItem fx:id="optionLogOut" mnemonicParsing="false" text="Cerrar sesion" />
+         </items>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <ColorAdjust brightness="1.0" />
+         </effect>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </MenuButton>
+   </children>
+</AnchorPane>
