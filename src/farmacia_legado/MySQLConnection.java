@@ -325,6 +325,33 @@ public class MySQLConnection {
 		return listProducts;
 	}
 	
+	public ArrayList<String> getProducts() throws SQLException {
+		connection = getConnection();
+		ArrayList<String> products = new ArrayList<>();
+		ResultSet rs;
+		Statement statement;
+		String query ="SELECT name FROM farmacialegado.products";
+		statement = (Statement) connection.createStatement();
+		rs = statement.executeQuery(query);
+		while (rs.next()) {
+			products.add(rs.getString("name"));
+		}
+		return products;
+	}
+	
+	public Product getProduct(String name) throws SQLException {
+		connection = getConnection();
+		Product product = null;
+		ResultSet rs;
+		Statement statement;
+		String query = "SELECT id, name, price, quantify FROM farmacialegado.products WHERE name = '"+name+"'";
+		statement = (Statement) connection.createStatement();
+		rs = statement.executeQuery(query);
+		if (rs.next())
+			product = new Product(rs.getInt("id"), rs.getString("name"), rs.getFloat("price"), rs.getInt("quantify"));
+		return product;
+	}
+	
 	public boolean saveProduct(String name, String description, String image, float price, int quantity, int provider, int category) throws SQLException {
 		connection = getConnection();
 		Timestamp created = generateTimestamp();

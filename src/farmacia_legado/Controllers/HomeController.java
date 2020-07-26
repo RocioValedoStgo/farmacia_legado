@@ -4,9 +4,9 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
-
 import farmacia_legado.MySQLConnection;
 import farmacia_legado.Controllers.Category.Index;
+import farmacia_legado.Controllers.Sells.Save;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,8 +28,9 @@ public class HomeController implements Initializable{
     private Label labelDate; // Value injected by FXMLLoader
 
     @FXML
-    void btnBuy(MouseEvent event) {
-
+    void btnBuy(MouseEvent event) throws Exception {
+    	Save saveSell = new Save();
+    	saveSell.showView(event);
     }
 
     @FXML
