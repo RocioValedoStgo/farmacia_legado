@@ -10,7 +10,6 @@ import java.nio.file.StandardCopyOption;
 import java.security.SecureRandom;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-
 import farmacia_legado.Main;
 import farmacia_legado.MySQLConnection;
 import farmacia_legado.Controllers.HomeController;
@@ -150,6 +149,18 @@ public class Edit implements Initializable {
 				farmacia_legado.Controllers.Category.Index indexCategories = new farmacia_legado.Controllers.Category.Index();
 				try {
 					indexCategories.showView(event);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+    	
+    	optionProducts.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				farmacia_legado.Controllers.Product.Index indexProducts = new farmacia_legado.Controllers.Product.Index();
+				try {
+					indexProducts.showView(event);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -38,7 +38,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <TextField fx:id="input_name" layoutX="46.0" layoutY="104.0" prefHeight="41.0" prefWidth="296.0" promptText="Nombre" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+            <TextField fx:id="input_name" layoutX="50.0" layoutY="144.0" prefHeight="41.0" prefWidth="296.0" promptText="Nombre" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
                <font>
                   <Font size="16.0" />
                </font>
@@ -48,23 +48,23 @@
                   <Font name="System Bold" size="17.0" />
                </font>
             </Button>
-            <ComboBox fx:id="comboxTurn" layoutX="436.0" layoutY="198.0" prefHeight="42.0" prefWidth="296.0" promptText="Turno" style="-fx-background-color: none; -fx-border-color: #ccc;" />
-            <TextField fx:id="input_email" layoutX="46.0" layoutY="351.0" prefHeight="41.0" prefWidth="296.0" promptText="Correo electronico" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+            <ComboBox fx:id="comboxTurn" layoutX="436.0" layoutY="267.0" prefHeight="42.0" prefWidth="296.0" promptText="Turno" style="-fx-background-color: none; -fx-border-color: #ccc;" />
+            <TextField fx:id="input_email" layoutX="436.0" layoutY="144.0" prefHeight="41.0" prefWidth="296.0" promptText="Correo electronico" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
                <font>
                   <Font size="16.0" />
                </font>
             </TextField>
-            <TextField fx:id="input_last_name" layoutX="46.0" layoutY="165.0" prefHeight="41.0" prefWidth="296.0" promptText="Apellidos" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+            <TextField fx:id="input_last_name" layoutX="50.0" layoutY="205.0" prefHeight="41.0" prefWidth="296.0" promptText="Apellidos" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
                <font>
                   <Font size="16.0" />
                </font>
             </TextField>
-            <TextField fx:id="input_username" layoutX="46.0" layoutY="228.0" prefHeight="41.0" prefWidth="296.0" promptText="Nombre de usuario" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+            <TextField fx:id="input_username" layoutX="50.0" layoutY="268.0" prefHeight="41.0" prefWidth="296.0" promptText="Nombre de usuario" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
                <font>
                   <Font size="16.0" />
                </font>
             </TextField>
-            <TextField fx:id="input_phone" layoutX="46.0" layoutY="288.0" prefHeight="41.0" prefWidth="296.0" promptText="Telefono" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+            <TextField fx:id="input_phone" layoutX="50.0" layoutY="328.0" prefHeight="41.0" prefWidth="296.0" promptText="Telefono" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
                <font>
                   <Font size="16.0" />
                </font>
@@ -77,7 +77,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <PasswordField fx:id="input_password" layoutX="436.0" layoutY="132.0" prefHeight="36.0" prefWidth="296.0" promptText="Contraseña" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
+            <PasswordField fx:id="input_password" layoutX="436.0" layoutY="207.0" prefHeight="36.0" prefWidth="296.0" promptText="Contraseña" style="-fx-border-color: #ccc; -fx-border-width: 2px;">
                <font>
                   <Font size="16.0" />
                </font>

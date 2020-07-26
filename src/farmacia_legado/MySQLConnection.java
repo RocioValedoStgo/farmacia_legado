@@ -88,6 +88,29 @@ public class MySQLConnection {
 		return listUsers;
 	}
 	
+	public int editUser(int pk, String name, String last_name, String username, String phone, String email, String turn) throws SQLException {
+		connection = getConnection();
+		String query = "UPDATE farmacialegado.users SET name=?, last_name=?, username=?, phone=?, email=?, turn=? WHERE id = ?";
+		PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
+		ps.setString(1, name);
+		ps.setString(2, last_name);
+		ps.setString(3, username);
+		ps.setString(4, phone);
+		ps.setString(5, email);
+		ps.setString(6, turn);
+		ps.setInt(7, pk);
+		return ps.executeUpdate();
+	}
+	
+	public int editRolUser(int pk, int rol) throws SQLException {
+		connection = getConnection();
+		String query = "UPDATE farmacialegado.users SET rol = ? WHERE id = ?";
+		PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
+		ps.setInt(1, rol);
+		ps.setInt(2, pk);
+		return ps.executeUpdate();
+	}
+	
 	public User getUser(int pk) throws SQLException {
 		connection = getConnection();
 		User user = null;
@@ -105,6 +128,14 @@ public class MySQLConnection {
 			user.setPhone(rs.getString("phone"));
 		}
 		return user;
+	}
+	
+	public int destroyUser(Integer id) throws SQLException {
+		connection = getConnection();
+		Statement statement;
+		String query = "DELETE FROM farmacialegado.users WHERE farmacialegado.users.id = "+ id;
+		statement = (Statement) connection.createStatement();
+		return statement.executeUpdate(query);
 	}
 	
 	private void setUserLogged(String name, String last_name, String username, String email) {

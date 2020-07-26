@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import farmacia_legado.Main;
 import farmacia_legado.MySQLConnection;
 import farmacia_legado.Controllers.HomeController;
+import farmacia_legado.Controllers.User.Index;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -108,7 +109,7 @@ public class Save implements Initializable {
     	optionUsers.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				farmacia_legado.Controllers.User.Index indexUsers = new farmacia_legado.Controllers.User.Index();
+				Index indexUsers = new Index();
 				try {
 					indexUsers.showView(event);
 				} catch (Exception e) {
@@ -135,6 +136,18 @@ public class Save implements Initializable {
 				farmacia_legado.Controllers.Category.Index indexCategories = new farmacia_legado.Controllers.Category.Index();
 				try {
 					indexCategories.showView(event);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+    	
+    	optionProducts.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				farmacia_legado.Controllers.Product.Index indexProducts = new farmacia_legado.Controllers.Product.Index();
+				try {
+					indexProducts.showView(event);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

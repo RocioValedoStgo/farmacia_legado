@@ -3,7 +3,6 @@ package farmacia_legado.Controllers.Product;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-
 import farmacia_legado.Main;
 import farmacia_legado.MySQLConnection;
 import farmacia_legado.Controllers.HomeController;
@@ -256,6 +255,18 @@ public class Index implements Initializable {
 				farmacia_legado.Controllers.Category.Index indexCategories = new farmacia_legado.Controllers.Category.Index();
 				try {
 					indexCategories.showView(event);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+    	
+    	optionProducts.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				farmacia_legado.Controllers.Product.Index indexProducts = new farmacia_legado.Controllers.Product.Index();
+				try {
+					indexProducts.showView(event);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

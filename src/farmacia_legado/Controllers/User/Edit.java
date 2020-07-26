@@ -16,51 +16,21 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class Profile implements Initializable {
-
-    @FXML // fx:id="titlePage"
-    private Label titlePage; // Value injected by FXMLLoader
-
-    @FXML // fx:id="logo1"
-    private ImageView logo1; // Value injected by FXMLLoader
-
-    @FXML // fx:id="subtitlePage"
-    private Label subtitlePage; // Value injected by FXMLLoader
-
-    @FXML // fx:id="input_name"
-    private TextField input_name; // Value injected by FXMLLoader
-
-    @FXML // fx:id="btnMaster"
-    private Button btnMaster; // Value injected by FXMLLoader
-
-    @FXML // fx:id="comboxTurn"
-    private ComboBox<String> comboxTurn; // Value injected by FXMLLoader
-    
-    @FXML // fx:id="comboxRol"
-    private ComboBox<String> comboxRol; // Value injected by FXMLLoader
-
-    @FXML // fx:id="input_email"
-    private TextField input_email; // Value injected by FXMLLoader
-
-    @FXML // fx:id="input_last_name"
-    private TextField input_last_name; // Value injected by FXMLLoader
-
-    @FXML // fx:id="input_username"
-    private TextField input_username; // Value injected by FXMLLoader
-
-    @FXML // fx:id="input_phone"
-    private TextField input_phone; // Value injected by FXMLLoader
+public class Edit implements Initializable {
 
     @FXML // fx:id="menuButton"
     private MenuButton menuButton; // Value injected by FXMLLoader
@@ -82,23 +52,53 @@ public class Profile implements Initializable {
 
     @FXML // fx:id="optionLogOut"
     private MenuItem optionLogOut; // Value injected by FXMLLoader
+
+    @FXML // fx:id="titlePage"
+    private Label titlePage; // Value injected by FXMLLoader
+
+    @FXML // fx:id="logo1"
+    private ImageView logo1; // Value injected by FXMLLoader
+
+    @FXML // fx:id="subtitlePage"
+    private Label subtitlePage; // Value injected by FXMLLoader
+
+    @FXML // fx:id="input_name"
+    private TextField input_name; // Value injected by FXMLLoader
+
+    @FXML // fx:id="btnMaster"
+    private Button btnMaster; // Value injected by FXMLLoader
+
+    @FXML // fx:id="comboxTurn"
+    private ComboBox<String> comboxTurn; // Value injected by FXMLLoader
+
+    @FXML // fx:id="input_last_name"
+    private TextField input_last_name; // Value injected by FXMLLoader
+
+    @FXML // fx:id="input_username"
+    private TextField input_username; // Value injected by FXMLLoader
+
+    @FXML // fx:id="input_phone"
+    private TextField input_phone; // Value injected by FXMLLoader
+
+    @FXML // fx:id="input_email"
+    private TextField input_email; // Value injected by FXMLLoader
     
     private static int pkUser;
-
-	@Override
+    
+    @Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		MySQLConnection MySQL = new MySQLConnection();
+    	MySQLConnection MySQL = new MySQLConnection();
 		try {
 			menuButton.setText(MySQLConnection.User_username);
 			User user = MySQL.getUser(getPkUser());
-			titlePage.setText("Usuario:"+user.getFull_name());
+			titlePage.setText("Editando al usuario: "+user.getFull_name());
 			input_name.setText(user.getName());
 			input_last_name.setText(user.getLast_name());
 			input_username.setText(user.getUsername());
 			input_phone.setText(user.getPhone());
 			input_email.setText(user.getEmail());
 			comboxTurn.setValue(user.getTurn());
-			comboxRol.setValue(user.getRol());
+			comboxTurn.getItems().addAll("Matutino", "Vespertino");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -106,8 +106,9 @@ public class Profile implements Initializable {
 
     @FXML
     void btnBack(MouseEvent event) throws Exception {
-    	Index indexUsers = new Index();
-    	indexUsers.showView(event);
+    	Profile profileUser = new Profile();
+    	Profile.setPkUser(getPkUser());
+    	profileUser.showView(event);
     }
 
     @FXML
@@ -192,13 +193,27 @@ public class Profile implements Initializable {
 
     @FXML
     void btnSave(MouseEvent event) throws Exception {
-    	Edit editUser = new Edit();
-    	Edit.setPkUser(getPkUser());
-    	editUser.showView(event);
+    	Alert alert;
+    	if (input_name.getText().isEmpty() && input_last_name.getText().isEmpty() && input_username.getText().isEmpty() && input_phone.getText().isEmpty() && input_email.getText().isEmpty() && comboxTurn.getValue().isEmpty()) {
+			alert = new Alert(AlertType.ERROR, "No es posible dejar los campos vacios", ButtonType.OK);
+			alert.showAndWait();
+		} else {
+			MySQLConnection MySQL = new MySQLConnection();
+			if (MySQL.editUser(getPkUser(), input_name.getText(), input_last_name.getText(), input_username.getText(), input_phone.getText(), input_email.getText(), comboxTurn.getValue()) == 1) {
+				alert = new Alert(AlertType.INFORMATION, "Usuario editado con exito", ButtonType.OK);
+				alert.showAndWait();
+				Profile profileUser = new Profile();
+		    	Profile.setPkUser(getPkUser());
+		    	profileUser.showView(event);
+			} else {
+				alert = new Alert(AlertType.ERROR, "Ocurrio un error al editar el usuario", ButtonType.OK);
+				alert.showAndWait();
+			}
+		}
     }
     
     public void showView(Event event) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("../../../views/User/show.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("../../../views/User/edit.fxml"));
 		Scene scene = new Scene(root);
 		Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		appStage.getIcons().add(new Image("/assets/images/legado_farmacia.png"));
@@ -207,11 +222,11 @@ public class Profile implements Initializable {
 		appStage.show();
 	}
     
-    public static int getPkUser() {
+	public static int getPkUser() {
 		return pkUser;
 	}
 
 	public static void setPkUser(int pkUser) {
-		Profile.pkUser= pkUser;
+		Edit.pkUser = pkUser;
 	}
 }
