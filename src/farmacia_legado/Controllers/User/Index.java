@@ -226,25 +226,17 @@ public class Index implements Initializable {
 							content.getChildren().addAll(new Label("Por favor ingresa la nueva contraseña:"), pwd);
 							dialog.getDialogPane().setContent(content);
 							dialog.setResultConverter(dialogButton -> {
-								if (dialogButton == ButtonType.OK && pwd.getText() != null) {
-									System.out.println(pwd.getText());
-									return pwd.getText();
+								if (dialogButton == ButtonType.OK && !pwd.getText().isBlank()) {
+									System.out.println("Si 230 " + pwd.getText());
+									showMessageSuccessfully(pwd.getText());
+									return null;
 								} else {
+									System.out.println("No 232 ");
+									showMessageError();
 									return null;
 								}
 							});
-							Optional<String> result = dialog.showAndWait();
-							Alert alert;
-							System.out.println("223:" + result.get());
-							if (result.isEmpty() && result.isPresent()) {
-								alert = new Alert(AlertType.INFORMATION, "Cambio de contraseña:" + result.get(),
-										ButtonType.OK);
-								alert.showAndWait();
-							} else {
-								alert = new Alert(AlertType.ERROR, "Es necesario ingresar la nueva contraseña",
-										ButtonType.OK);
-								alert.showAndWait();
-							}
+							dialog.showAndWait();
 						});
 					}
 
@@ -430,5 +422,15 @@ public class Index implements Initializable {
 		appStage.setScene(scene);
 		appStage.toFront();
 		appStage.show();
+	}
+	
+	public void showMessageSuccessfully(String newPwd) {
+		Alert alert = new Alert(AlertType.INFORMATION, "Cambio de contraseña correcto:"+newPwd, ButtonType.OK);
+		alert.showAndWait();
+	}
+	
+	public void showMessageError() {
+		Alert alert = new Alert(AlertType.ERROR, "Ocurrio un error al cambiar la contraseña", ButtonType.OK);
+		alert.showAndWait();
 	}
 }
