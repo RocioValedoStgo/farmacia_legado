@@ -140,7 +140,7 @@ public class Save implements Initializable {
 							for (Sell_Detail item : table.getItems()) {
 								auxTotal = auxTotal + col_subtotal.getCellObservableValue(item).getValue();
 							}
-							auxTotal = (float) (auxTotal + (auxTotal*0.16));
+							auxTotal = Math.round((float) (auxTotal + (auxTotal*0.16)));
 							labelTotal.setText("IVA 16%\nTotal: "+auxTotal);
 							total = auxTotal;
 							auxTotal = 0;
@@ -194,7 +194,7 @@ public class Save implements Initializable {
 					for (Sell_Detail item : table.getItems()) {
 						auxTotal = auxTotal + col_subtotal.getCellObservableValue(item).getValue();
 					}
-					auxTotal = (float) (auxTotal + (auxTotal*0.16));
+					auxTotal = Math.round((float) (auxTotal + (auxTotal*0.16)));
 					labelTotal.setText("IVA 16%\nTotal: " + auxTotal);
 					total = auxTotal;
 					auxTotal = 0;
@@ -316,8 +316,10 @@ public class Save implements Initializable {
 		Optional<String> result = dialog.showAndWait();
 		Alert alert;
 		if (result.isPresent()) {
+			float change = 0;
 			if (Float.parseFloat(result.get()) > total) {
 				MySQLConnection MySQL = new MySQLConnection();
+				int aux = 0;
 				int sell_id = 0;
 				for (Sell_Detail detail : table.getItems()) {
 					String name = col_name.getCellObservableValue(detail).getValue();
@@ -325,15 +327,19 @@ public class Save implements Initializable {
 					int product_id = product.getId();
 					int quantity = col_quantity.getCellObservableValue(detail).getValue();
 					float subtotal = col_subtotal.getCellObservableValue(detail).getValue();
-					sell_id = MySQL.getUltimateSell();
-					sell_id++;
+					change = Math.round(Float.parseFloat(result.get()) - total);
+					int cash_id = MySQL.saveCashRegister();
+					if (aux == 0) {
+						sell_id = MySQL.saveSell(total, Float.parseFloat(result.get()), change, cash_id);
+						aux++;
+					}
+					System.out.println("CASH ID: "+cash_id+"\nSell ID: "+sell_id);
 					if (MySQL.saveDetails(product_id, quantity, subtotal, sell_id) == false) {
 						alert = new Alert(AlertType.ERROR, "Ocurrio un error al guardar el detalle", ButtonType.OK);
 						alert.showAndWait();
 						break;
 					}
 				}
-				float change = Float.parseFloat(result.get()) - total;
 				alert = new Alert(AlertType.INFORMATION, "Compra realizada con exito!", ButtonType.OK);
 				alert.setContentText("Su cambio es de: " + change);
 				alert.showAndWait();

@@ -326,12 +326,12 @@ public class MySQLConnection {
 		ObservableList<Product> listProducts = FXCollections.observableArrayList();
 		ResultSet rs;
 		Statement statement;
-		String query = "SELECT id, name, price, quantify FROM farmacialegado.products";
+		String query = "SELECT id, name, price, quantity FROM farmacialegado.products";
 		statement = (Statement) connection.createStatement();
 		rs = statement.executeQuery(query);
 		while (rs.next()) {
 			listProducts.add(
-					new Product(rs.getInt("id"), rs.getString("name"), rs.getFloat("price"), rs.getInt("quantify")));
+					new Product(rs.getInt("id"), rs.getString("name"), rs.getFloat("price"), rs.getInt("quantity")));
 		}
 		return listProducts;
 	}
@@ -355,11 +355,11 @@ public class MySQLConnection {
 		Product product = null;
 		ResultSet rs;
 		Statement statement;
-		String query = "SELECT id, name, price, quantify FROM farmacialegado.products WHERE name = '" + name + "'";
+		String query = "SELECT id, name, price, quantity FROM farmacialegado.products WHERE name = '" + name + "'";
 		statement = (Statement) connection.createStatement();
 		rs = statement.executeQuery(query);
 		if (rs.next())
-			product = new Product(rs.getInt("id"), rs.getString("name"), rs.getFloat("price"), rs.getInt("quantify"));
+			product = new Product(rs.getInt("id"), rs.getString("name"), rs.getFloat("price"), rs.getInt("quantity"));
 		return product;
 	}
 
@@ -368,7 +368,7 @@ public class MySQLConnection {
 		connection = getConnection();
 		Timestamp created = generateTimestamp();
 		Statement statement = (Statement) connection.createStatement();
-		String query = "INSERT INTO farmacialegado.products(name, description, image, price, quantify, provider_id, category_id, created_at) VALUES"
+		String query = "INSERT INTO farmacialegado.products(name, description, image, price, quantity, provider_id, category_id, created_at) VALUES"
 				+ " ('" + name + "','" + description + "','" + image + "','" + price + "','" + quantity + "','"
 				+ provider + "','" + category + "','" + created + "')";
 		statement.executeUpdate(query);
@@ -378,7 +378,7 @@ public class MySQLConnection {
 	public int editProductImage(int pk, String name, String description, float price, int quantity, int provider_id,
 			int category_id, String image) throws SQLException {
 		connection = getConnection();
-		String query = "UPDATE farmacialegado.products SET name=?, description=?, price=?, quantify=?, provider_id=?, category_id=?, image=? WHERE id = ?";
+		String query = "UPDATE farmacialegado.products SET name=?, description=?, price=?, quantity=?, provider_id=?, category_id=?, image=? WHERE id = ?";
 		PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
 		ps.setString(1, name);
 		ps.setString(2, description);
@@ -394,7 +394,7 @@ public class MySQLConnection {
 	public int editProduct(int pk, String name, String description, float price, int quantity, int provider_id,
 			int category_id) throws SQLException {
 		connection = getConnection();
-		String query = "UPDATE farmacialegado.products SET name=?, description=?, price=?, quantify=?, provider_id=?, category_id=? WHERE id = ?";
+		String query = "UPDATE farmacialegado.products SET name=?, description=?, price=?, quantity=?, provider_id=?, category_id=? WHERE id = ?";
 		PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
 		ps.setString(1, name);
 		ps.setString(2, description);
@@ -411,12 +411,12 @@ public class MySQLConnection {
 		Product product = null;
 		ResultSet rs;
 		Statement statement;
-		String query = "SELECT id, name, description, image, price, quantify, category_id, provider_id FROM farmacialegado.products WHERE id = "
+		String query = "SELECT id, name, description, image, price, quantity, category_id, provider_id FROM farmacialegado.products WHERE id = "
 				+ pk;
 		statement = (Statement) connection.createStatement();
 		rs = statement.executeQuery(query);
 		if (rs.next()) {
-			product = new Product(rs.getInt("id"), rs.getString("name"), rs.getFloat("price"), rs.getInt("quantify"));
+			product = new Product(rs.getInt("id"), rs.getString("name"), rs.getFloat("price"), rs.getInt("quantity"));
 			product.setImage(rs.getString("image"));
 			product.setDescription(rs.getString("description"));
 			product.setcategory_id(rs.getInt("category_id"));
@@ -433,51 +433,55 @@ public class MySQLConnection {
 		return statement.executeUpdate(query);
 	}
 
-	public int getUltimateSell() throws SQLException {
-		connection = getConnection();
-		ResultSet rs;
-		Statement statement;
-		String query = "SELECT * FROM sells ORDER BY id DESC LIMIT 1";
-		statement = (Statement) connection.createStatement();
-		rs = statement.executeQuery(query);
-		if (rs.next())
-			return rs.getInt("id");
-		else
-			return 0;
-	}
-
 	public boolean saveDetails(int product_id, int quantity, float subtotal, int sell_id) throws SQLException {
 		connection = getConnection();
 		Timestamp created = generateTimestamp();
 		Statement statement = (Statement) connection.createStatement();
-		String query = "INSERT INTO farmacialegado.sell_details(product_id, quantify, subtotal, sell_id, created_at) VALUES"
+		String query = "INSERT INTO farmacialegado.sell_details(product_id, quantity, subtotal, sell_id, created_at) VALUES"
 				+ " ('" + product_id + "','" + quantity + "','" + subtotal + "','" + sell_id + "','" + created + "')";
 		statement.executeUpdate(query);
 		return true;
 	}
 
-	public boolean saveSell(float total, float money, float change, int cash_id) throws SQLException {
+	public int saveSell(float total, float money, float change, int cash_id) throws SQLException {
 		connection = getConnection();
-		float IVA = 16;
+		float IVA = Float.parseFloat("16");
 		Timestamp created = generateTimestamp();
+		ResultSet rs;
+		int result = 0;
 		Statement statement = (Statement) connection.createStatement();
 		String query = "INSERT INTO farmacialegado.sells(IVA, total, incoming, output, cash_register_id, created_at) VALUES ('"
-				+ IVA + "','" + total + "','" + money + "','" + change + "','" + cash_id + "','" + cash_id + "','"
-				+ created + "')";
-		statement.executeUpdate(query);
-		return true;
+				+ IVA + "','" + total + "','" + money + "','" + change + "','" + cash_id + "','" + created + "')";
+		result = statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+		if (result == 0)
+			throw new SQLException("No se pudo guardar");
+		rs = statement.getGeneratedKeys();
+		if (rs.next())
+			result = rs.getInt(1);
+		return result;
 	}
-	
-	public int getUltimateCashRegister() throws SQLException {
+
+	public int saveCashRegister() throws SQLException {
 		connection = getConnection();
+		Timestamp created = generateTimestamp();
 		ResultSet rs;
+		int result = 0;
 		Statement statement;
-		String query = "SELECT * FROM cash_register ORDER BY id DESC LIMIT 1";
+		String query = "SELECT id FROM cash_register WHERE `status` = 0 ORDER BY created_at DESC limit 1";
 		statement = (Statement) connection.createStatement();
 		rs = statement.executeQuery(query);
 		if (rs.next())
-			return rs.getInt("id");
-		else
-			return 0;
+			result = rs.getInt(1);
+		else {
+			query = "INSERT INTO cash_register(total, status, created_at) VALUES ('" + 0 + "','" + 0 + "','"
+					+ created + "')";
+			result = statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+			if (result == 0)
+				throw new SQLException("No se pudo guardar");
+			rs = statement.getGeneratedKeys();
+			if (rs.next())
+				result = rs.getInt(1);
+		}
+		return result;
 	}
 }
