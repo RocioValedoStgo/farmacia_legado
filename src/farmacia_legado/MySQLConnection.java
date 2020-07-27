@@ -37,7 +37,7 @@ public class MySQLConnection {
 		}
 		return connection;
 	}
-	
+
 	public boolean login(String username, String password) throws SQLException {
 		connection = getConnection();
 		ResultSet rs;
@@ -48,14 +48,16 @@ public class MySQLConnection {
 		pstatement.setString(2, pwdEncrypted);
 		rs = pstatement.executeQuery();
 		if (rs.next()) {
-			setUserLogged(rs.getString("name"), rs.getString("last_name"), rs.getString("username"), rs.getString("email"));
+			setUserLogged(rs.getString("name"), rs.getString("last_name"), rs.getString("username"),
+					rs.getString("email"));
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
-	public boolean register(boolean action, String name, String last_name, String username, String phone, String turn, int rol, String email, String password) throws SQLException {
+
+	public boolean register(boolean action, String name, String last_name, String username, String phone, String turn,
+			int rol, String email, String password) throws SQLException {
 		connection = getConnection();
 		int auxRol = 3;
 		if (login(username, password)) {
@@ -65,7 +67,8 @@ public class MySQLConnection {
 			Timestamp created = generateTimestamp();
 			Statement statement = (Statement) connection.createStatement();
 			String query = "INSERT INTO farmacialegado.users(name, last_name, username, phone, turn, rol, email, password, created_at) VALUES"
-					+ " ('"+name+"','"+last_name+"','"+username+"','"+phone+"','"+turn+"','"+auxRol+"','"+email+"','"+pwdEncrypted+"','"+created+"')";
+					+ " ('" + name + "','" + last_name + "','" + username + "','" + phone + "','" + turn + "','"
+					+ auxRol + "','" + email + "','" + pwdEncrypted + "','" + created + "')";
 			statement.executeUpdate(query);
 			if (action) {
 				setUserLogged(name, last_name, username, email);
@@ -73,7 +76,7 @@ public class MySQLConnection {
 			return true;
 		}
 	}
-	
+
 	public ObservableList<User> indexUsers() throws SQLException {
 		connection = getConnection();
 		ObservableList<User> listUsers = FXCollections.observableArrayList();
@@ -83,12 +86,15 @@ public class MySQLConnection {
 		statement = (Statement) connection.createStatement();
 		rs = statement.executeQuery(query);
 		while (rs.next()) {
-			listUsers.add(new User(rs.getInt("ID"), String.valueOf(rs.getString("name")+" "+rs.getString("last_name")), rs.getString("turn"), rs.getInt("rol")));
+			listUsers.add(
+					new User(rs.getInt("ID"), String.valueOf(rs.getString("name") + " " + rs.getString("last_name")),
+							rs.getString("turn"), rs.getInt("rol")));
 		}
 		return listUsers;
 	}
-	
-	public int editUser(int pk, String name, String last_name, String username, String phone, String email, String turn) throws SQLException {
+
+	public int editUser(int pk, String name, String last_name, String username, String phone, String email, String turn)
+			throws SQLException {
 		connection = getConnection();
 		String query = "UPDATE farmacialegado.users SET name=?, last_name=?, username=?, phone=?, email=?, turn=? WHERE id = ?";
 		PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
@@ -101,7 +107,7 @@ public class MySQLConnection {
 		ps.setInt(7, pk);
 		return ps.executeUpdate();
 	}
-	
+
 	public int editRolUser(int pk, int rol) throws SQLException {
 		connection = getConnection();
 		String query = "UPDATE farmacialegado.users SET rol = ? WHERE id = ?";
@@ -110,17 +116,19 @@ public class MySQLConnection {
 		ps.setInt(2, pk);
 		return ps.executeUpdate();
 	}
-	
+
 	public User getUser(int pk) throws SQLException {
 		connection = getConnection();
 		User user = null;
 		ResultSet rs;
 		Statement statement;
-		String query = "SELECT id, name, last_name, username, phone, email, turn, rol FROM farmacialegado.users WHERE id = "+pk;
+		String query = "SELECT id, name, last_name, username, phone, email, turn, rol FROM farmacialegado.users WHERE id = "
+				+ pk;
 		statement = (Statement) connection.createStatement();
 		rs = statement.executeQuery(query);
 		if (rs.next()) {
-			user = new User(rs.getInt("id"), String.valueOf(rs.getString("name") + " " + rs.getString("last_name")), rs.getString("turn"), rs.getInt("rol"));
+			user = new User(rs.getInt("id"), String.valueOf(rs.getString("name") + " " + rs.getString("last_name")),
+					rs.getString("turn"), rs.getInt("rol"));
 			user.setName(rs.getString("name"));
 			user.setLast_name(rs.getString("last_name"));
 			user.setUsername(rs.getString("username"));
@@ -129,34 +137,34 @@ public class MySQLConnection {
 		}
 		return user;
 	}
-	
+
 	public int destroyUser(Integer id) throws SQLException {
 		connection = getConnection();
 		Statement statement;
-		String query = "DELETE FROM farmacialegado.users WHERE farmacialegado.users.id = "+ id;
+		String query = "DELETE FROM farmacialegado.users WHERE farmacialegado.users.id = " + id;
 		statement = (Statement) connection.createStatement();
 		return statement.executeUpdate(query);
 	}
-	
+
 	private void setUserLogged(String name, String last_name, String username, String email) {
 		User_fullname = name + " " + last_name;
 		User_username = username;
 		User_email = email;
 	}
-	
+
 	private String encryptedPassword(String password) {
-        byte[] palabra = password.getBytes();
-        String pwdEncrypt = Base64.getEncoder().encodeToString(palabra);
-        return pwdEncrypt;
-    }
-	
+		byte[] palabra = password.getBytes();
+		String pwdEncrypt = Base64.getEncoder().encodeToString(palabra);
+		return pwdEncrypt;
+	}
+
 	private Timestamp generateTimestamp() {
-        Date date = new Date();
-        long time = date.getTime();
-        Timestamp ts = new Timestamp(time);
-        return ts;
-    }
-	
+		Date date = new Date();
+		long time = date.getTime();
+		Timestamp ts = new Timestamp(time);
+		return ts;
+	}
+
 	public ObservableList<Category> indexCategories() throws SQLException {
 		connection = getConnection();
 		ObservableList<Category> listCategories = FXCollections.observableArrayList();
@@ -170,7 +178,7 @@ public class MySQLConnection {
 		}
 		return listCategories;
 	}
-	
+
 	public ArrayList<String> getCategories() throws SQLException {
 		connection = getConnection();
 		ArrayList<String> listCategories = new ArrayList<>();
@@ -180,32 +188,32 @@ public class MySQLConnection {
 		statement = (Statement) connection.createStatement();
 		rs = statement.executeQuery(query);
 		while (rs.next()) {
-			listCategories.add(String.valueOf(rs.getInt("id")+" "+rs.getString("name")));
+			listCategories.add(String.valueOf(rs.getInt("id") + " " + rs.getString("name")));
 		}
 		return listCategories;
 	}
-	
+
 	public boolean saveCategory(String name, int father_id, String image) throws SQLException {
 		connection = getConnection();
 		Timestamp created = generateTimestamp();
 		Statement statement = (Statement) connection.createStatement();
-		String query = "INSERT INTO farmacialegado.categories(name, father_id, image, created_at) VALUES"
-				+ " ('"+name+"','"+father_id+"','"+image+"','"+created+"')";
+		String query = "INSERT INTO farmacialegado.categories(name, father_id, image, created_at) VALUES" + " ('" + name
+				+ "','" + father_id + "','" + image + "','" + created + "')";
 		statement.executeUpdate(query);
 		return true;
 	}
-	
+
 	public int editCategoryImage(int pk, String name, int father_id, String image) throws SQLException {
 		connection = getConnection();
-        String query = "UPDATE farmacialegado.categories SET name=?, father_id=?, image=? WHERE id = ?";
-        PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
-        ps.setString(1, name);
-        ps.setInt(2, father_id);
-        ps.setString(3, image);
-        ps.setInt(4, pk);
-        return ps.executeUpdate();
+		String query = "UPDATE farmacialegado.categories SET name=?, father_id=?, image=? WHERE id = ?";
+		PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
+		ps.setString(1, name);
+		ps.setInt(2, father_id);
+		ps.setString(3, image);
+		ps.setInt(4, pk);
+		return ps.executeUpdate();
 	}
-	
+
 	public int editCategory(int pk, String name, int father_id) throws SQLException {
 		connection = getConnection();
 		String query = "UPDATE farmacialegado.categories SET name=?, father_id=? WHERE id = ?";
@@ -215,13 +223,13 @@ public class MySQLConnection {
 		ps.setInt(3, pk);
 		return ps.executeUpdate();
 	}
-	
+
 	public Category getCategory(int pk) throws SQLException {
 		connection = getConnection();
 		Category category = null;
 		ResultSet rs;
 		Statement statement;
-		String query = "SELECT id, name, father_id, image FROM farmacialegado.categories WHERE id = "+pk;
+		String query = "SELECT id, name, father_id, image FROM farmacialegado.categories WHERE id = " + pk;
 		statement = (Statement) connection.createStatement();
 		rs = statement.executeQuery(query);
 		if (rs.next()) {
@@ -230,15 +238,15 @@ public class MySQLConnection {
 		}
 		return category;
 	}
-	
+
 	public int destroyCategory(Integer id) throws SQLException {
 		connection = getConnection();
 		Statement statement;
-		String query = "DELETE FROM farmacialegado.categories WHERE farmacialegado.categories.id = "+ id;
+		String query = "DELETE FROM farmacialegado.categories WHERE farmacialegado.categories.id = " + id;
 		statement = (Statement) connection.createStatement();
 		return statement.executeUpdate(query);
 	}
-	
+
 	public ObservableList<Provider> indexProviders() throws SQLException {
 		connection = getConnection();
 		ObservableList<Provider> listProviders = FXCollections.observableArrayList();
@@ -248,11 +256,12 @@ public class MySQLConnection {
 		statement = (Statement) connection.createStatement();
 		rs = statement.executeQuery(query);
 		while (rs.next()) {
-			listProviders.add(new Provider(rs.getInt("id"), rs.getString("name"), rs.getString("address"), rs.getString("email"), rs.getString("phone")));
+			listProviders.add(new Provider(rs.getInt("id"), rs.getString("name"), rs.getString("address"),
+					rs.getString("email"), rs.getString("phone")));
 		}
 		return listProviders;
 	}
-	
+
 	public ArrayList<String> getProviders() throws SQLException {
 		connection = getConnection();
 		ArrayList<String> listProviders = new ArrayList<>();
@@ -262,36 +271,37 @@ public class MySQLConnection {
 		statement = (Statement) connection.createStatement();
 		rs = statement.executeQuery(query);
 		while (rs.next()) {
-			listProviders.add(String.valueOf(rs.getInt("id")+" "+rs.getString("name")));
+			listProviders.add(String.valueOf(rs.getInt("id") + " " + rs.getString("name")));
 		}
 		return listProviders;
 	}
-	
+
 	public boolean saveProvider(String name, String address, String phone, String email) throws SQLException {
 		connection = getConnection();
 		Timestamp created = generateTimestamp();
 		Statement statement = (Statement) connection.createStatement();
-		String query = "INSERT INTO farmacialegado.providers(name, address, phone, email, created_at) VALUES"
-				+ " ('"+name+"','"+address+"','"+phone+"','"+email+"','"+created+"')";
+		String query = "INSERT INTO farmacialegado.providers(name, address, phone, email, created_at) VALUES" + " ('"
+				+ name + "','" + address + "','" + phone + "','" + email + "','" + created + "')";
 		statement.executeUpdate(query);
 		return true;
 	}
-	
+
 	public Provider getProvider(int pk) throws SQLException {
 		connection = getConnection();
 		Provider provider = null;
 		ResultSet rs;
 		Statement statement;
-		String query = "SELECT id, name, address, phone, email FROM farmacialegado.providers WHERE id = "+pk;
+		String query = "SELECT id, name, address, phone, email FROM farmacialegado.providers WHERE id = " + pk;
 		statement = (Statement) connection.createStatement();
 		rs = statement.executeQuery(query);
 		if (rs.next()) {
-			provider = new Provider(rs.getInt("id"), rs.getString("name"), rs.getString("address"), rs.getString("email"), rs.getString("phone"));
+			provider = new Provider(rs.getInt("id"), rs.getString("name"), rs.getString("address"),
+					rs.getString("email"), rs.getString("phone"));
 		}
 		return provider;
 	}
-	
-	public int editProvider (int pk, String name, String address, String phone, String email) throws SQLException {
+
+	public int editProvider(int pk, String name, String address, String phone, String email) throws SQLException {
 		connection = getConnection();
 		String query = "UPDATE farmacialegado.providers SET name=?, address=?, phone=?, email=? WHERE id = ?";
 		PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
@@ -302,15 +312,15 @@ public class MySQLConnection {
 		ps.setInt(5, pk);
 		return ps.executeUpdate();
 	}
-	
+
 	public int destroyProvider(Integer id) throws SQLException {
 		connection = getConnection();
 		Statement statement;
-		String query = "DELETE FROM farmacialegado.providers WHERE farmacialegado.providers.id = "+ id;
+		String query = "DELETE FROM farmacialegado.providers WHERE farmacialegado.providers.id = " + id;
 		statement = (Statement) connection.createStatement();
 		return statement.executeUpdate(query);
 	}
-	
+
 	public ObservableList<Product> indexProducts() throws SQLException {
 		connection = getConnection();
 		ObservableList<Product> listProducts = FXCollections.observableArrayList();
@@ -320,17 +330,18 @@ public class MySQLConnection {
 		statement = (Statement) connection.createStatement();
 		rs = statement.executeQuery(query);
 		while (rs.next()) {
-			listProducts.add(new Product(rs.getInt("id"), rs.getString("name"), rs.getFloat("price"), rs.getInt("quantify")));
+			listProducts.add(
+					new Product(rs.getInt("id"), rs.getString("name"), rs.getFloat("price"), rs.getInt("quantify")));
 		}
 		return listProducts;
 	}
-	
+
 	public ArrayList<String> getProducts() throws SQLException {
 		connection = getConnection();
 		ArrayList<String> products = new ArrayList<>();
 		ResultSet rs;
 		Statement statement;
-		String query ="SELECT name FROM farmacialegado.products";
+		String query = "SELECT name FROM farmacialegado.products";
 		statement = (Statement) connection.createStatement();
 		rs = statement.executeQuery(query);
 		while (rs.next()) {
@@ -338,65 +349,70 @@ public class MySQLConnection {
 		}
 		return products;
 	}
-	
+
 	public Product getProduct(String name) throws SQLException {
 		connection = getConnection();
 		Product product = null;
 		ResultSet rs;
 		Statement statement;
-		String query = "SELECT id, name, price, quantify FROM farmacialegado.products WHERE name = '"+name+"'";
+		String query = "SELECT id, name, price, quantify FROM farmacialegado.products WHERE name = '" + name + "'";
 		statement = (Statement) connection.createStatement();
 		rs = statement.executeQuery(query);
 		if (rs.next())
 			product = new Product(rs.getInt("id"), rs.getString("name"), rs.getFloat("price"), rs.getInt("quantify"));
 		return product;
 	}
-	
-	public boolean saveProduct(String name, String description, String image, float price, int quantity, int provider, int category) throws SQLException {
+
+	public boolean saveProduct(String name, String description, String image, float price, int quantity, int provider,
+			int category) throws SQLException {
 		connection = getConnection();
 		Timestamp created = generateTimestamp();
 		Statement statement = (Statement) connection.createStatement();
 		String query = "INSERT INTO farmacialegado.products(name, description, image, price, quantify, provider_id, category_id, created_at) VALUES"
-				+ " ('"+name+"','"+description+"','"+image+"','"+price+"','"+quantity+"','"+provider+"','"+category+"','"+created+"')";
+				+ " ('" + name + "','" + description + "','" + image + "','" + price + "','" + quantity + "','"
+				+ provider + "','" + category + "','" + created + "')";
 		statement.executeUpdate(query);
 		return true;
 	}
-	
-	public int editProductImage(int pk, String name, String description, float price, int quantity, int provider_id, int category_id, String image) throws SQLException {
+
+	public int editProductImage(int pk, String name, String description, float price, int quantity, int provider_id,
+			int category_id, String image) throws SQLException {
 		connection = getConnection();
-        String query = "UPDATE farmacialegado.products SET name=?, description=?, price=?, quantify=?, provider_id=?, category_id=?, image=? WHERE id = ?";
-        PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
-        ps.setString(1, name);
-        ps.setString(2, description);
-        ps.setFloat(3, price);
-        ps.setInt(4, quantity);
-        ps.setInt(5, provider_id);
-        ps.setInt(6, category_id);
-        ps.setString(7, image);
-        ps.setInt(8, pk);
-        return ps.executeUpdate();
+		String query = "UPDATE farmacialegado.products SET name=?, description=?, price=?, quantify=?, provider_id=?, category_id=?, image=? WHERE id = ?";
+		PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
+		ps.setString(1, name);
+		ps.setString(2, description);
+		ps.setFloat(3, price);
+		ps.setInt(4, quantity);
+		ps.setInt(5, provider_id);
+		ps.setInt(6, category_id);
+		ps.setString(7, image);
+		ps.setInt(8, pk);
+		return ps.executeUpdate();
 	}
-	
-	public int editProduct(int pk, String name, String description, float price, int quantity, int provider_id, int category_id) throws SQLException {
+
+	public int editProduct(int pk, String name, String description, float price, int quantity, int provider_id,
+			int category_id) throws SQLException {
 		connection = getConnection();
 		String query = "UPDATE farmacialegado.products SET name=?, description=?, price=?, quantify=?, provider_id=?, category_id=? WHERE id = ?";
-        PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
-        ps.setString(1, name);
-        ps.setString(2, description);
-        ps.setFloat(3, price);
-        ps.setInt(4, quantity);
-        ps.setInt(5, provider_id);
-        ps.setInt(6, category_id);
-        ps.setInt(7, pk);
-        return ps.executeUpdate();
+		PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
+		ps.setString(1, name);
+		ps.setString(2, description);
+		ps.setFloat(3, price);
+		ps.setInt(4, quantity);
+		ps.setInt(5, provider_id);
+		ps.setInt(6, category_id);
+		ps.setInt(7, pk);
+		return ps.executeUpdate();
 	}
-	
+
 	public Product getProduct(int pk) throws SQLException {
 		connection = getConnection();
 		Product product = null;
 		ResultSet rs;
 		Statement statement;
-		String query = "SELECT id, name, description, image, price, quantify, category_id, provider_id FROM farmacialegado.products WHERE id = "+pk;
+		String query = "SELECT id, name, description, image, price, quantify, category_id, provider_id FROM farmacialegado.products WHERE id = "
+				+ pk;
 		statement = (Statement) connection.createStatement();
 		rs = statement.executeQuery(query);
 		if (rs.next()) {
@@ -408,12 +424,60 @@ public class MySQLConnection {
 		}
 		return product;
 	}
-	
+
 	public int destroyProduct(Integer id) throws SQLException {
 		connection = getConnection();
 		Statement statement;
-		String query = "DELETE FROM farmacialegado.products WHERE farmacialegado.products.id = "+ id;
+		String query = "DELETE FROM farmacialegado.products WHERE farmacialegado.products.id = " + id;
 		statement = (Statement) connection.createStatement();
 		return statement.executeUpdate(query);
+	}
+
+	public int getUltimateSell() throws SQLException {
+		connection = getConnection();
+		ResultSet rs;
+		Statement statement;
+		String query = "SELECT * FROM sells ORDER BY id DESC LIMIT 1";
+		statement = (Statement) connection.createStatement();
+		rs = statement.executeQuery(query);
+		if (rs.next())
+			return rs.getInt("id");
+		else
+			return 0;
+	}
+
+	public boolean saveDetails(int product_id, int quantity, float subtotal, int sell_id) throws SQLException {
+		connection = getConnection();
+		Timestamp created = generateTimestamp();
+		Statement statement = (Statement) connection.createStatement();
+		String query = "INSERT INTO farmacialegado.sell_details(product_id, quantify, subtotal, sell_id, created_at) VALUES"
+				+ " ('" + product_id + "','" + quantity + "','" + subtotal + "','" + sell_id + "','" + created + "')";
+		statement.executeUpdate(query);
+		return true;
+	}
+
+	public boolean saveSell(float total, float money, float change, int cash_id) throws SQLException {
+		connection = getConnection();
+		float IVA = 16;
+		Timestamp created = generateTimestamp();
+		Statement statement = (Statement) connection.createStatement();
+		String query = "INSERT INTO farmacialegado.sells(IVA, total, incoming, output, cash_register_id, created_at) VALUES ('"
+				+ IVA + "','" + total + "','" + money + "','" + change + "','" + cash_id + "','" + cash_id + "','"
+				+ created + "')";
+		statement.executeUpdate(query);
+		return true;
+	}
+	
+	public int getUltimateCashRegister() throws SQLException {
+		connection = getConnection();
+		ResultSet rs;
+		Statement statement;
+		String query = "SELECT * FROM cash_register ORDER BY id DESC LIMIT 1";
+		statement = (Statement) connection.createStatement();
+		rs = statement.executeQuery(query);
+		if (rs.next())
+			return rs.getInt("id");
+		else
+			return 0;
 	}
 }
