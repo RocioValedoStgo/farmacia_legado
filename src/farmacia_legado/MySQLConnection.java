@@ -13,6 +13,7 @@ import com.mysql.jdbc.Statement;
 import farmacia_legado.Models.Category;
 import farmacia_legado.Models.Product;
 import farmacia_legado.Models.Provider;
+import farmacia_legado.Models.Sell_Detail;
 import farmacia_legado.Models.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -461,6 +462,23 @@ public class MySQLConnection {
 		return result;
 	}
 
+	public ObservableList<Sell_Detail> indexSell(int pkSell) throws SQLException {
+		connection = getConnection();
+		ObservableList<Sell_Detail> listDetails = FXCollections.observableArrayList();
+		ResultSet rs;
+		Statement statement;
+		String query = "SELECT products.name, products.price, details.quantity, details.subtotal, sells.total FROM sell_details as details\r\n"
+				+ "JOIN sells\r\n" + "JOIN products\r\n"
+				+ "WHERE details.sell_id = sells.id and sells.id = "+pkSell+" and details.product_id = products.id";
+		statement = (Statement) connection.createStatement();
+		rs = statement.executeQuery(query);
+		while (rs.next()) {
+			listDetails.add(
+					new Sell_Detail(rs.getString("name"), rs.getFloat("price"), rs.getInt("quantity"), rs.getFloat("subtotal"), rs.getFloat("total")));
+		}
+		return listDetails;
+	}
+
 	public int saveCashRegister() throws SQLException {
 		connection = getConnection();
 		Timestamp created = generateTimestamp();
@@ -473,8 +491,8 @@ public class MySQLConnection {
 		if (rs.next())
 			result = rs.getInt(1);
 		else {
-			query = "INSERT INTO cash_register(total, status, created_at) VALUES ('" + 0 + "','" + 0 + "','"
-					+ created + "')";
+			query = "INSERT INTO cash_register(total, status, created_at) VALUES ('" + 0 + "','" + 0 + "','" + created
+					+ "')";
 			result = statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
 			if (result == 0)
 				throw new SQLException("No se pudo guardar");

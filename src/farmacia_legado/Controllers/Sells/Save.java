@@ -91,6 +91,7 @@ public class Save implements Initializable {
 	private MenuItem optionLogOut; // Value injected by FXMLLoader
 
 	private ObservableList<Sell_Detail> listDetails = FXCollections.observableArrayList();
+	private float subtotal = 0;
 	private float auxTotal = 0;
 	private float total = 0;
 
@@ -118,7 +119,7 @@ public class Save implements Initializable {
 			col_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 			col_subtotal.setCellValueFactory(new PropertyValueFactory<>("subtotal"));
 			menuButton.setText(MySQLConnection.User_username);
-			labelTotal.setText("IVA: 16%\nTotal: 0");
+			labelTotal.setText("Subtotal: $0\nIVA: 16%\nTotal: $0");
 			TextFields.bindAutoCompletion(input_name_product, MySQL.getProducts());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -139,11 +140,13 @@ public class Save implements Initializable {
 							float auxTotal = 0;
 							for (Sell_Detail item : table.getItems()) {
 								auxTotal = auxTotal + col_subtotal.getCellObservableValue(item).getValue();
+								subtotal = subtotal + col_subtotal.getCellObservableValue(item).getValue();
 							}
-							auxTotal = Math.round((float) (auxTotal + (auxTotal*0.16)));
-							labelTotal.setText("IVA 16%\nTotal: "+auxTotal);
+							auxTotal = (float) (auxTotal + (auxTotal * 0.16));
+							labelTotal.setText("Subtotal: $" + subtotal + "\nIVA 16%\nTotal: $" + auxTotal);
 							total = auxTotal;
 							auxTotal = 0;
+							subtotal = 0;
 						});
 					}
 
@@ -193,11 +196,13 @@ public class Save implements Initializable {
 					table.setItems(listDetails);
 					for (Sell_Detail item : table.getItems()) {
 						auxTotal = auxTotal + col_subtotal.getCellObservableValue(item).getValue();
+						subtotal = subtotal + col_subtotal.getCellObservableValue(item).getValue();
 					}
-					auxTotal = Math.round((float) (auxTotal + (auxTotal*0.16)));
-					labelTotal.setText("IVA 16%\nTotal: " + auxTotal);
+					auxTotal = (float) (auxTotal + (auxTotal * 0.16));
+					labelTotal.setText("Subtotal: $" + subtotal + "\nIVA 16%\nTotal: $" + auxTotal);
 					total = auxTotal;
 					auxTotal = 0;
+					subtotal = 0;
 					input_name_product.setText("");
 				}
 			} else {
@@ -309,7 +314,7 @@ public class Save implements Initializable {
 	}
 
 	@FXML
-	void btnPay(MouseEvent event) throws SQLException {
+	void btnPay(MouseEvent event) throws Exception {
 		TextInputDialog dialog = new TextInputDialog();
 		dialog.setTitle("Realizar compra");
 		dialog.setContentText("Ingrese el monto:");
@@ -333,13 +338,15 @@ public class Save implements Initializable {
 						sell_id = MySQL.saveSell(total, Float.parseFloat(result.get()), change, cash_id);
 						aux++;
 					}
-					System.out.println("CASH ID: "+cash_id+"\nSell ID: "+sell_id);
 					if (MySQL.saveDetails(product_id, quantity, subtotal, sell_id) == false) {
 						alert = new Alert(AlertType.ERROR, "Ocurrio un error al guardar el detalle", ButtonType.OK);
 						alert.showAndWait();
 						break;
 					}
 				}
+				Ticket ticket = new Ticket();
+				Ticket.setPkSell(sell_id);
+				ticket.showView(event);
 				alert = new Alert(AlertType.INFORMATION, "Compra realizada con exito!", ButtonType.OK);
 				alert.setContentText("Su cambio es de: " + change);
 				alert.showAndWait();
