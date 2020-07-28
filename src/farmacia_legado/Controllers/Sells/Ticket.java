@@ -73,7 +73,7 @@ public class Ticket implements Initializable {
 	private MenuItem optionLogOut; // Value injected by FXMLLoader
 
 	private static int pkSell;
-	private static float auxSubtotal;
+	private static float auxSubtotal = 0;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -108,6 +108,7 @@ public class Ticket implements Initializable {
 			}
 			float auxTotal = (float) (auxSubtotal + (auxSubtotal * 0.16));
 			TotalSell.setText("Subtotal: $"+auxSubtotal+"\nIVA: 16%\nTotal: $"+auxTotal);
+			auxSubtotal = 0;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

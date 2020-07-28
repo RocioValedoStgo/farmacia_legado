@@ -13,6 +13,7 @@ import com.mysql.jdbc.Statement;
 import farmacia_legado.Models.Category;
 import farmacia_legado.Models.Product;
 import farmacia_legado.Models.Provider;
+import farmacia_legado.Models.Sell;
 import farmacia_legado.Models.Sell_Detail;
 import farmacia_legado.Models.User;
 import javafx.collections.FXCollections;
@@ -477,6 +478,19 @@ public class MySQLConnection {
 					new Sell_Detail(rs.getString("name"), rs.getFloat("price"), rs.getInt("quantity"), rs.getFloat("subtotal"), rs.getFloat("total")));
 		}
 		return listDetails;
+	}
+	
+	public ObservableList<Sell> indexSells() throws SQLException {
+		connection = getConnection();
+		ObservableList<Sell> listSells = FXCollections.observableArrayList();
+		ResultSet rs;
+		Statement statement;
+		String query = "SELECT id, total, cash_register_id FROM sells";
+		statement = (Statement) connection.createStatement();
+		rs = statement.executeQuery(query);
+		while (rs.next())
+			listSells.add(new Sell(rs.getInt("id"), rs.getFloat("total"), rs.getInt("cash_register_id")));
+		return listSells;
 	}
 
 	public int saveCashRegister() throws SQLException {

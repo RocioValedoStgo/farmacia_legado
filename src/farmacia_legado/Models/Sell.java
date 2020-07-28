@@ -9,7 +9,15 @@ public class Sell {
 	private float total;
 	private float incoming;
 	private float output;
+	private int cash_id;
 	private Timestamp created;
+	
+	public Sell(int id, float total, int cash_id) {
+		this.id = id;
+		this.total = total;
+		this.cash_id = cash_id;
+	}
+	
 	/**
 	 * @return the id
 	 */
@@ -81,5 +89,19 @@ public class Sell {
 	 */
 	public void setCreated(Timestamp created) {
 		this.created = created;
+	}
+
+	/**
+	 * @return the cash_id
+	 */
+	public int getCash_id() {
+		return cash_id;
+	}
+
+	/**
+	 * @param cash_id the cash_id to set
+	 */
+	public void setCash_id(int cash_id) {
+		this.cash_id = cash_id;
 	}
 }
