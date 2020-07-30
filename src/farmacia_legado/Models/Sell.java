@@ -1,6 +1,7 @@
 package farmacia_legado.Models;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class Sell {
 	
@@ -10,12 +11,19 @@ public class Sell {
 	private float incoming;
 	private float output;
 	private int cash_id;
-	private Timestamp created;
+	private String created;
 	
 	public Sell(int id, float total, int cash_id) {
 		this.id = id;
 		this.total = total;
 		this.cash_id = cash_id;
+	}
+	
+	public Sell(int id, float total, Timestamp created) {
+		this.id = id;
+		this.total = total;
+		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		this.created = format.format(created);
 	}
 	
 	/**
@@ -81,14 +89,15 @@ public class Sell {
 	/**
 	 * @return the created
 	 */
-	public Timestamp getCreated() {
+	public String getCreated() {
 		return created;
 	}
 	/**
 	 * @param created the created to set
 	 */
 	public void setCreated(Timestamp created) {
-		this.created = created;
+		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		this.created = format.format(created);
 	}
 
 	/**

@@ -10,6 +10,7 @@ import java.util.Base64;
 import java.util.Date;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
+import farmacia_legado.Models.Cash_Register;
 import farmacia_legado.Models.Category;
 import farmacia_legado.Models.Product;
 import farmacia_legado.Models.Provider;
@@ -485,12 +486,40 @@ public class MySQLConnection {
 		ObservableList<Sell> listSells = FXCollections.observableArrayList();
 		ResultSet rs;
 		Statement statement;
-		String query = "SELECT id, total, cash_register_id FROM sells";
+		String query = "SELECT id, total, cash_register_id FROM sells ORDER BY created_at DESC";
 		statement = (Statement) connection.createStatement();
 		rs = statement.executeQuery(query);
 		while (rs.next())
 			listSells.add(new Sell(rs.getInt("id"), rs.getFloat("total"), rs.getInt("cash_register_id")));
 		return listSells;
+	}
+	
+	public ObservableList<Sell> getSells(int pk) throws SQLException {
+		connection = getConnection();
+		ObservableList<Sell> listSells = FXCollections.observableArrayList();
+		ResultSet rs;
+		Statement statement;
+		String query = "SELECT sells.id, sells.total, sells.created_at FROM cash_register\r\n" + 
+				"JOIN sells\r\n" + 
+				"WHERE sells.cash_register_id = cash_register.id and cash_register.id = "+pk;
+		statement = (Statement) connection.createStatement();
+		rs = statement.executeQuery(query);
+		while (rs.next())
+			listSells.add(new Sell(rs.getInt("id"), rs.getFloat("total"), rs.getInt("created_at")));
+		return listSells;
+	}
+	
+	public ObservableList<Cash_Register> indexCashs() throws SQLException {
+		connection = getConnection();
+		ObservableList<Cash_Register> listCashs = FXCollections.observableArrayList();
+		ResultSet rs;
+		Statement statement;
+		String query = "SELECT id, total, close, created_at FROM cash_register WHERE `status` = 0 ORDER BY created_at DESC";
+		statement = (Statement) connection.createStatement();
+		rs = statement.executeQuery(query);
+		while (rs.next())
+			listCashs.add(new Cash_Register(rs.getInt("id"), rs.getFloat("total"), rs.getTimestamp("close"), rs.getTimestamp("created_at")));
+		return listCashs;
 	}
 
 	public int saveCashRegister() throws SQLException {

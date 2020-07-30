@@ -1,21 +1,31 @@
 package farmacia_legado.Models;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class Cash_Register {
 	
 	private int id;
 	private float total;
 	private boolean status;
-	private Timestamp close;
-	private Timestamp created;
+	private String close;
+	private String created;
 	
 	public Cash_Register(float total, boolean status, Timestamp close) {
 		this.total = total;
 		this.status = status;
-		this.close = close;
+		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		this.close = format.format(close);
 	}
-
+	
+	public Cash_Register(int id, float total, Timestamp close, Timestamp created) {
+		this.id = id;
+		this.total = total;
+		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		this.close = format.format(close);
+		this.created = format.format(created);
+	}
+	
 	/**
 	 * @return the id
 	 */
@@ -61,7 +71,7 @@ public class Cash_Register {
 	/**
 	 * @return the close
 	 */
-	public Timestamp getClose() {
+	public String getClose() {
 		return close;
 	}
 
@@ -69,13 +79,14 @@ public class Cash_Register {
 	 * @param close the close to set
 	 */
 	public void setClose(Timestamp close) {
-		this.close = close;
+		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		this.close = format.format(close);
 	}
 
 	/**
 	 * @return the created
 	 */
-	public Timestamp getCreated() {
+	public String getCreated() {
 		return created;
 	}
 
@@ -83,6 +94,7 @@ public class Cash_Register {
 	 * @param created the created to set
 	 */
 	public void setCreated(Timestamp created) {
-		this.created = created;
+		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		this.created = format.format(created);
 	}
 }
