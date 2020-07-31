@@ -119,6 +119,16 @@ public class MySQLConnection {
 		ps.setInt(2, pk);
 		return ps.executeUpdate();
 	}
+	
+	public int editPwdUser(int pk, String newPwd) throws SQLException {
+		connection = getConnection();
+		String pwdEncrypted = encryptedPassword(newPwd);
+		String query = "UPDATE farmacialegado.users SET password = ? WHERE id = ?";
+		PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
+		ps.setString(1, pwdEncrypted);
+		ps.setInt(2, pk);
+		return ps.executeUpdate();
+	}
 
 	public User getUser(int pk) throws SQLException {
 		connection = getConnection();

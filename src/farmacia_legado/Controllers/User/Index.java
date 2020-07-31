@@ -16,7 +16,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -25,18 +24,15 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -215,28 +211,14 @@ public class Index implements Initializable {
 					{
 						btn.setOnAction((ActionEvent event) -> {
 							User user = getTableView().getItems().get(getIndex());
-							Dialog<String> dialog = new Dialog<>();
-							dialog.setTitle("Usuario: " + user.getFull_name());
-							dialog.setHeaderText("Cambio de contraseña");
-							dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-							PasswordField pwd = new PasswordField();
-							HBox content = new HBox();
-							content.setAlignment(Pos.CENTER_LEFT);
-							content.setSpacing(10);
-							content.getChildren().addAll(new Label("Por favor ingresa la nueva contraseña:"), pwd);
-							dialog.getDialogPane().setContent(content);
-							dialog.setResultConverter(dialogButton -> {
-								if (dialogButton == ButtonType.OK && !pwd.getText().isBlank()) {
-									System.out.println("Si 230 " + pwd.getText());
-									showMessageSuccessfully(pwd.getText());
-									return null;
-								} else {
-									System.out.println("No 232 ");
-									showMessageError();
-									return null;
-								}
-							});
-							dialog.showAndWait();
+							NewPassword.setPkUser(user.getId());
+							NewPassword.setUser_fullname(user.getFull_name());
+							NewPassword newPwd = new NewPassword();
+							try {
+								newPwd.showView(event);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 						});
 					}
 
