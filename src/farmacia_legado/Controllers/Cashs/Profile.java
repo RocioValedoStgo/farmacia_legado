@@ -2,7 +2,6 @@ package farmacia_legado.Controllers.Cashs;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ResourceBundle;
 import farmacia_legado.Main;
 import farmacia_legado.MySQLConnection;
@@ -39,6 +38,9 @@ public class Profile implements Initializable {
 
 	@FXML // fx:id="titlePage"
 	private Label titlePage;
+	
+	@FXML // fx:id="labelTotal"
+	private Label labelTotal;
 
 	@FXML // fx:id="table"
 	private TableView<Sell> table; // Value injected by FXMLLoader
@@ -47,7 +49,7 @@ public class Profile implements Initializable {
 
 	private TableColumn<Sell, Float> col_total = new TableColumn<Sell, Float>("Total");
 
-	private TableColumn<Sell, Timestamp> col_created = new TableColumn<Sell, Timestamp>("Hecha el");
+	private TableColumn<Sell, String> col_created = new TableColumn<Sell, String>("Hecha el");
 
 	private TableColumn<Sell, String> col_options = new TableColumn<Sell, String>("Opciones");
 
@@ -75,12 +77,13 @@ public class Profile implements Initializable {
 	private static int pkCash;
 	private static String dateInitial;
 	private static String dateFinal;
+	private float auxTotal = 0;
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		menuButtonNavbar.setText(MySQLConnection.User_username);
-		if (!getDateFinal().isEmpty())
+		if (getDateFinal().isEmpty())
 			titlePage.setText("Ventas del " + getDateInitial().substring(0, 10) + " - actual");
 		else
 			titlePage.setText(
@@ -102,6 +105,10 @@ public class Profile implements Initializable {
 		MySQLConnection MySQL = new MySQLConnection();
 		try {
 			table.setItems(MySQL.getSells(getPkCash()));
+			for (Sell item : table.getItems()) {
+				auxTotal = auxTotal + col_total.getCellObservableValue(item).getValue();
+			}
+			labelTotal.setText("Venta total: $"+auxTotal);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

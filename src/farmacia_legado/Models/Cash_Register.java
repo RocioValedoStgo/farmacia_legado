@@ -18,12 +18,18 @@ public class Cash_Register {
 		this.close = format.format(close);
 	}
 	
-	public Cash_Register(int id, float total, Timestamp close, Timestamp created) {
+	public Cash_Register(int id, float total, boolean status, Timestamp close, Timestamp created) {
 		this.id = id;
 		this.total = total;
-		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		this.status = status;
+		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
 		this.close = format.format(close);
 		this.created = format.format(created);
+	}
+	
+	public Cash_Register(int id, float total) {
+		this.id = id;
+		this.total= total;
 	}
 	
 	/**

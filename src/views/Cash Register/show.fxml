@@ -38,7 +38,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <Label layoutX="667.0" layoutY="385.0" text="Venta total : $ 5,125">
+            <Label fx:id="labelTotal" layoutX="667.0" layoutY="385.0" text="Venta total : $ 5,125">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>

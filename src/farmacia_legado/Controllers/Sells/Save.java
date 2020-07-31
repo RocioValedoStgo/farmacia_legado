@@ -9,6 +9,7 @@ import farmacia_legado.Main;
 import farmacia_legado.MySQLConnection;
 import farmacia_legado.Controllers.HomeController;
 import farmacia_legado.Controllers.User.Index;
+import farmacia_legado.Models.Cash_Register;
 import farmacia_legado.Models.Product;
 import farmacia_legado.Models.Sell_Detail;
 import javafx.collections.FXCollections;
@@ -333,9 +334,16 @@ public class Save implements Initializable {
 					int quantity = col_quantity.getCellObservableValue(detail).getValue();
 					float subtotal = col_subtotal.getCellObservableValue(detail).getValue();
 					change = Math.round(Float.parseFloat(result.get()) - total);
-					int cash_id = MySQL.saveCashRegister();
+					int cash_id = MySQL.getCashActive();
+					Cash_Register cash = MySQL.getCashRegister();
+					float auxSellTotal = cash.getTotal()+total;
 					if (aux == 0) {
 						sell_id = MySQL.saveSell(total, Float.parseFloat(result.get()), change, cash_id);
+						if (MySQL.updateTotalCash(cash.getId(), auxSellTotal) != 1) {
+							alert = new Alert(AlertType.ERROR, "Ocurrio un error al actualizar el total de venta", ButtonType.OK);
+							alert.showAndWait();
+							break;
+						}
 						aux++;
 					}
 					if (MySQL.saveDetails(product_id, quantity, subtotal, sell_id) == false) {

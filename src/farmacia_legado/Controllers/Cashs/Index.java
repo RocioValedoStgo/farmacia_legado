@@ -17,7 +17,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -43,6 +46,8 @@ public class Index implements Initializable {
     
     private TableColumn<Cash_Register, Float> col_total = new TableColumn<Cash_Register, Float>("Venta total");
     
+    private TableColumn<Cash_Register, String> col_status = new TableColumn<Cash_Register, String>("Status");
+    
     private TableColumn<Cash_Register, Timestamp> col_created = new TableColumn<Cash_Register, Timestamp>("Creado el");
     
     private TableColumn<Cash_Register, String> col_options = new TableColumn<Cash_Register, String>("Opciones");
@@ -52,6 +57,9 @@ public class Index implements Initializable {
 
     @FXML // fx:id="menuButton"
     private MenuButton menuButton; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="buttonCortCash"
+    private Button buttonCortCash; // Value injected by FXMLLoader
 
     @FXML // fx:id="optionHome"
     private MenuItem optionHome; // Value injected by FXMLLoader
@@ -82,6 +90,9 @@ public class Index implements Initializable {
 		col_total.setPrefWidth(150);
 		col_total.setStyle("-fx-aligment: CENTER;");
 		col_total.setStyle("-fx-font-size: 15px");
+		col_status.setPrefWidth(150);
+		col_status.setStyle("-fx-aligment: CENTER;");
+		col_status.setStyle("-fx-font-size: 15px");
 		col_created.setPrefWidth(150);
 		col_created.setStyle("-fx-aligment: CENTER;");
 		col_created.setStyle("-fx-font-size: 15px");
@@ -89,9 +100,14 @@ public class Index implements Initializable {
 		addButtonShow();
 		col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
 		col_total.setCellValueFactory(new PropertyValueFactory<>("total"));
+		col_status.setCellValueFactory(new PropertyValueFactory<>("status"));
 		col_created.setCellValueFactory(new PropertyValueFactory<>("created"));
 		try {
 			table.setItems(MySQL.indexCashs());
+			if (MySQL.getCashActive() == 0) {    			
+				buttonCortCash.setDisable(true);
+				buttonCortCash.setStyle("-fx-background-color: #ccc");				
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -110,6 +126,7 @@ public class Index implements Initializable {
 							Profile profileCash = new Profile();
 							Profile.setPkCash(cash_Register.getId());
 							Profile.setDateInitial(cash_Register.getCreated());
+							System.out.println(cash_Register.getClose());
 							Profile.setDateFinal(cash_Register.getClose());
 							try {
 								profileCash.showView(event);
@@ -144,6 +161,21 @@ public class Index implements Initializable {
     
     @FXML
     void btnCashCort(MouseEvent event) throws SQLException {
+    	MySQLConnection MySQL = new MySQLConnection();
+    	Alert alert;
+    	int cash_id = MySQL.getCashActive();
+    	if (MySQL.closeCashRegister(cash_id) == 1) {
+    		if (MySQL.newCashRegister()) {
+    			alert = new Alert(AlertType.INFORMATION, "Corte de caja exitoso", ButtonType.OK);
+    			alert.showAndWait();
+    		} else {
+    			alert = new Alert(AlertType.ERROR, "Error al crear la nueva caja", ButtonType.OK);
+    			alert.showAndWait();
+    		}
+    	} else {
+    		alert = new Alert(AlertType.ERROR, "Error al hacer el corte de caja", ButtonType.OK);
+    		alert.showAndWait();
+    	}
     }
 
     @FXML
