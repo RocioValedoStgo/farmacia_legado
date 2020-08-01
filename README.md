@@ -64,7 +64,7 @@
 - Step 3
 	- Modify Execution.
 		> Run > Run configurations > Java App > Main (1) > arguments > VM arguments
-	- Set the value `--module-path ${PATH_TO_FX} --add-modules javafx.controls,javafx.fxml`.
+	- Set the value `--module-path ${name-variable-step-2} --add-modules javafx.controls,javafx.fxml --add-exports javafx.base/com.sun.javafx.event=ALL-UNNAMED`.
 
 #### Or check this
 [JavaFX and Eclipse.](https://openjfx.io/openjfx-docs/)
