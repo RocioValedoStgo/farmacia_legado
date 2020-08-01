@@ -25,6 +25,7 @@ public class MySQLConnection {
 	public static String User_fullname;
 	public static String User_username;
 	public static String User_email;
+	public static int User_rol;
 	// Credentials for connection to MySQL
 	private static String dbName = "farmacialegado";
 	private static String user = "root";
@@ -52,7 +53,7 @@ public class MySQLConnection {
 		rs = pstatement.executeQuery();
 		if (rs.next()) {
 			setUserLogged(rs.getString("name"), rs.getString("last_name"), rs.getString("username"),
-					rs.getString("email"));
+					rs.getString("email"), rs.getInt("rol"));
 			return true;
 		} else {
 			return false;
@@ -74,7 +75,7 @@ public class MySQLConnection {
 					+ auxRol + "','" + email + "','" + pwdEncrypted + "','" + created + "')";
 			statement.executeUpdate(query);
 			if (action) {
-				setUserLogged(name, last_name, username, email);
+				setUserLogged(name, last_name, username, email, 3);
 			}
 			return true;
 		}
@@ -159,10 +160,11 @@ public class MySQLConnection {
 		return statement.executeUpdate(query);
 	}
 
-	private void setUserLogged(String name, String last_name, String username, String email) {
+	private void setUserLogged(String name, String last_name, String username, String email, int rol) {
 		User_fullname = name + " " + last_name;
 		User_username = username;
 		User_email = email;
+		User_rol = rol;
 	}
 
 	private String encryptedPassword(String password) {
@@ -473,6 +475,17 @@ public class MySQLConnection {
 			result = rs.getInt(1);
 		return result;
 	}
+	
+	public boolean saveSellZero(float total, float money, float change, int cash_id) throws SQLException {
+		connection = getConnection();
+		float IVA = Float.parseFloat("16");
+		Timestamp created = generateTimestamp();
+		Statement statement = (Statement) connection.createStatement();
+		String query = "INSERT INTO farmacialegado.sells(IVA, total, incoming, output, cash_register_id, created_at) VALUES ('"
+				+ IVA + "','" + total + "','" + money + "','" + change + "','" + cash_id + "','" + created + "')";
+		statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+		return true;
+	}
 
 	public ObservableList<Sell_Detail> indexSell(int pkSell) throws SQLException {
 		connection = getConnection();
@@ -570,7 +583,7 @@ public class MySQLConnection {
 		Cash_Register cash = null;
 		ResultSet rs;
 		Statement statement;
-		String query = "SELECT id, total, status, created_at FROM cash_register WHERE `status` = 0 ORDER BY created_at DESC LIMIT 1";
+		String query = "SELECT id, total, status, created_at FROM cash_register WHERE `status` = 1 ORDER BY created_at DESC LIMIT 1";
 		statement = (Statement) connection.createStatement();
 		rs = statement.executeQuery(query);
 		while (rs.next())

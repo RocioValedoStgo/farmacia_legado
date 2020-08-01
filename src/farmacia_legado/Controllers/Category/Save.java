@@ -192,7 +192,7 @@ public class Save implements Initializable {
 	@FXML
     void btnSave(MouseEvent event) throws Exception {
     	Alert alert;
-    	if (input_name.equals(null) || comboxFather.getValue().equals(null)) {
+    	if (input_name.equals(null)) {
     		alert = new Alert(AlertType.WARNING, "Es necesario ingresar todos los campos", ButtonType.CLOSE);
     		alert.showAndWait();
     	} else {
@@ -202,8 +202,14 @@ public class Save implements Initializable {
 			} else {
 				image = null;
 			}
+    		String father_id = comboxFather.getValue();
+    		if (father_id == null) {
+    			father_id = "0";
+    		} else {
+    			father_id = father_id.substring(0,1);
+    		}
     		MySQLConnection MySQL = new MySQLConnection();
-    		if (MySQL.saveCategory(input_name.getText(), Integer.parseInt(comboxFather.getValue().substring(0,1)), image)) {
+    		if (MySQL.saveCategory(input_name.getText(), Integer.parseInt(father_id), image)) {
     			alert = new Alert(AlertType.INFORMATION, "Categoría guardada con exito!", ButtonType.OK);
     			alert.showAndWait();
     			Index indexCategory = new Index();

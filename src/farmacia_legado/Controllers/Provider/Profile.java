@@ -88,7 +88,7 @@ public class Profile implements Initializable{
 
     @FXML
     void btnBack(MouseEvent event) throws Exception {
-    	Index indexProvider = new Index();
+    	farmacia_legado.Controllers.Provider.Index indexProvider = new farmacia_legado.Controllers.Provider.Index();
     	indexProvider.showView(event);
     }
 

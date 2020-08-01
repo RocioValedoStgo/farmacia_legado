@@ -178,7 +178,7 @@ public class Save implements Initializable {
 			if (MySQL.saveProvider(input_name.getText(), input_address.getText(), input_phone.getText(), input_email.getText())) {
 				alert = new Alert(AlertType.INFORMATION, "Proveedor registrado correctamente",  ButtonType.OK);
 				alert.showAndWait();
-				Index indexProviders = new Index();
+				farmacia_legado.Controllers.Provider.Index indexProviders = new farmacia_legado.Controllers.Provider.Index();
 				indexProviders.showView(event);
 			} else {
 				alert = new Alert(AlertType.ERROR, "Error al guardar el proovedor", ButtonType.OK);

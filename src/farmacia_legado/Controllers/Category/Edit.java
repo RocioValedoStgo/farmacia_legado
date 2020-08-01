@@ -183,15 +183,21 @@ public class Edit implements Initializable {
 	@FXML
 	void btnSave(MouseEvent event) throws SQLException, Exception {
 		Alert alert;
-		if (input_name.equals(null) || comboxFather.getValue().equals(null)) {
+		if (input_name.equals(null)) {
 			alert = new Alert(AlertType.ERROR, "No es posible dejar los campos vacios", ButtonType.OK);
 			alert.showAndWait();
 		} else {
 			MySQLConnection MySQL = new MySQLConnection();
+			String father_id = comboxFather.getValue();
+			if (father_id == null) {
+				father_id = "0";
+			} else {
+				father_id = father_id.substring(0,1);
+			}
 			if (band) {
 				destroyImage(nameImage);
 				String imageName = saveImage(imgFile);
-				if (MySQL.editCategoryImage(getPkCategory(), input_name.getText(), Integer.parseInt(comboxFather.getValue().substring(0,1)), imageName) == 1) {
+				if (MySQL.editCategoryImage(getPkCategory(), input_name.getText(), Integer.parseInt(father_id), imageName) == 1) {
 					alert = new Alert(AlertType.INFORMATION, "Categoría editada con exito!", ButtonType.OK);
 					alert.showAndWait();
 					Profile profileCategory = new Profile();
@@ -202,7 +208,7 @@ public class Edit implements Initializable {
 					alert.showAndWait();
 				}
 			} else {
-				if (MySQL.editCategory(getPkCategory(), input_name.getText(), Integer.parseInt(comboxFather.getValue().substring(0,1))) == 1) {
+				if (MySQL.editCategory(getPkCategory(), input_name.getText(), Integer.parseInt(father_id)) == 1) {
 					alert = new Alert(AlertType.INFORMATION, "Categoría editada con exito!", ButtonType.OK);
 					alert.showAndWait();
 					Profile profileCategory = new Profile();
@@ -282,6 +288,7 @@ public class Edit implements Initializable {
 		try {
 			Category category = MySQL.getCategory(getPkCategory());
 			titlePage.setText("Editando la categoría: " + category.getName());
+			input_name.setText(category.getName());
 			comboxFather.setValue(category.getFather_Id());
 			comboxFather.getItems().addAll(MySQL.getCategories());
 			String pathImg = System.getProperty("user.dir") + "\\src\\assets\\images\\categories\\"

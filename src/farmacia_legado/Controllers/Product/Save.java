@@ -205,7 +205,7 @@ public class Save implements Initializable {
 	@FXML
     void btnSave(MouseEvent event) throws Exception {
 		Alert alert;
-    	if (input_name.getText().equals(null) || input_price.getText().equals(null) || input_quantity.getText().equals(null) || textArea_description.getText().equals(null) || comboxFather.getValue().equals(null)) {
+    	if (input_name.getText().equals(null) || input_price.getText().equals(null) || input_quantity.getText().equals(null) || textArea_description.getText().equals(null) || comboxProvider.getValue().equals(null)) {
     		alert = new Alert(AlertType.ERROR, "Es necesario ingresar todos los datos", ButtonType.OK);
     		alert.showAndWait();
     	} else {
@@ -216,7 +216,19 @@ public class Save implements Initializable {
 			} else {
 				image = null;
 			}
-    		if (MySQL.saveProduct(input_name.getText(), textArea_description.getText(), image, Float.parseFloat(input_price.getText()), Integer.parseInt(input_quantity.getText()), Integer.parseInt(comboxProvider.getValue().substring(0,1)), Integer.parseInt(comboxFather.getValue().substring(0, 1)))) {
+    		String father_id = comboxFather.getValue();
+    		String provider_id = comboxProvider.getValue();
+    		if (father_id == null) {
+    			father_id = "0";
+    		} else {
+    			father_id = father_id.substring(0,1);
+    		}
+    		if (provider_id == null) {
+    			provider_id = "0";
+    		} else {
+    			provider_id = provider_id.substring(0, 1);
+    		}
+    		if (MySQL.saveProduct(input_name.getText(), textArea_description.getText(), image, Float.parseFloat(input_price.getText()), Integer.parseInt(input_quantity.getText()), Integer.parseInt(provider_id), Integer.parseInt(father_id))) {
     			alert = new Alert(AlertType.INFORMATION, "Producto guardado", ButtonType.OK);
     			alert.showAndWait();
     			Index indexProducts = new Index();

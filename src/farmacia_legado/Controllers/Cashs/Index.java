@@ -160,7 +160,7 @@ public class Index implements Initializable {
     }
     
     @FXML
-    void btnCashCort(MouseEvent event) throws SQLException {
+    void btnCashCort(MouseEvent event) throws Exception {
     	MySQLConnection MySQL = new MySQLConnection();
     	Alert alert;
     	int cash_id = MySQL.getCashActive();
@@ -168,6 +168,7 @@ public class Index implements Initializable {
     		if (MySQL.newCashRegister()) {
     			alert = new Alert(AlertType.INFORMATION, "Corte de caja exitoso", ButtonType.OK);
     			alert.showAndWait();
+    			showView(event);
     		} else {
     			alert = new Alert(AlertType.ERROR, "Error al crear la nueva caja", ButtonType.OK);
     			alert.showAndWait();

@@ -227,10 +227,22 @@ public class Edit implements Initializable {
 			alert.showAndWait();
 		} else {
 			MySQLConnection MySQL = new MySQLConnection();
+			String father_id = comboxFather.getValue();
+    		String provider_id = comboxProvider.getValue();
+    		if (father_id == null) {
+    			father_id = "0";
+    		} else {
+    			father_id = father_id.substring(0,1);
+    		}
+    		if (provider_id == null) {
+    			provider_id = "0";
+    		} else {
+    			provider_id = provider_id.substring(0, 1);
+    		}
 			if (band) {
 				destroyImage(nameImage);
 				String imageName = saveImage(imgFile);
-				if (MySQL.editProductImage(getPkProduct(), input_name.getText(), textArea_description.getText(), Float.parseFloat(input_price.getText()), Integer.parseInt(input_quantity.getText()), Integer.parseInt(comboxProvider.getValue().substring(0, 1)), Integer.parseInt(comboxFather.getValue().substring(0,1)), imageName) == 1) {
+				if (MySQL.editProductImage(getPkProduct(), input_name.getText(), textArea_description.getText(), Float.parseFloat(input_price.getText()), Integer.parseInt(input_quantity.getText()), Integer.parseInt(provider_id), Integer.parseInt(father_id), imageName) == 1) {
 					alert = new Alert(AlertType.INFORMATION, "Producto editado con exito!", ButtonType.OK);
 					alert.showAndWait();
 					farmacia_legado.Controllers.Product.Profile profileProduct = new farmacia_legado.Controllers.Product.Profile();
@@ -241,7 +253,7 @@ public class Edit implements Initializable {
 					alert.showAndWait();
 				}
 			} else {
-				if (MySQL.editProduct(getPkProduct(), input_name.getText(), textArea_description.getText(), Float.parseFloat(input_price.getText()), Integer.parseInt(input_quantity.getText()), Integer.parseInt(comboxProvider.getValue().substring(0, 1)), Integer.parseInt(comboxFather.getValue())) == 1) {
+				if (MySQL.editProduct(getPkProduct(), input_name.getText(), textArea_description.getText(), Float.parseFloat(input_price.getText()), Integer.parseInt(input_quantity.getText()), Integer.parseInt(provider_id), Integer.parseInt(father_id)) == 1) {
 					alert = new Alert(AlertType.INFORMATION, "Producto editado con exito!", ButtonType.OK);
 					alert.showAndWait();
 					farmacia_legado.Controllers.Product.Profile profileProduct = new farmacia_legado.Controllers.Product.Profile();
