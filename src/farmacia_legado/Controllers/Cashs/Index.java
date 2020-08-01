@@ -126,7 +126,6 @@ public class Index implements Initializable {
 							Profile profileCash = new Profile();
 							Profile.setPkCash(cash_Register.getId());
 							Profile.setDateInitial(cash_Register.getCreated());
-							System.out.println(cash_Register.getClose());
 							Profile.setDateFinal(cash_Register.getClose());
 							try {
 								profileCash.showView(event);

@@ -13,5 +13,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/salim/Downloads/Java/mysql-connector-java-5.1.48/mysql-connector-java-5.1.48.jar"/>
 	<classpathentry kind="lib" path="C:/Users/salim/Downloads/Java/controlsfx-8.40.14/controlsfx-8.40.14.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salim/Downloads/Java/itextpdf-5.1.0.jar/itextpdf-5.1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

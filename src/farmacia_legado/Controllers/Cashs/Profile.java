@@ -1,8 +1,12 @@
 package farmacia_legado.Controllers.Cashs;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import com.itextpdf.text.DocumentException;
+import farmacia_legado.GeneratePDF;
 import farmacia_legado.Main;
 import farmacia_legado.MySQLConnection;
 import farmacia_legado.Controllers.HomeController;
@@ -17,7 +21,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -38,7 +45,7 @@ public class Profile implements Initializable {
 
 	@FXML // fx:id="titlePage"
 	private Label titlePage;
-	
+
 	@FXML // fx:id="labelTotal"
 	private Label labelTotal;
 
@@ -108,7 +115,7 @@ public class Profile implements Initializable {
 			for (Sell item : table.getItems()) {
 				auxTotal = auxTotal + col_total.getCellObservableValue(item).getValue();
 			}
-			labelTotal.setText("Venta total: $"+auxTotal);
+			labelTotal.setText("Venta total: $" + auxTotal);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -158,8 +165,21 @@ public class Profile implements Initializable {
 	}
 
 	@FXML
-	void btnExport(MouseEvent event) {
-
+	void btnExport(MouseEvent event) throws MalformedURLException, DocumentException, IOException, SQLException {
+		MySQLConnection MySQL = new MySQLConnection();
+		String titlePDF;
+		if (getDateFinal().isEmpty())
+			titlePDF = "Ventas del " + getDateInitial().substring(0, 10) + " - actual";
+		else
+			titlePDF = "Ventas del " + getDateInitial().substring(0, 10) + " al " + getDateFinal().substring(0, 10);
+		Alert alert;
+		if (GeneratePDF.exportPDF(titlePDF, MySQL.getSells(getPkCash()))) {
+			alert = new Alert(AlertType.INFORMATION, "Reporte de ventas generado en escritorio", ButtonType.OK);
+			alert.showAndWait();
+		} else {
+			alert = new Alert(AlertType.ERROR, "Error al generar el reporte", ButtonType.OK);
+			alert.showAndWait();
+		}
 	}
 
 	@FXML
