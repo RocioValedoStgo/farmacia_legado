@@ -26,6 +26,8 @@
 
 -  [JavaFX 11](https://adoptopenjdk.net/)
 
+-  [JavaFX 11 libs: JavaFX Windows SDK](https://gluonhq.com/products/javafx/)
+
 -  [MySQL](https://www.mysql.com/downloads/)
 
 -  [FXML](https://openjfx.io/javadoc/11/javafx.fxml/javafx/fxml/doc-files/introduction_to_fxml.html)
