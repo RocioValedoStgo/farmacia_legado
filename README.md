@@ -8,6 +8,8 @@
 
 -  [Requirements](https://docs.google.com/document/d/1TUnLOxqZ_Zlmv3QmgArtjHjJ0VBsFH5OscPsshVyW7E/edit?usp=sharing)
 
+-  [JAR's](https://drive.google.com/drive/folders/1Gk_ZLiixr_vatw2aHaJLkwnyckHinNIu?usp=sharing)
+
 -  [Technologies](#technologies-)
 
 -  [Get this project](#get-this-project-)
@@ -29,6 +31,8 @@
 -  [MySQL](https://www.mysql.com/downloads/)
 
 -  [FXML](https://openjfx.io/javadoc/11/javafx.fxml/javafx/fxml/doc-files/introduction_to_fxml.html)
+
+-  [ITextPDF](http://www.java2s.com/Code/Jar/i/Downloaditextpdf510jar.htm)
 
   
 
@@ -65,6 +69,10 @@
 	- Modify Execution.
 		> Run > Run configurations > Java App > Main (1) > arguments > VM arguments
 	- Set the value `--module-path ${name-variable-step-2} --add-modules javafx.controls,javafx.fxml --add-exports javafx.base/com.sun.javafx.event=ALL-UNNAMED`.
+	
+- Step 4
+	- Add JAR's
+		- [JAR's](https://drive.google.com/drive/folders/1Gk_ZLiixr_vatw2aHaJLkwnyckHinNIu?usp=sharing)
 
 #### Or check this
 [JavaFX and Eclipse.](https://openjfx.io/openjfx-docs/)
