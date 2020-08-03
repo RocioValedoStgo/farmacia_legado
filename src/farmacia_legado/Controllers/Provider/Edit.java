@@ -112,25 +112,20 @@ public class Edit implements Initializable {
 	}
 
 	@FXML
-    void btnNavbar(MouseEvent event) {
-    	optionHome.setOnAction(new EventHandler<ActionEvent>() {
+	void btnNavbar(MouseEvent event) {
+		optionHome.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				if (MySQLConnection.User_rol < 3) {
-					HomeController home = new HomeController();
-					try {
-						home.showView(event);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}					
-				} else {
-					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
-					alert.showAndWait();
+				HomeController home = new HomeController();
+				try {
+					home.showView(event);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		});
-    	
-    	optionUsers.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionUsers.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				if (MySQLConnection.User_rol < 3) {
@@ -139,15 +134,15 @@ public class Edit implements Initializable {
 						indexUsers.showView(event);
 					} catch (Exception e) {
 						e.printStackTrace();
-					}					
+					}
 				} else {
 					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
 					alert.showAndWait();
 				}
 			}
 		});
-    	
-    	optionProviders.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionProviders.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				if (MySQLConnection.User_rol < 3) {
@@ -156,15 +151,15 @@ public class Edit implements Initializable {
 						indexProviders.showView(event);
 					} catch (Exception e) {
 						e.printStackTrace();
-					}					
+					}
 				} else {
 					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
 					alert.showAndWait();
 				}
 			}
 		});
-    	
-    	optionCategories.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionCategories.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				if (MySQLConnection.User_rol < 3) {
@@ -173,15 +168,15 @@ public class Edit implements Initializable {
 						indexCategories.showView(event);
 					} catch (Exception e) {
 						e.printStackTrace();
-					}					
+					}
 				} else {
 					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
 					alert.showAndWait();
 				}
 			}
 		});
-    	
-    	optionProducts.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionProducts.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				if (MySQLConnection.User_rol < 3) {
@@ -197,8 +192,8 @@ public class Edit implements Initializable {
 				}
 			}
 		});
-    	
-    	optionLogOut.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionLogOut.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				Main login = new Main();
@@ -209,7 +204,7 @@ public class Edit implements Initializable {
 				}
 			}
 		});
-    }
+	}
 
 	@FXML
 	void btnSave(MouseEvent event) throws Exception {

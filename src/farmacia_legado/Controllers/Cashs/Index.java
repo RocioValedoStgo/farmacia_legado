@@ -36,55 +36,55 @@ import javafx.util.Callback;
 
 public class Index implements Initializable {
 
-    @FXML // fx:id="logo"
-    private ImageView logo; // Value injected by FXMLLoader
+	@FXML // fx:id="logo"
+	private ImageView logo; // Value injected by FXMLLoader
 
-    @FXML // fx:id="table"
-    private TableView<Cash_Register> table; // Value injected by FXMLLoader
-    
-    private TableColumn<Cash_Register, Integer> col_id = new TableColumn<Cash_Register, Integer>("ID");
-    
-    private TableColumn<Cash_Register, Float> col_total = new TableColumn<Cash_Register, Float>("Venta total");
-    
-    private TableColumn<Cash_Register, String> col_status = new TableColumn<Cash_Register, String>("Status");
-    
-    private TableColumn<Cash_Register, Timestamp> col_created = new TableColumn<Cash_Register, Timestamp>("Creado el");
-    
-    private TableColumn<Cash_Register, String> col_options = new TableColumn<Cash_Register, String>("Opciones");
+	@FXML // fx:id="table"
+	private TableView<Cash_Register> table; // Value injected by FXMLLoader
 
-    @FXML // fx:id="titlePage"
-    private Label titlePage; // Value injected by FXMLLoader
+	private TableColumn<Cash_Register, Integer> col_id = new TableColumn<Cash_Register, Integer>("ID");
 
-    @FXML // fx:id="menuButton"
-    private MenuButton menuButton; // Value injected by FXMLLoader
-    
-    @FXML // fx:id="buttonCortCash"
-    private Button buttonCortCash; // Value injected by FXMLLoader
+	private TableColumn<Cash_Register, Float> col_total = new TableColumn<Cash_Register, Float>("Venta total");
 
-    @FXML // fx:id="optionHome"
-    private MenuItem optionHome; // Value injected by FXMLLoader
+	private TableColumn<Cash_Register, String> col_status = new TableColumn<Cash_Register, String>("Status");
 
-    @FXML // fx:id="optionUsers"
-    private MenuItem optionUsers; // Value injected by FXMLLoader
+	private TableColumn<Cash_Register, Timestamp> col_created = new TableColumn<Cash_Register, Timestamp>("Creado el");
 
-    @FXML // fx:id="optionProducts"
-    private MenuItem optionProducts; // Value injected by FXMLLoader
+	private TableColumn<Cash_Register, String> col_options = new TableColumn<Cash_Register, String>("Opciones");
 
-    @FXML // fx:id="optionCategories"
-    private MenuItem optionCategories; // Value injected by FXMLLoader
+	@FXML // fx:id="titlePage"
+	private Label titlePage; // Value injected by FXMLLoader
 
-    @FXML // fx:id="optionProviders"
-    private MenuItem optionProviders; // Value injected by FXMLLoader
+	@FXML // fx:id="menuButton"
+	private MenuButton menuButton; // Value injected by FXMLLoader
 
-    @FXML // fx:id="optionLogOut"
-    private MenuItem optionLogOut; // Value injected by FXMLLoader
-    
-    @SuppressWarnings("unchecked")
+	@FXML // fx:id="buttonCortCash"
+	private Button buttonCortCash; // Value injected by FXMLLoader
+
+	@FXML // fx:id="optionHome"
+	private MenuItem optionHome; // Value injected by FXMLLoader
+
+	@FXML // fx:id="optionUsers"
+	private MenuItem optionUsers; // Value injected by FXMLLoader
+
+	@FXML // fx:id="optionProducts"
+	private MenuItem optionProducts; // Value injected by FXMLLoader
+
+	@FXML // fx:id="optionCategories"
+	private MenuItem optionCategories; // Value injected by FXMLLoader
+
+	@FXML // fx:id="optionProviders"
+	private MenuItem optionProviders; // Value injected by FXMLLoader
+
+	@FXML // fx:id="optionLogOut"
+	private MenuItem optionLogOut; // Value injected by FXMLLoader
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-    	menuButton.setText(MySQLConnection.User_username);
-    	MySQLConnection MySQL = new MySQLConnection();
-    	col_id.setPrefWidth(50);
+		menuButton.setText(MySQLConnection.User_username);
+		MySQLConnection MySQL = new MySQLConnection();
+		col_id.setPrefWidth(50);
 		col_id.setStyle("-fx-aligment: CENTER;");
 		col_id.setStyle("-fx-font-size: 15px");
 		col_total.setPrefWidth(150);
@@ -104,16 +104,16 @@ public class Index implements Initializable {
 		col_created.setCellValueFactory(new PropertyValueFactory<>("created"));
 		try {
 			table.setItems(MySQL.indexCashs());
-			if (MySQL.getCashActive() == 0) {    			
+			if (MySQL.getCashActive() == 0) {
 				buttonCortCash.setDisable(true);
-				buttonCortCash.setStyle("-fx-background-color: #ccc");				
+				buttonCortCash.setStyle("-fx-background-color: #ccc");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-    
-    private void addButtonShow() {
+
+	private void addButtonShow() {
 		TableColumn<Cash_Register, Void> colBtn = new TableColumn<Cash_Register, Void>();
 		Callback<TableColumn<Cash_Register, Void>, TableCell<Cash_Register, Void>> cellFactory = new Callback<TableColumn<Cash_Register, Void>, TableCell<Cash_Register, Void>>() {
 			@Override
@@ -152,57 +152,52 @@ public class Index implements Initializable {
 		col_options.getColumns().add(colBtn);
 	}
 
-    @FXML
-    void btnBack(MouseEvent event) throws Exception {
-    	HomeController home = new HomeController();
-    	home.showView(event);
-    }
-    
-    @FXML
-    void btnCashCort(MouseEvent event) throws Exception {
-    	MySQLConnection MySQL = new MySQLConnection();
-    	Alert alert;
-    	int cash_id = MySQL.getCashActive();
-    	if (MySQL.closeCashRegister(cash_id) == 1) {
-    		if (MySQL.newCashRegister()) {
-    			alert = new Alert(AlertType.INFORMATION, "Corte de caja exitoso", ButtonType.OK);
-    			alert.showAndWait();
-    			showView(event);
-    		} else {
-    			alert = new Alert(AlertType.ERROR, "Error al crear la nueva caja", ButtonType.OK);
-    			alert.showAndWait();
-    		}
-    	} else {
-    		alert = new Alert(AlertType.ERROR, "Error al hacer el corte de caja", ButtonType.OK);
-    		alert.showAndWait();
-    	}
-    }
+	@FXML
+	void btnBack(MouseEvent event) throws Exception {
+		HomeController home = new HomeController();
+		home.showView(event);
+	}
 
-    @FXML
-    void btnLogo(MouseEvent event) {
+	@FXML
+	void btnCashCort(MouseEvent event) throws Exception {
+		MySQLConnection MySQL = new MySQLConnection();
+		Alert alert;
+		int cash_id = MySQL.getCashActive();
+		if (MySQL.closeCashRegister(cash_id) == 1) {
+			if (MySQL.newCashRegister()) {
+				alert = new Alert(AlertType.INFORMATION, "Corte de caja exitoso", ButtonType.OK);
+				alert.showAndWait();
+				showView(event);
+			} else {
+				alert = new Alert(AlertType.ERROR, "Error al crear la nueva caja", ButtonType.OK);
+				alert.showAndWait();
+			}
+		} else {
+			alert = new Alert(AlertType.ERROR, "Error al hacer el corte de caja", ButtonType.OK);
+			alert.showAndWait();
+		}
+	}
 
-    }
+	@FXML
+	void btnLogo(MouseEvent event) {
 
-    @FXML
-    void btnNavbar(MouseEvent event) {
-    	optionHome.setOnAction(new EventHandler<ActionEvent>() {
+	}
+
+	@FXML
+	void btnNavbar(MouseEvent event) {
+		optionHome.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				if (MySQLConnection.User_rol < 3) {
-					HomeController home = new HomeController();
-					try {
-						home.showView(event);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}					
-				} else {
-					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
-					alert.showAndWait();
+				HomeController home = new HomeController();
+				try {
+					home.showView(event);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		});
-    	
-    	optionUsers.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionUsers.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				if (MySQLConnection.User_rol < 3) {
@@ -211,15 +206,15 @@ public class Index implements Initializable {
 						indexUsers.showView(event);
 					} catch (Exception e) {
 						e.printStackTrace();
-					}					
+					}
 				} else {
 					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
 					alert.showAndWait();
 				}
 			}
 		});
-    	
-    	optionProviders.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionProviders.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				if (MySQLConnection.User_rol < 3) {
@@ -228,15 +223,15 @@ public class Index implements Initializable {
 						indexProviders.showView(event);
 					} catch (Exception e) {
 						e.printStackTrace();
-					}					
+					}
 				} else {
 					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
 					alert.showAndWait();
 				}
 			}
 		});
-    	
-    	optionCategories.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionCategories.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				if (MySQLConnection.User_rol < 3) {
@@ -245,15 +240,15 @@ public class Index implements Initializable {
 						indexCategories.showView(event);
 					} catch (Exception e) {
 						e.printStackTrace();
-					}					
+					}
 				} else {
 					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
 					alert.showAndWait();
 				}
 			}
 		});
-    	
-    	optionProducts.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionProducts.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				if (MySQLConnection.User_rol < 3) {
@@ -269,8 +264,8 @@ public class Index implements Initializable {
 				}
 			}
 		});
-    	
-    	optionLogOut.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionLogOut.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				Main login = new Main();
@@ -281,15 +276,15 @@ public class Index implements Initializable {
 				}
 			}
 		});
-    }
-    
-    public void showView(Event event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("../../../views/Cash Register/index.fxml"));
-        Scene scene = new Scene(root);
-        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        appStage.getIcons().add(new Image("/assets/images/legado_farmacia.png"));
-        appStage.setScene(scene);
-        appStage.toFront();
-        appStage.show();
-    }
+	}
+
+	public void showView(Event event) throws Exception {
+		Parent root = FXMLLoader.load(getClass().getResource("../../../views/Cash Register/index.fxml"));
+		Scene scene = new Scene(root);
+		Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		appStage.getIcons().add(new Image("/assets/images/legado_farmacia.png"));
+		appStage.setScene(scene);
+		appStage.toFront();
+		appStage.show();
+	}
 }
