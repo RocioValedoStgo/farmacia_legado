@@ -8,7 +8,6 @@ import org.controlsfx.control.textfield.TextFields;
 import farmacia_legado.Main;
 import farmacia_legado.MySQLConnection;
 import farmacia_legado.Controllers.HomeController;
-import farmacia_legado.Controllers.User.Index;
 import farmacia_legado.Models.Cash_Register;
 import farmacia_legado.Models.Product;
 import farmacia_legado.Models.Sell_Detail;
@@ -240,68 +239,93 @@ public class Save implements Initializable {
 	}
 
 	@FXML
-	void btnNavbar(MouseEvent event) {
-		optionHome.setOnAction(new EventHandler<ActionEvent>() {
+    void btnNavbar(MouseEvent event) {
+    	optionHome.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				HomeController home = new HomeController();
-				try {
-					home.showView(event);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (MySQLConnection.User_rol < 3) {
+					HomeController home = new HomeController();
+					try {
+						home.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}					
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
 				}
 			}
 		});
-
-		optionUsers.setOnAction(new EventHandler<ActionEvent>() {
+    	
+    	optionUsers.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				Index indexUsers = new Index();
-				try {
-					indexUsers.showView(event);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (MySQLConnection.User_rol < 3) {
+					farmacia_legado.Controllers.User.Index indexUsers = new farmacia_legado.Controllers.User.Index();
+					try {
+						indexUsers.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}					
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
 				}
 			}
 		});
-
-		optionProviders.setOnAction(new EventHandler<ActionEvent>() {
+    	
+    	optionProviders.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				farmacia_legado.Controllers.Provider.Index indexProviders = new farmacia_legado.Controllers.Provider.Index();
-				try {
-					indexProviders.showView(event);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (MySQLConnection.User_rol < 3) {
+					farmacia_legado.Controllers.Provider.Index indexProviders = new farmacia_legado.Controllers.Provider.Index();
+					try {
+						indexProviders.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}					
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
 				}
 			}
 		});
-
-		optionCategories.setOnAction(new EventHandler<ActionEvent>() {
+    	
+    	optionCategories.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				farmacia_legado.Controllers.Category.Index indexCategories = new farmacia_legado.Controllers.Category.Index();
-				try {
-					indexCategories.showView(event);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (MySQLConnection.User_rol < 3) {
+					farmacia_legado.Controllers.Category.Index indexCategories = new farmacia_legado.Controllers.Category.Index();
+					try {
+						indexCategories.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}					
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
 				}
 			}
 		});
-
-		optionProducts.setOnAction(new EventHandler<ActionEvent>() {
+    	
+    	optionProducts.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				farmacia_legado.Controllers.Product.Index indexProducts = new farmacia_legado.Controllers.Product.Index();
-				try {
-					indexProducts.showView(event);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (MySQLConnection.User_rol < 3) {
+					farmacia_legado.Controllers.Product.Index indexProducts = new farmacia_legado.Controllers.Product.Index();
+					try {
+						indexProducts.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
 				}
 			}
 		});
-
-		optionLogOut.setOnAction(new EventHandler<ActionEvent>() {
+    	
+    	optionLogOut.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				Main login = new Main();
@@ -312,7 +336,7 @@ public class Save implements Initializable {
 				}
 			}
 		});
-	}
+    }
 
 	@FXML
 	void btnPay(MouseEvent event) throws Exception {

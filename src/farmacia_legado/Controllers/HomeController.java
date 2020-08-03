@@ -6,11 +6,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+import farmacia_legado.Main;
 import farmacia_legado.MySQLConnection;
 import farmacia_legado.Controllers.Category.Index;
 import farmacia_legado.Controllers.Sells.Save;
 import farmacia_legado.Models.Cash_Register;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,6 +24,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -33,6 +39,12 @@ public class HomeController implements Initializable {
 
 	@FXML // fx:id="labelDate"
 	private Label labelDate; // Value injected by FXMLLoader
+	
+	@FXML // fx:id="menuButtonNavbar"
+    private MenuButton menuButtonNavbar; // Value injected by FXMLLoader
+
+    @FXML // fx:id="optionLogOut"
+    private MenuItem optionLogOut; // Value injected by FXMLLoader
 
 	@FXML
 	void btnBuy(MouseEvent event) throws Exception {
@@ -105,6 +117,21 @@ public class HomeController implements Initializable {
 			alert.showAndWait();
 		}
 	}
+	
+	@FXML
+    void btnNavbar(MouseEvent event) {
+		optionLogOut.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				Main main = new Main();
+				try {
+					main.showView(event);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+    }
 
 	public void showView(Event event) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("../../views/home.fxml"));
@@ -118,6 +145,7 @@ public class HomeController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		menuButtonNavbar.setText(MySQLConnection.User_username);
 		MySQLConnection MySQL = new MySQLConnection();
 		try {
 			if (MySQL.getCashActive() == 0) {

@@ -106,15 +106,20 @@ public class Edit implements Initializable {
 	}
 
 	@FXML
-	void btnNavbar(MouseEvent event) {
-		optionHome.setOnAction(new EventHandler<ActionEvent>() {
+    void btnNavbar(MouseEvent event) {
+    	optionHome.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				HomeController home = new HomeController();
-				try {
-					home.showView(event);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (MySQLConnection.User_rol < 3) {
+					HomeController home = new HomeController();
+					try {
+						home.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}					
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
 				}
 			}
 		});
@@ -122,11 +127,16 @@ public class Edit implements Initializable {
     	optionUsers.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				farmacia_legado.Controllers.User.Index indexUsers = new farmacia_legado.Controllers.User.Index();
-				try {
-					indexUsers.showView(event);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (MySQLConnection.User_rol < 3) {
+					farmacia_legado.Controllers.User.Index indexUsers = new farmacia_legado.Controllers.User.Index();
+					try {
+						indexUsers.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}					
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
 				}
 			}
 		});
@@ -134,11 +144,16 @@ public class Edit implements Initializable {
     	optionProviders.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				farmacia_legado.Controllers.Provider.Index indexProviders = new farmacia_legado.Controllers.Provider.Index();
-				try {
-					indexProviders.showView(event);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (MySQLConnection.User_rol < 3) {
+					farmacia_legado.Controllers.Provider.Index indexProviders = new farmacia_legado.Controllers.Provider.Index();
+					try {
+						indexProviders.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}					
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
 				}
 			}
 		});
@@ -146,11 +161,16 @@ public class Edit implements Initializable {
     	optionCategories.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				farmacia_legado.Controllers.Category.Index indexCategories = new farmacia_legado.Controllers.Category.Index();
-				try {
-					indexCategories.showView(event);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (MySQLConnection.User_rol < 3) {
+					farmacia_legado.Controllers.Category.Index indexCategories = new farmacia_legado.Controllers.Category.Index();
+					try {
+						indexCategories.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}					
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
 				}
 			}
 		});
@@ -158,11 +178,16 @@ public class Edit implements Initializable {
     	optionProducts.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				farmacia_legado.Controllers.Product.Index indexProducts = new farmacia_legado.Controllers.Product.Index();
-				try {
-					indexProducts.showView(event);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (MySQLConnection.User_rol < 3) {
+					farmacia_legado.Controllers.Product.Index indexProducts = new farmacia_legado.Controllers.Product.Index();
+					try {
+						indexProducts.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
 				}
 			}
 		});
@@ -178,7 +203,7 @@ public class Edit implements Initializable {
 				}
 			}
 		});
-	}
+    }
 
 	@FXML
 	void btnSave(MouseEvent event) throws SQLException, Exception {
