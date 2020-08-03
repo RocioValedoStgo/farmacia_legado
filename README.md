@@ -26,7 +26,7 @@
 
 -  [Eclipse Java Developers](https://www.eclipse.org/downloads/packages/)
 
--  [JavaFX 11](https://openjfx.io/openjfx-docs/)
+-  [JavaFX 11](https://adoptopenjdk.net/)
 
 -  [MySQL](https://www.mysql.com/downloads/)
 
