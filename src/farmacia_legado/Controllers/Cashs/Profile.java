@@ -1,12 +1,17 @@
-package farmacia_legado.Controllers.Category;
+package farmacia_legado.Controllers.Cashs;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import com.itextpdf.text.DocumentException;
+import farmacia_legado.GeneratePDF;
 import farmacia_legado.Main;
 import farmacia_legado.MySQLConnection;
 import farmacia_legado.Controllers.HomeController;
-import farmacia_legado.Models.Category;
+import farmacia_legado.Controllers.Sells.Ticket;
+import farmacia_legado.Models.Sell;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -17,6 +22,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -25,98 +31,110 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-public class Index implements Initializable {
+public class Profile implements Initializable {
 
-	@FXML
+	@FXML // fx:id="logo"
+	private ImageView logo; // Value injected by FXMLLoader
+
+	@FXML // fx:id="titlePage"
 	private Label titlePage;
 
-	@FXML
-	private Label labelBtnAdd;
+	@FXML // fx:id="labelTotal"
+	private Label labelTotal;
 
-	@FXML
-	private TableView<Category> table;
+	@FXML // fx:id="table"
+	private TableView<Sell> table; // Value injected by FXMLLoader
 
-	@FXML
-	private TableColumn<Category, Integer> col_id = new TableColumn<>("ID");
+	private TableColumn<Sell, Integer> col_id = new TableColumn<Sell, Integer>("ID");
 
-	@FXML
-	private TableColumn<Category, String> col_name = new TableColumn<>("Nombre");
+	private TableColumn<Sell, Float> col_total = new TableColumn<Sell, Float>("Total");
 
-	@FXML
-	private TableColumn<Category, Integer> col_father_id = new TableColumn<>("Categoría padre");
+	private TableColumn<Sell, String> col_created = new TableColumn<Sell, String>("Hecha el");
 
-	@FXML
-	private TableColumn<Category, String> col_options = new TableColumn<>("Opciones");
+	private TableColumn<Sell, String> col_options = new TableColumn<Sell, String>("Opciones");
 
-	@FXML
-	private MenuButton menuButtonNavbar;
+	@FXML // fx:id="menuButtonNavbar"
+	private MenuButton menuButtonNavbar; // Value injected by FXMLLoader
 
-	@FXML
-	private MenuItem optionHome;
+	@FXML // fx:id="optionHome"
+	private MenuItem optionHome; // Value injected by FXMLLoader
 
-	@FXML
-	private MenuItem optionUsers;
+	@FXML // fx:id="optionUsers"
+	private MenuItem optionUsers; // Value injected by FXMLLoader
 
-	@FXML
-	private MenuItem optionProducts;
+	@FXML // fx:id="optionProducts"
+	private MenuItem optionProducts; // Value injected by FXMLLoader
 
-	@FXML
-	private MenuItem optionCategories;
+	@FXML // fx:id="optionCategories"
+	private MenuItem optionCategories; // Value injected by FXMLLoader
 
-	@FXML
-	private MenuItem optionProviders;
+	@FXML // fx:id="optionProviders"
+	private MenuItem optionProviders; // Value injected by FXMLLoader
 
-	@FXML
-	private MenuItem optionLogOut;
+	@FXML // fx:id="optionLogOut"
+	private MenuItem optionLogOut; // Value injected by FXMLLoader
+
+	private static int pkCash;
+	private static String dateInitial;
+	private static String dateFinal;
+	private float auxTotal = 0;
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		menuButtonNavbar.setText(MySQLConnection.User_username);
+		if (getDateFinal().isEmpty())
+			titlePage.setText("Ventas del " + getDateInitial().substring(0, 10) + " - actual");
+		else
+			titlePage.setText(
+					"Ventas del " + getDateInitial().substring(0, 10) + " al " + getDateFinal().substring(0, 10));
 		col_id.setPrefWidth(50);
 		col_id.setStyle("-fx-aligment: CENTER;");
 		col_id.setStyle("-fx-font-size: 15px");
-		col_name.setPrefWidth(150);
-		col_name.setStyle("-fx-aligment: CENTER;");
-		col_name.setStyle("-fx-font-size: 15px");
-		col_father_id.setPrefWidth(150);
-		col_father_id.setStyle("-fx-aligment: CENTER;");
-		col_father_id.setStyle("-fx-font-size: 15px");
-		table.getColumns().addAll(col_id, col_name, col_father_id, col_options);
+		col_total.setPrefWidth(150);
+		col_total.setStyle("-fx-aligment: CENTER;");
+		col_total.setStyle("-fx-font-size: 15px");
+		col_created.setPrefWidth(150);
+		col_created.setStyle("-fx-aligment: CENTER;");
+		col_created.setStyle("-fx-font-size: 15px");
+		table.getColumns().addAll(col_id, col_total, col_created, col_options);
 		addButtonShow();
-		addButtonDestroy();
 		col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
-		col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
-		col_father_id.setCellValueFactory(new PropertyValueFactory<>("father_id"));
+		col_total.setCellValueFactory(new PropertyValueFactory<>("total"));
+		col_created.setCellValueFactory(new PropertyValueFactory<>("created"));
 		MySQLConnection MySQL = new MySQLConnection();
 		try {
-			table.setItems(MySQL.indexCategories());
+			table.setItems(MySQL.getSells(getPkCash()));
+			for (Sell item : table.getItems()) {
+				auxTotal = auxTotal + col_total.getCellObservableValue(item).getValue();
+			}
+			labelTotal.setText("Venta total: $" + auxTotal);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private void addButtonShow() {
-		TableColumn<Category, Void> colBtn = new TableColumn<Category, Void>();
-		Callback<TableColumn<Category, Void>, TableCell<Category, Void>> cellFactory = new Callback<TableColumn<Category, Void>, TableCell<Category, Void>>() {
+		TableColumn<Sell, Void> colBtn = new TableColumn<Sell, Void>();
+		Callback<TableColumn<Sell, Void>, TableCell<Sell, Void>> cellFactory = new Callback<TableColumn<Sell, Void>, TableCell<Sell, Void>>() {
 			@Override
-			public TableCell<Category, Void> call(final TableColumn<Category, Void> param) {
-				final TableCell<Category, Void> cell = new TableCell<Category, Void>() {
+			public TableCell<Sell, Void> call(final TableColumn<Sell, Void> param) {
+				final TableCell<Sell, Void> cell = new TableCell<Sell, Void>() {
 					private final Button btn = new Button("Ver");
 					{
 						btn.setOnAction((ActionEvent event) -> {
-							Category category = getTableView().getItems().get(getIndex());
-							Profile profileCategory = new Profile();
-							profileCategory.setPkCategory(category.getId());
+							Sell sell = getTableView().getItems().get(getIndex());
+							Ticket.setPkSell(sell.getId());
+							Ticket ticket = new Ticket();
 							try {
-								profileCategory.showView(event);
+								ticket.showView(event);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
@@ -138,63 +156,30 @@ public class Index implements Initializable {
 		};
 		colBtn.setCellFactory(cellFactory);
 		col_options.getColumns().add(colBtn);
-	}
-
-	private void addButtonDestroy() {
-		TableColumn<Category, Void> colBtn = new TableColumn<Category, Void>();
-
-		Callback<TableColumn<Category, Void>, TableCell<Category, Void>> cellFactory = new Callback<TableColumn<Category, Void>, TableCell<Category, Void>>() {
-			@Override
-			public TableCell<Category, Void> call(final TableColumn<Category, Void> param) {
-				final TableCell<Category, Void> cell = new TableCell<Category, Void>() {
-					private final Button btn = new Button("Borrar");
-					{
-						btn.setOnAction((ActionEvent event) -> {
-							Category category = getTableView().getItems().get(getIndex());
-							Alert alert;
-							MySQLConnection MySQL = new MySQLConnection();
-							try {
-								if (MySQL.destroyCategory(category.getId()) == 1) {
-									alert = new Alert(Alert.AlertType.INFORMATION, "Borrado con exito");
-									alert.showAndWait();
-									showView(event);
-								} else {
-									alert = new Alert(Alert.AlertType.ERROR, "Ocurrio un error");
-									alert.showAndWait();
-								}
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						});
-					}
-
-					@Override
-					public void updateItem(Void item, boolean empty) {
-						super.updateItem(item, empty);
-						if (empty) {
-							setGraphic(null);
-						} else {
-							setGraphic(btn);
-						}
-					}
-				};
-				return cell;
-			}
-		};
-		colBtn.setCellFactory(cellFactory);
-		col_options.getColumns().add(colBtn);
-	}
-
-	@FXML
-	void btnAddCategory(MouseEvent event) throws Exception {
-		Save postCategory = new Save();
-		postCategory.showView(event);
 	}
 
 	@FXML
 	void btnBack(MouseEvent event) throws Exception {
-		HomeController home = new HomeController();
-		home.showView(event);
+		Index indexCashs = new Index();
+		indexCashs.showView(event);
+	}
+
+	@FXML
+	void btnExport(MouseEvent event) throws MalformedURLException, DocumentException, IOException, SQLException {
+		MySQLConnection MySQL = new MySQLConnection();
+		String titlePDF;
+		if (getDateFinal().isEmpty())
+			titlePDF = "Ventas del " + getDateInitial().substring(0, 10) + " - actual";
+		else
+			titlePDF = "Ventas del " + getDateInitial().substring(0, 10) + " al " + getDateFinal().substring(0, 10);
+		Alert alert;
+		if (GeneratePDF.exportPDF(titlePDF, MySQL.getSells(getPkCash()))) {
+			alert = new Alert(AlertType.INFORMATION, "Reporte de ventas generado en escritorio", ButtonType.OK);
+			alert.showAndWait();
+		} else {
+			alert = new Alert(AlertType.ERROR, "Error al generar el reporte", ButtonType.OK);
+			alert.showAndWait();
+		}
 	}
 
 	@FXML
@@ -298,12 +283,54 @@ public class Index implements Initializable {
 	}
 
 	public void showView(Event event) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("../../../views/Category/index.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("../../../views/Cash Register/show.fxml"));
 		Scene scene = new Scene(root);
 		Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		appStage.getIcons().add(new Image("/assets/images/legado_farmacia.png"));
 		appStage.setScene(scene);
 		appStage.toFront();
 		appStage.show();
+	}
+
+	/**
+	 * @return the pkCash
+	 */
+	public static int getPkCash() {
+		return pkCash;
+	}
+
+	/**
+	 * @param pkCash the pkCash to set
+	 */
+	public static void setPkCash(int pkCash) {
+		Profile.pkCash = pkCash;
+	}
+
+	/**
+	 * @return the dateInitial
+	 */
+	public static String getDateInitial() {
+		return dateInitial;
+	}
+
+	/**
+	 * @param dateInitial the dateInitial to set
+	 */
+	public static void setDateInitial(String dateInitial) {
+		Profile.dateInitial = dateInitial;
+	}
+
+	/**
+	 * @return the dateFinal
+	 */
+	public static String getDateFinal() {
+		return dateFinal;
+	}
+
+	/**
+	 * @param dateFinal the dateFinal to set
+	 */
+	public static void setDateFinal(String dateFinal) {
+		Profile.dateFinal = dateFinal;
 	}
 }

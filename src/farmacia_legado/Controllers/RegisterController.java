@@ -53,7 +53,7 @@ public class RegisterController implements Initializable{
 	void btnRegister(MouseEvent event) throws Exception {
 		MySQLConnection MySQL = new MySQLConnection();
 		String input_turn = combox_turn.getValue();
-		if (MySQL.register(input_name.getText(), input_last_name.getText(), input_username.getText(), input_phone.getText(), input_turn, input_email.getText(), input_password.getText())) {
+		if (MySQL.register(true, input_name.getText(), input_last_name.getText(), input_username.getText(), input_phone.getText(), input_turn, 3, input_email.getText(), input_password.getText())) {
 			HomeController home = new HomeController();
 			home.showView(event);
     	} else {

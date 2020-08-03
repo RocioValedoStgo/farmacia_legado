@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #0e1f3c;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #0e1f3c;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="farmacia_legado.Controllers.Cashs.Profile">
    <children>
       <ImageView fx:id="logo" fitHeight="96.0" fitWidth="103.0" layoutX="39.0" layoutY="24.0" onMouseClicked="#btnLogo">
          <image>
@@ -23,7 +23,7 @@
             <TableView fx:id="table" layoutX="32.0" layoutY="42.0" prefHeight="338.0" prefWidth="887.0" style="-fx-border-color: #c1c1c1;" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" />
             <AnchorPane prefHeight="32.0" prefWidth="950.0" style="-fx-background-color: #c1c1c1;">
                <children>
-                  <Label layoutX="310.0" layoutY="3.0" text="Ventas del xx/xx/xxxx - xx/xx/xxxx">
+                  <Label fx:id="titlePage" layoutX="310.0" layoutY="3.0" text="Ventas del xx/xx/xxxx - xx/xx/xxxx">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -38,7 +38,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <Label layoutX="667.0" layoutY="385.0" text="Venta total : $ 5,125">
+            <Label fx:id="labelTotal" layoutX="667.0" layoutY="385.0" text="Venta total : $ 5,125">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>

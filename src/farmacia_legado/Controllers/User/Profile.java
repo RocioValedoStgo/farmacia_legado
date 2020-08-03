@@ -1,4 +1,4 @@
-package farmacia_legado.Controllers.Provider;
+package farmacia_legado.Controllers.User;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 import farmacia_legado.Main;
 import farmacia_legado.MySQLConnection;
 import farmacia_legado.Controllers.HomeController;
-import farmacia_legado.Models.Provider;
+import farmacia_legado.Models.User;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -17,11 +17,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -29,7 +30,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class Profile implements Initializable{
+public class Profile implements Initializable {
 
     @FXML // fx:id="titlePage"
     private Label titlePage; // Value injected by FXMLLoader
@@ -37,14 +38,29 @@ public class Profile implements Initializable{
     @FXML // fx:id="logo1"
     private ImageView logo1; // Value injected by FXMLLoader
 
+    @FXML // fx:id="subtitlePage"
+    private Label subtitlePage; // Value injected by FXMLLoader
+
     @FXML // fx:id="input_name"
     private TextField input_name; // Value injected by FXMLLoader
 
-    @FXML // fx:id="input_address"
-    private TextArea input_address; // Value injected by FXMLLoader
+    @FXML // fx:id="btnMaster"
+    private Button btnMaster; // Value injected by FXMLLoader
+
+    @FXML // fx:id="comboxTurn"
+    private ComboBox<String> comboxTurn; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="comboxRol"
+    private ComboBox<String> comboxRol; // Value injected by FXMLLoader
 
     @FXML // fx:id="input_email"
     private TextField input_email; // Value injected by FXMLLoader
+
+    @FXML // fx:id="input_last_name"
+    private TextField input_last_name; // Value injected by FXMLLoader
+
+    @FXML // fx:id="input_username"
+    private TextField input_username; // Value injected by FXMLLoader
 
     @FXML // fx:id="input_phone"
     private TextField input_phone; // Value injected by FXMLLoader
@@ -70,19 +86,22 @@ public class Profile implements Initializable{
     @FXML // fx:id="optionLogOut"
     private MenuItem optionLogOut; // Value injected by FXMLLoader
     
-    private static int pkProvider;
-    
+    private static int pkUser;
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		menuButton.setText(MySQLConnection.User_username);
 		MySQLConnection MySQL = new MySQLConnection();
 		try {
-			Provider provider = MySQL.getProvider(getPkProvider());
-			titlePage.setText("Proveedor: " + provider.getName());
-			input_name.setText(provider.getName());
-			input_address.setText(provider.getAddress());
-			input_phone.setText(provider.getPhone());
-			input_email.setText(provider.getEmail());
+			menuButton.setText(MySQLConnection.User_username);
+			User user = MySQL.getUser(getPkUser());
+			titlePage.setText("Usuario:"+user.getFull_name());
+			input_name.setText(user.getName());
+			input_last_name.setText(user.getLast_name());
+			input_username.setText(user.getUsername());
+			input_phone.setText(user.getPhone());
+			input_email.setText(user.getEmail());
+			comboxTurn.setValue(user.getTurn());
+			comboxRol.setValue(user.getRol());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -90,8 +109,8 @@ public class Profile implements Initializable{
 
     @FXML
     void btnBack(MouseEvent event) throws Exception {
-    	farmacia_legado.Controllers.Provider.Index indexProvider = new farmacia_legado.Controllers.Provider.Index();
-    	indexProvider.showView(event);
+    	Index indexUsers = new Index();
+    	indexUsers.showView(event);
     }
 
     @FXML
@@ -196,26 +215,26 @@ public class Profile implements Initializable{
 
     @FXML
     void btnSave(MouseEvent event) throws Exception {
-    	Edit editProvider = new Edit();
-    	Edit.setPkProvider(getPkProvider());
-    	editProvider.showView(event);
+    	Edit editUser = new Edit();
+    	Edit.setPkUser(getPkUser());
+    	editUser.showView(event);
     }
-
-	public static int getPkProvider() {
-		return pkProvider;
-	}
-
-	public static void setPkProvider(int pkProvider) {
-		Profile.pkProvider = pkProvider;
-	}
-	
-	public void showView(Event event) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("../../../views/Provider/show.fxml"));
+    
+    public void showView(Event event) throws Exception {
+		Parent root = FXMLLoader.load(getClass().getResource("../../../views/User/show.fxml"));
 		Scene scene = new Scene(root);
 		Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		appStage.getIcons().add(new Image("/assets/images/legado_farmacia.png"));
 		appStage.setScene(scene);
 		appStage.toFront();
 		appStage.show();
+	}
+    
+    public static int getPkUser() {
+		return pkUser;
+	}
+
+	public static void setPkUser(int pkUser) {
+		Profile.pkUser= pkUser;
 	}
 }

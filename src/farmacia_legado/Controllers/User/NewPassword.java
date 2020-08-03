@@ -1,12 +1,10 @@
-package farmacia_legado.Controllers.Provider;
+package farmacia_legado.Controllers.User;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 import farmacia_legado.Main;
 import farmacia_legado.MySQLConnection;
 import farmacia_legado.Controllers.HomeController;
-import farmacia_legado.Models.Provider;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -16,38 +14,20 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class Profile implements Initializable{
-
-    @FXML // fx:id="titlePage"
-    private Label titlePage; // Value injected by FXMLLoader
-
-    @FXML // fx:id="logo1"
-    private ImageView logo1; // Value injected by FXMLLoader
-
-    @FXML // fx:id="input_name"
-    private TextField input_name; // Value injected by FXMLLoader
-
-    @FXML // fx:id="input_address"
-    private TextArea input_address; // Value injected by FXMLLoader
-
-    @FXML // fx:id="input_email"
-    private TextField input_email; // Value injected by FXMLLoader
-
-    @FXML // fx:id="input_phone"
-    private TextField input_phone; // Value injected by FXMLLoader
+public class NewPassword implements Initializable {
 
     @FXML // fx:id="menuButton"
     private MenuButton menuButton; // Value injected by FXMLLoader
@@ -69,29 +49,35 @@ public class Profile implements Initializable{
 
     @FXML // fx:id="optionLogOut"
     private MenuItem optionLogOut; // Value injected by FXMLLoader
+
+    @FXML // fx:id="titlePage"
+    private Label titlePage; // Value injected by FXMLLoader
+
+    @FXML // fx:id="logo1"
+    private ImageView logo1; // Value injected by FXMLLoader
+
+    @FXML // fx:id="subtitlePage"
+    private Label subtitlePage; // Value injected by FXMLLoader
+
+	@FXML // fx:id="btnMaster"
+    private Button btnMaster; // Value injected by FXMLLoader
+
+    @FXML // fx:id="newPassword"
+    private PasswordField newPassword; // Value injected by FXMLLoader
     
-    private static int pkProvider;
+    private static int pkUser;
+    private static String user_fullname;
     
-	@Override
+    @Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		menuButton.setText(MySQLConnection.User_username);
-		MySQLConnection MySQL = new MySQLConnection();
-		try {
-			Provider provider = MySQL.getProvider(getPkProvider());
-			titlePage.setText("Proveedor: " + provider.getName());
-			input_name.setText(provider.getName());
-			input_address.setText(provider.getAddress());
-			input_phone.setText(provider.getPhone());
-			input_email.setText(provider.getEmail());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		titlePage.setText("Cambio de contraseña al usuario: "+getUser_fullname());
+		btnMaster.setText("Cambiar contraseña");
 	}
 
     @FXML
     void btnBack(MouseEvent event) throws Exception {
-    	farmacia_legado.Controllers.Provider.Index indexProvider = new farmacia_legado.Controllers.Provider.Index();
-    	indexProvider.showView(event);
+    	Index indexUsers = new Index();
+    	indexUsers.showView(event);
     }
 
     @FXML
@@ -195,27 +181,60 @@ public class Profile implements Initializable{
 	}
 
     @FXML
-    void btnSave(MouseEvent event) throws Exception {
-    	Edit editProvider = new Edit();
-    	Edit.setPkProvider(getPkProvider());
-    	editProvider.showView(event);
+    void btnSaveNewPassword(MouseEvent event) throws Exception {
+    	Alert alert;
+    	if (newPassword.getText().equals(null)) {
+			alert = new Alert(AlertType.ERROR, "No se puede dejar vacio la nueva contraseña", ButtonType.OK);
+			alert.showAndWait();
+		} else {
+			MySQLConnection MySQL = new MySQLConnection();
+			if (MySQL.editPwdUser(getPkUser(), newPassword.getText()) == 1) {
+				alert = new Alert(AlertType.INFORMATION, "Contraseña cambiada para el usuario: "+getUser_fullname(), ButtonType.OK);
+				alert.showAndWait();
+				Index indexUsers = new Index();
+				indexUsers.showView(event);
+			} else {
+				alert = new Alert(AlertType.ERROR, "Ocurrio un error al cambiar la contraseña", ButtonType.OK);
+				alert.showAndWait();
+			}
+		}
     }
-
-	public static int getPkProvider() {
-		return pkProvider;
-	}
-
-	public static void setPkProvider(int pkProvider) {
-		Profile.pkProvider = pkProvider;
-	}
-	
-	public void showView(Event event) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("../../../views/Provider/show.fxml"));
+    
+    public void showView(Event event) throws Exception {
+		Parent root = FXMLLoader.load(getClass().getResource("../../../views/User/changePassword.fxml"));
 		Scene scene = new Scene(root);
 		Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		appStage.getIcons().add(new Image("/assets/images/legado_farmacia.png"));
 		appStage.setScene(scene);
 		appStage.toFront();
 		appStage.show();
+	}
+    
+    /**
+	 * @return the pkUser
+	 */
+	public static int getPkUser() {
+		return pkUser;
+	}
+
+	/**
+	 * @param pkUser the pkUser to set
+	 */
+	public static void setPkUser(int pkUser) {
+		NewPassword.pkUser = pkUser;
+	}
+
+	/**
+	 * @return the user_fullname
+	 */
+	public static String getUser_fullname() {
+		return user_fullname;
+	}
+
+	/**
+	 * @param user_fullname the user_fullname to set
+	 */
+	public static void setUser_fullname(String user_fullname) {
+		NewPassword.user_fullname = user_fullname;
 	}
 }

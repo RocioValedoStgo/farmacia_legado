@@ -157,44 +157,76 @@ public class Edit implements Initializable {
 				}
 			}
 		});
-    	
-    	optionUsers.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionUsers.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				farmacia_legado.Controllers.User.Index indexUsers = new farmacia_legado.Controllers.User.Index();
-				try {
-					indexUsers.showView(event);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (MySQLConnection.User_rol < 3) {
+					farmacia_legado.Controllers.User.Index indexUsers = new farmacia_legado.Controllers.User.Index();
+					try {
+						indexUsers.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
 				}
 			}
 		});
-    	
-    	optionProviders.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionProviders.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				farmacia_legado.Controllers.Provider.Index indexProviders = new farmacia_legado.Controllers.Provider.Index();
-				try {
-					indexProviders.showView(event);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (MySQLConnection.User_rol < 3) {
+					farmacia_legado.Controllers.Provider.Index indexProviders = new farmacia_legado.Controllers.Provider.Index();
+					try {
+						indexProviders.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
 				}
 			}
 		});
-    	
-    	optionCategories.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionCategories.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				farmacia_legado.Controllers.Category.Index indexCategories = new farmacia_legado.Controllers.Category.Index();
-				try {
-					indexCategories.showView(event);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (MySQLConnection.User_rol < 3) {
+					farmacia_legado.Controllers.Category.Index indexCategories = new farmacia_legado.Controllers.Category.Index();
+					try {
+						indexCategories.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
 				}
 			}
 		});
-    	
-    	optionLogOut.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionProducts.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				if (MySQLConnection.User_rol < 3) {
+					farmacia_legado.Controllers.Product.Index indexProducts = new farmacia_legado.Controllers.Product.Index();
+					try {
+						indexProducts.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
+				}
+			}
+		});
+
+		optionLogOut.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				Main login = new Main();
@@ -215,10 +247,22 @@ public class Edit implements Initializable {
 			alert.showAndWait();
 		} else {
 			MySQLConnection MySQL = new MySQLConnection();
+			String father_id = comboxFather.getValue();
+    		String provider_id = comboxProvider.getValue();
+    		if (father_id == null) {
+    			father_id = "0";
+    		} else {
+    			father_id = father_id.substring(0,1);
+    		}
+    		if (provider_id == null) {
+    			provider_id = "0";
+    		} else {
+    			provider_id = provider_id.substring(0, 1);
+    		}
 			if (band) {
 				destroyImage(nameImage);
 				String imageName = saveImage(imgFile);
-				if (MySQL.editProductImage(getPkProduct(), input_name.getText(), textArea_description.getText(), Float.parseFloat(input_price.getText()), Integer.parseInt(input_quantity.getText()), Integer.parseInt(comboxProvider.getValue().substring(0, 1)), Integer.parseInt(comboxFather.getValue().substring(0,1)), imageName) == 1) {
+				if (MySQL.editProductImage(getPkProduct(), input_name.getText(), textArea_description.getText(), Float.parseFloat(input_price.getText()), Integer.parseInt(input_quantity.getText()), Integer.parseInt(provider_id), Integer.parseInt(father_id), imageName) == 1) {
 					alert = new Alert(AlertType.INFORMATION, "Producto editado con exito!", ButtonType.OK);
 					alert.showAndWait();
 					farmacia_legado.Controllers.Product.Profile profileProduct = new farmacia_legado.Controllers.Product.Profile();
@@ -229,7 +273,7 @@ public class Edit implements Initializable {
 					alert.showAndWait();
 				}
 			} else {
-				if (MySQL.editProduct(getPkProduct(), input_name.getText(), textArea_description.getText(), Float.parseFloat(input_price.getText()), Integer.parseInt(input_quantity.getText()), Integer.parseInt(comboxProvider.getValue().substring(0, 1)), Integer.parseInt(comboxFather.getValue())) == 1) {
+				if (MySQL.editProduct(getPkProduct(), input_name.getText(), textArea_description.getText(), Float.parseFloat(input_price.getText()), Integer.parseInt(input_quantity.getText()), Integer.parseInt(provider_id), Integer.parseInt(father_id)) == 1) {
 					alert = new Alert(AlertType.INFORMATION, "Producto editado con exito!", ButtonType.OK);
 					alert.showAndWait();
 					farmacia_legado.Controllers.Product.Profile profileProduct = new farmacia_legado.Controllers.Product.Profile();

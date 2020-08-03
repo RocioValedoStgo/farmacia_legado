@@ -4,7 +4,6 @@ import java.io.File;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-
 import farmacia_legado.Main;
 import farmacia_legado.MySQLConnection;
 import farmacia_legado.Controllers.HomeController;
@@ -18,13 +17,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -133,44 +135,76 @@ public class Profile implements Initializable {
 				}
 			}
 		});
-    	
-    	optionUsers.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionUsers.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				farmacia_legado.Controllers.User.Index indexUsers = new farmacia_legado.Controllers.User.Index();
-				try {
-					indexUsers.showView(event);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (MySQLConnection.User_rol < 3) {
+					farmacia_legado.Controllers.User.Index indexUsers = new farmacia_legado.Controllers.User.Index();
+					try {
+						indexUsers.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
 				}
 			}
 		});
-    	
-    	optionProviders.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionProviders.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				farmacia_legado.Controllers.Provider.Index indexProviders = new farmacia_legado.Controllers.Provider.Index();
-				try {
-					indexProviders.showView(event);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (MySQLConnection.User_rol < 3) {
+					farmacia_legado.Controllers.Provider.Index indexProviders = new farmacia_legado.Controllers.Provider.Index();
+					try {
+						indexProviders.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
 				}
 			}
 		});
-    	
-    	optionCategories.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionCategories.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				farmacia_legado.Controllers.Category.Index indexCategories = new farmacia_legado.Controllers.Category.Index();
-				try {
-					indexCategories.showView(event);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (MySQLConnection.User_rol < 3) {
+					farmacia_legado.Controllers.Category.Index indexCategories = new farmacia_legado.Controllers.Category.Index();
+					try {
+						indexCategories.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
 				}
 			}
 		});
-    	
-    	optionLogOut.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionProducts.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				if (MySQLConnection.User_rol < 3) {
+					farmacia_legado.Controllers.Product.Index indexProducts = new farmacia_legado.Controllers.Product.Index();
+					try {
+						indexProducts.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
+				}
+			}
+		});
+
+		optionLogOut.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				Main login = new Main();

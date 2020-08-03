@@ -1,12 +1,11 @@
-package farmacia_legado.Controllers.Provider;
+package farmacia_legado.Controllers.Sells;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 import farmacia_legado.Main;
 import farmacia_legado.MySQLConnection;
 import farmacia_legado.Controllers.HomeController;
-import farmacia_legado.Models.Provider;
+import farmacia_legado.Models.Sell_Detail;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -21,85 +20,114 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class Profile implements Initializable{
+public class Ticket implements Initializable {
 
-    @FXML // fx:id="titlePage"
-    private Label titlePage; // Value injected by FXMLLoader
+	@FXML // fx:id="logo"
+	private ImageView logo; // Value injected by FXMLLoader
 
-    @FXML // fx:id="logo1"
-    private ImageView logo1; // Value injected by FXMLLoader
+	@FXML // fx:id="table"
+	private TableView<Sell_Detail> table; // Value injected by FXMLLoader
 
-    @FXML // fx:id="input_name"
-    private TextField input_name; // Value injected by FXMLLoader
+	private TableColumn<Sell_Detail, Integer> col_id = new TableColumn<Sell_Detail, Integer>("ID");
 
-    @FXML // fx:id="input_address"
-    private TextArea input_address; // Value injected by FXMLLoader
+	private TableColumn<Sell_Detail, String> col_name = new TableColumn<Sell_Detail, String>("Nombre");
 
-    @FXML // fx:id="input_email"
-    private TextField input_email; // Value injected by FXMLLoader
+	private TableColumn<Sell_Detail, Float> col_price = new TableColumn<Sell_Detail, Float>("Precio unitario");
 
-    @FXML // fx:id="input_phone"
-    private TextField input_phone; // Value injected by FXMLLoader
+	private TableColumn<Sell_Detail, Integer> col_quantity = new TableColumn<Sell_Detail, Integer>("Cantidad comprada");
 
-    @FXML // fx:id="menuButton"
-    private MenuButton menuButton; // Value injected by FXMLLoader
+	private TableColumn<Sell_Detail, Float> col_subtotal = new TableColumn<Sell_Detail, Float>("Subtotal");
 
-    @FXML // fx:id="optionHome"
-    private MenuItem optionHome; // Value injected by FXMLLoader
+	@FXML // fx:id="titlePage"
+	private Label titlePage; // Value injected by FXMLLoader
 
-    @FXML // fx:id="optionUsers"
-    private MenuItem optionUsers; // Value injected by FXMLLoader
+	@FXML // fx:id="TotalSell"
+	private Label TotalSell; // Value injected by FXMLLoader
 
-    @FXML // fx:id="optionProducts"
-    private MenuItem optionProducts; // Value injected by FXMLLoader
+	@FXML // fx:id="menuButton"
+	private MenuButton menuButton; // Value injected by FXMLLoader
 
-    @FXML // fx:id="optionCategories"
-    private MenuItem optionCategories; // Value injected by FXMLLoader
+	@FXML // fx:id="optionHome"
+	private MenuItem optionHome; // Value injected by FXMLLoader
 
-    @FXML // fx:id="optionProviders"
-    private MenuItem optionProviders; // Value injected by FXMLLoader
+	@FXML // fx:id="optionUsers"
+	private MenuItem optionUsers; // Value injected by FXMLLoader
 
-    @FXML // fx:id="optionLogOut"
-    private MenuItem optionLogOut; // Value injected by FXMLLoader
-    
-    private static int pkProvider;
-    
+	@FXML // fx:id="optionProducts"
+	private MenuItem optionProducts; // Value injected by FXMLLoader
+
+	@FXML // fx:id="optionCategories"
+	private MenuItem optionCategories; // Value injected by FXMLLoader
+
+	@FXML // fx:id="optionProviders"
+	private MenuItem optionProviders; // Value injected by FXMLLoader
+
+	@FXML // fx:id="optionLogOut"
+	private MenuItem optionLogOut; // Value injected by FXMLLoader
+
+	private static int pkSell;
+	private static float auxSubtotal = 0;
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		menuButton.setText(MySQLConnection.User_username);
 		MySQLConnection MySQL = new MySQLConnection();
 		try {
-			Provider provider = MySQL.getProvider(getPkProvider());
-			titlePage.setText("Proveedor: " + provider.getName());
-			input_name.setText(provider.getName());
-			input_address.setText(provider.getAddress());
-			input_phone.setText(provider.getPhone());
-			input_email.setText(provider.getEmail());
-		} catch (SQLException e) {
+			col_id.setPrefWidth(50);
+			col_id.setStyle("-fx-aligment: CENTER;");
+			col_id.setStyle("-fx-font-size: 15px");
+			col_name.setPrefWidth(170);
+			col_name.setStyle("-fx-aligment: CENTER;");
+			col_name.setStyle("-fx-font-size: 15px");
+			col_price.setPrefWidth(120);
+			col_price.setStyle("-fx-aligment: CENTER;");
+			col_price.setStyle("-fx-font-size: 15px");
+			col_quantity.setPrefWidth(170);
+			col_quantity.setStyle("-fx-aligment: CENTER;");
+			col_quantity.setStyle("-fx-font-size: 15px");
+			col_subtotal.setPrefWidth(120);
+			col_subtotal.setStyle("-fx-aligment: CENTER;");
+			col_subtotal.setStyle("-fx-font-size: 15px");
+			table.getColumns().addAll(col_name, col_price, col_quantity, col_subtotal);
+			col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+			col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+			col_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+			col_subtotal.setCellValueFactory(new PropertyValueFactory<>("subtotal"));
+			table.setItems(MySQL.indexSell(getPkSell()));
+			titlePage.setText("Compra #"+getPkSell());
+			menuButton.setText(MySQLConnection.User_username);
+			for (Sell_Detail item : table.getItems()) {
+				auxSubtotal = auxSubtotal + col_subtotal.getCellObservableValue(item).getValue();
+			}
+			float auxTotal = (float) (auxSubtotal + (auxSubtotal * 0.16));
+			TotalSell.setText("Subtotal: $"+auxSubtotal+"\nIVA: 16%\nTotal: $"+auxTotal);
+			auxSubtotal = 0;
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-    @FXML
-    void btnBack(MouseEvent event) throws Exception {
-    	farmacia_legado.Controllers.Provider.Index indexProvider = new farmacia_legado.Controllers.Provider.Index();
-    	indexProvider.showView(event);
-    }
+	@FXML
+	void btnBack(MouseEvent event) throws Exception {
+		HomeController homeController = new HomeController();
+		homeController.showView(event);
+	}
 
-    @FXML
-    void btnLogo(MouseEvent event) {
+	@FXML
+	void btnLogo(MouseEvent event) {
 
-    }
+	}
 
-    @FXML
+	@FXML
 	void btnNavbar(MouseEvent event) {
 		optionHome.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -194,28 +222,27 @@ public class Profile implements Initializable{
 		});
 	}
 
-    @FXML
-    void btnSave(MouseEvent event) throws Exception {
-    	Edit editProvider = new Edit();
-    	Edit.setPkProvider(getPkProvider());
-    	editProvider.showView(event);
-    }
-
-	public static int getPkProvider() {
-		return pkProvider;
-	}
-
-	public static void setPkProvider(int pkProvider) {
-		Profile.pkProvider = pkProvider;
-	}
-	
 	public void showView(Event event) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("../../../views/Provider/show.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("../../../views/Sells/ticket.fxml"));
 		Scene scene = new Scene(root);
 		Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		appStage.getIcons().add(new Image("/assets/images/legado_farmacia.png"));
 		appStage.setScene(scene);
 		appStage.toFront();
 		appStage.show();
+	}
+
+	/**
+	 * @return the pkSell
+	 */
+	public static int getPkSell() {
+		return pkSell;
+	}
+
+	/**
+	 * @param pkSell the pkSell to set
+	 */
+	public static void setPkSell(int pkSell) {
+		Ticket.pkSell = pkSell;
 	}
 }

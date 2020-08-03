@@ -2,6 +2,9 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -122,5 +125,19 @@
             </Label>
          </children>
       </AnchorPane>
+      <MenuButton fx:id="menuButtonNavbar" layoutX="822.0" layoutY="70.0" mnemonicParsing="false" onMouseClicked="#btnNavbar" prefHeight="42.0" prefWidth="153.0" style="-fx-background-color: none;" text="Username" textFill="WHITE">
+         <items>
+            <MenuItem fx:id="optionLogOut" mnemonicParsing="false" text="Cerrar sesion" />
+         </items>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <ColorAdjust brightness="1.0" />
+         </effect>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </MenuButton>
    </children>
 </AnchorPane>

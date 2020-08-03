@@ -1,18 +1,13 @@
-package farmacia_legado.Controllers.Category;
+package farmacia_legado.Controllers.Cashs;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.security.SecureRandom;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ResourceBundle;
 import farmacia_legado.Main;
 import farmacia_legado.MySQLConnection;
 import farmacia_legado.Controllers.HomeController;
+import farmacia_legado.Models.Cash_Register;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -26,42 +21,45 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
-public class Save implements Initializable {
+public class Index implements Initializable {
+
+	@FXML // fx:id="logo"
+	private ImageView logo; // Value injected by FXMLLoader
+
+	@FXML // fx:id="table"
+	private TableView<Cash_Register> table; // Value injected by FXMLLoader
+
+	private TableColumn<Cash_Register, Integer> col_id = new TableColumn<Cash_Register, Integer>("ID");
+
+	private TableColumn<Cash_Register, Float> col_total = new TableColumn<Cash_Register, Float>("Venta total");
+
+	private TableColumn<Cash_Register, String> col_status = new TableColumn<Cash_Register, String>("Status");
+
+	private TableColumn<Cash_Register, Timestamp> col_created = new TableColumn<Cash_Register, Timestamp>("Creado el");
+
+	private TableColumn<Cash_Register, String> col_options = new TableColumn<Cash_Register, String>("Opciones");
 
 	@FXML // fx:id="titlePage"
 	private Label titlePage; // Value injected by FXMLLoader
 
-	@FXML // fx:id="logo1"
-	private ImageView logo1; // Value injected by FXMLLoader
+	@FXML // fx:id="menuButton"
+	private MenuButton menuButton; // Value injected by FXMLLoader
 
-	@FXML // fx:id="subtitlePage"
-	private Label subtitlePage; // Value injected by FXMLLoader
-
-	@FXML // fx:id="input_name"
-	private TextField input_name; // Value injected by FXMLLoader
-
-	@FXML // fx:id="btnMaster"
-	private Button btnMaster; // Value injected by FXMLLoader
-
-	@FXML // fx:id="comboxFather"
-	private ComboBox<String> comboxFather; // Value injected by FXMLLoader
-
-	@FXML // fx:id="imgView"
-	private ImageView imgView; // Value injected by FXMLLoader
-
-	@FXML // fx:id="menuButtonNavbar"
-	private MenuButton menuButtonNavbar; // Value injected by FXMLLoader
+	@FXML // fx:id="buttonCortCash"
+	private Button buttonCortCash; // Value injected by FXMLLoader
 
 	@FXML // fx:id="optionHome"
 	private MenuItem optionHome; // Value injected by FXMLLoader
@@ -81,37 +79,108 @@ public class Save implements Initializable {
 	@FXML // fx:id="optionLogOut"
 	private MenuItem optionLogOut; // Value injected by FXMLLoader
 
-	private Stage stage;
-	private File imgFile;
-	private FileChooser fileChooser;
-	private static final String CHAR_LOWER = "abcdefghijklmnopqrstuvwxyz";
-	private static final String CHAR_UPPER = CHAR_LOWER.toUpperCase();
-	private static final String NUMBER = "0123456789";
-	private static final String DATA_FOR_RANDOM_STRING = CHAR_LOWER + CHAR_UPPER + NUMBER;
-	private static SecureRandom random = new SecureRandom();
-	private boolean band = false;
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		menuButtonNavbar.setText(MySQLConnection.User_username);
+		menuButton.setText(MySQLConnection.User_username);
 		MySQLConnection MySQL = new MySQLConnection();
+		col_id.setPrefWidth(50);
+		col_id.setStyle("-fx-aligment: CENTER;");
+		col_id.setStyle("-fx-font-size: 15px");
+		col_total.setPrefWidth(150);
+		col_total.setStyle("-fx-aligment: CENTER;");
+		col_total.setStyle("-fx-font-size: 15px");
+		col_status.setPrefWidth(150);
+		col_status.setStyle("-fx-aligment: CENTER;");
+		col_status.setStyle("-fx-font-size: 15px");
+		col_created.setPrefWidth(150);
+		col_created.setStyle("-fx-aligment: CENTER;");
+		col_created.setStyle("-fx-font-size: 15px");
+		table.getColumns().addAll(col_id, col_total, col_created, col_options);
+		addButtonShow();
+		col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+		col_total.setCellValueFactory(new PropertyValueFactory<>("total"));
+		col_status.setCellValueFactory(new PropertyValueFactory<>("status"));
+		col_created.setCellValueFactory(new PropertyValueFactory<>("created"));
 		try {
-			comboxFather.getItems().addAll(MySQL.getCategories());
+			table.setItems(MySQL.indexCashs());
+			if (MySQL.getCashActive() == 0) {
+				buttonCortCash.setDisable(true);
+				buttonCortCash.setStyle("-fx-background-color: #ccc");
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	@FXML
-	void btnBack(MouseEvent event) throws Exception {
-		Index indexCategories = new Index();
-		indexCategories.showView(event);
+	private void addButtonShow() {
+		TableColumn<Cash_Register, Void> colBtn = new TableColumn<Cash_Register, Void>();
+		Callback<TableColumn<Cash_Register, Void>, TableCell<Cash_Register, Void>> cellFactory = new Callback<TableColumn<Cash_Register, Void>, TableCell<Cash_Register, Void>>() {
+			@Override
+			public TableCell<Cash_Register, Void> call(final TableColumn<Cash_Register, Void> param) {
+				final TableCell<Cash_Register, Void> cell = new TableCell<Cash_Register, Void>() {
+					private final Button btn = new Button("Ver");
+					{
+						btn.setOnAction((ActionEvent event) -> {
+							Cash_Register cash_Register = getTableView().getItems().get(getIndex());
+							Profile profileCash = new Profile();
+							Profile.setPkCash(cash_Register.getId());
+							Profile.setDateInitial(cash_Register.getCreated());
+							Profile.setDateFinal(cash_Register.getClose());
+							try {
+								profileCash.showView(event);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						});
+					}
+
+					@Override
+					public void updateItem(Void item, boolean empty) {
+						super.updateItem(item, empty);
+						if (empty) {
+							setGraphic(null);
+						} else {
+							setGraphic(btn);
+						}
+					}
+				};
+				return cell;
+			}
+		};
+		colBtn.setCellFactory(cellFactory);
+		col_options.getColumns().add(colBtn);
 	}
 
 	@FXML
-	void btnHomeLogo(MouseEvent event) throws Exception {
+	void btnBack(MouseEvent event) throws Exception {
 		HomeController home = new HomeController();
 		home.showView(event);
+	}
+
+	@FXML
+	void btnCashCort(MouseEvent event) throws Exception {
+		MySQLConnection MySQL = new MySQLConnection();
+		Alert alert;
+		int cash_id = MySQL.getCashActive();
+		if (MySQL.closeCashRegister(cash_id) == 1) {
+			if (MySQL.newCashRegister()) {
+				alert = new Alert(AlertType.INFORMATION, "Corte de caja exitoso", ButtonType.OK);
+				alert.showAndWait();
+				showView(event);
+			} else {
+				alert = new Alert(AlertType.ERROR, "Error al crear la nueva caja", ButtonType.OK);
+				alert.showAndWait();
+			}
+		} else {
+			alert = new Alert(AlertType.ERROR, "Error al hacer el corte de caja", ButtonType.OK);
+			alert.showAndWait();
+		}
+	}
+
+	@FXML
+	void btnLogo(MouseEvent event) {
+
 	}
 
 	@FXML
@@ -209,85 +278,8 @@ public class Save implements Initializable {
 		});
 	}
 
-	@FXML
-    void btnSave(MouseEvent event) throws Exception {
-    	Alert alert;
-    	if (input_name.equals(null)) {
-    		alert = new Alert(AlertType.WARNING, "Es necesario ingresar todos los campos", ButtonType.CLOSE);
-    		alert.showAndWait();
-    	} else {
-    		String image;
-    		if (band) {
-    			image = saveImage(imgFile);	
-			} else {
-				image = null;
-			}
-    		String father_id = comboxFather.getValue();
-    		if (father_id == null) {
-    			father_id = "0";
-    		} else {
-    			father_id = father_id.substring(0,1);
-    		}
-    		MySQLConnection MySQL = new MySQLConnection();
-    		if (MySQL.saveCategory(input_name.getText(), Integer.parseInt(father_id), image)) {
-    			alert = new Alert(AlertType.INFORMATION, "Categoría guardada con exito!", ButtonType.OK);
-    			alert.showAndWait();
-    			Index indexCategory = new Index();
-    			indexCategory.showView(event);
-    		} else {
-    			alert = new Alert(AlertType.ERROR, "Ocurrio un error al guardar la categoría", ButtonType.OK);
-    			alert.showAndWait();
-    		}
-    		
-    	}
-    }
-
-	@FXML
-	void btnUploadImage(MouseEvent event) {
-		stage = new Stage();
-		fileChooser = new FileChooser();
-		fileChooser.setTitle("Buscar imagen para la nueva categoría");
-		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("All Images", "*.*"));
-		imgFile = fileChooser.showOpenDialog(stage);
-		if (imgFile != null) {
-			Image image = new Image("file:" + imgFile.getAbsolutePath());
-			imgView.setImage(image);
-			band = true;
-		} else {
-			Alert alert = new Alert(AlertType.ERROR, "Debe de seleccionar una imagen", ButtonType.OK);
-			alert.showAndWait();
-		}
-	}
-
-	private String saveImage(File imgFile) throws IOException {
-    	String name = generateRandomString(8);
-    	String pathDestination = System.getProperty("user.dir") + "\\src\\assets\\images\\categories\\"+name+".jpg";
-    	Path copiedFile = Files.copy(FileSystems.getDefault().getPath(imgFile.getAbsolutePath()), FileSystems.getDefault().getPath(pathDestination), StandardCopyOption.REPLACE_EXISTING);
-    	if (Files.exists(copiedFile)) {
-    		return name;
-    	} else {
-    		Alert alert = new Alert(AlertType.ERROR, "Ocurrio un error al guardar la imagen", ButtonType.CLOSE);
-    		alert.showAndWait();
-    	}
-    	return null;
-    }
-
-	private static String generateRandomString(int length) {
-		if (length < 1)
-			throw new IllegalArgumentException();
-		StringBuilder sb = new StringBuilder(length);
-		for (int i = 0; i < length; i++) {
-			// 0-62 (exclusive), random returns 0-61
-			int rndCharAt = random.nextInt(DATA_FOR_RANDOM_STRING.length());
-			char rndChar = DATA_FOR_RANDOM_STRING.charAt(rndCharAt);
-			// debug
-			sb.append(rndChar);
-		}
-		return sb.toString();
-	}
-
 	public void showView(Event event) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("../../../views/Category/post.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("../../../views/Cash Register/index.fxml"));
 		Scene scene = new Scene(root);
 		Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		appStage.getIcons().add(new Image("/assets/images/legado_farmacia.png"));

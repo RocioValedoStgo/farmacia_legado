@@ -10,7 +10,6 @@ import java.nio.file.StandardCopyOption;
 import java.security.SecureRandom;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-
 import farmacia_legado.Main;
 import farmacia_legado.MySQLConnection;
 import farmacia_legado.Controllers.HomeController;
@@ -119,44 +118,76 @@ public class Edit implements Initializable {
 				}
 			}
 		});
-    	
-    	optionUsers.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionUsers.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				farmacia_legado.Controllers.User.Index indexUsers = new farmacia_legado.Controllers.User.Index();
-				try {
-					indexUsers.showView(event);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (MySQLConnection.User_rol < 3) {
+					farmacia_legado.Controllers.User.Index indexUsers = new farmacia_legado.Controllers.User.Index();
+					try {
+						indexUsers.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
 				}
 			}
 		});
-    	
-    	optionProviders.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionProviders.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				farmacia_legado.Controllers.Provider.Index indexProviders = new farmacia_legado.Controllers.Provider.Index();
-				try {
-					indexProviders.showView(event);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (MySQLConnection.User_rol < 3) {
+					farmacia_legado.Controllers.Provider.Index indexProviders = new farmacia_legado.Controllers.Provider.Index();
+					try {
+						indexProviders.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
 				}
 			}
 		});
-    	
-    	optionCategories.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionCategories.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				farmacia_legado.Controllers.Category.Index indexCategories = new farmacia_legado.Controllers.Category.Index();
-				try {
-					indexCategories.showView(event);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (MySQLConnection.User_rol < 3) {
+					farmacia_legado.Controllers.Category.Index indexCategories = new farmacia_legado.Controllers.Category.Index();
+					try {
+						indexCategories.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
 				}
 			}
 		});
-    	
-    	optionLogOut.setOnAction(new EventHandler<ActionEvent>() {
+
+		optionProducts.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				if (MySQLConnection.User_rol < 3) {
+					farmacia_legado.Controllers.Product.Index indexProducts = new farmacia_legado.Controllers.Product.Index();
+					try {
+						indexProducts.showView(event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "No cuentas con los permisos", ButtonType.OK);
+					alert.showAndWait();
+				}
+			}
+		});
+
+		optionLogOut.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				Main login = new Main();
@@ -172,15 +203,21 @@ public class Edit implements Initializable {
 	@FXML
 	void btnSave(MouseEvent event) throws SQLException, Exception {
 		Alert alert;
-		if (input_name.equals(null) || comboxFather.getValue().equals(null)) {
+		if (input_name.equals(null)) {
 			alert = new Alert(AlertType.ERROR, "No es posible dejar los campos vacios", ButtonType.OK);
 			alert.showAndWait();
 		} else {
 			MySQLConnection MySQL = new MySQLConnection();
+			String father_id = comboxFather.getValue();
+			if (father_id == null) {
+				father_id = "0";
+			} else {
+				father_id = father_id.substring(0,1);
+			}
 			if (band) {
 				destroyImage(nameImage);
 				String imageName = saveImage(imgFile);
-				if (MySQL.editCategoryImage(getPkCategory(), input_name.getText(), Integer.parseInt(comboxFather.getValue().substring(0,1)), imageName) == 1) {
+				if (MySQL.editCategoryImage(getPkCategory(), input_name.getText(), Integer.parseInt(father_id), imageName) == 1) {
 					alert = new Alert(AlertType.INFORMATION, "Categoría editada con exito!", ButtonType.OK);
 					alert.showAndWait();
 					Profile profileCategory = new Profile();
@@ -191,7 +228,7 @@ public class Edit implements Initializable {
 					alert.showAndWait();
 				}
 			} else {
-				if (MySQL.editCategory(getPkCategory(), input_name.getText(), Integer.parseInt(comboxFather.getValue().substring(0,1))) == 1) {
+				if (MySQL.editCategory(getPkCategory(), input_name.getText(), Integer.parseInt(father_id)) == 1) {
 					alert = new Alert(AlertType.INFORMATION, "Categoría editada con exito!", ButtonType.OK);
 					alert.showAndWait();
 					Profile profileCategory = new Profile();
@@ -271,6 +308,7 @@ public class Edit implements Initializable {
 		try {
 			Category category = MySQL.getCategory(getPkCategory());
 			titlePage.setText("Editando la categoría: " + category.getName());
+			input_name.setText(category.getName());
 			comboxFather.setValue(category.getFather_Id());
 			comboxFather.getItems().addAll(MySQL.getCategories());
 			String pathImg = System.getProperty("user.dir") + "\\src\\assets\\images\\categories\\"
